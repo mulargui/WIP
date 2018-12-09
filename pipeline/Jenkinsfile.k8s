@@ -1,0 +1,65 @@
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(
+  label: label, 
+  containers: [
+    containerTemplate(name: 'maven', image: 'maven:3.5.3-jdk-10', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+	containerTemplate(name: 'kubectl', image: 'amaceog/kubectl', ttyEnabled: true, command: 'cat')
+  ],
+  volumes: [
+    hostPathVolume(mountPath: '/root/.m2', hostPath: '/tmp/jenkins/.m2'),
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+  ]) {
+  node(label) {
+    def myRepo = checkout scm
+    def gitCommit = myRepo.GIT_COMMIT
+    def gitBranch = myRepo.GIT_BRANCH
+    def shortGitCommit = "${gitCommit[0..10]}"
+    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+ 
+    stage('Build') {
+      container('maven') {
+        sh "mvn validate compile"
+      }
+    }
+    stage('Test') {
+      try {
+        container('maven') {
+          sh "mvn test"
+        }
+      } catch (exc) {
+        println "Failed to test - ${currentBuild.fullDisplayName}"
+        throw(exc)
+      }
+    }
+    stage('Package') {
+      container('maven') {
+        sh "mvn package"
+      }
+    }
+    stage('Create Docker image') {
+      container('docker') {
+        sh """
+		  docker build -q -t my-app:${shortGitCommit} -t my-app:latest -f src.docker/dockerfile .
+          """
+      }
+    }
+    stage('Update deployment with the new image') {
+      container('kubectl') {
+        sh """
+		  set +e		# Disable exit on non 0
+		  kubectl rollout status deployment/my-app-deployment
+		  if [ \$? -eq 0 ]
+		  then 
+		    set -e		# Enable exit on non 0
+		    kubectl set image deployment.apps/my-app-deployment my-app=my-app:${shortGitCommit}
+	      else
+		    set -e		# Enable exit on non 0
+			kubectl create -f k8s/my-app-deployment.yaml
+		  fi
+		  """
+      }
+    }
+  }
+}
