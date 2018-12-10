@@ -9,7 +9,12 @@ public class MasterSeed {
     public final static int MAX_TEXT_LENGTH = 100000;
     public final static int MAX_URL_LENGTH = 2083;
 
+	// not useful attributes for comparison
     //private long id;
+	// length=MAX_URL_LENGTH)
+    private String logoUrl;
+	
+	
     // length=MAX_NAME_LENGTH
     private String title;
     // length=MAX_TEXT_LENGTH
@@ -22,8 +27,6 @@ public class MasterSeed {
     private Long expires;
     private String longitude;
     private String latitude;
-	// length=MAX_URL_LENGTH)
-    private String logoUrl;
     private Long deletedDate;
     //private Category category;
     private String sourceId;
