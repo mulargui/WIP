@@ -1,3 +1,5 @@
+package com.mycompany.app;
+
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -36,6 +38,6 @@ public class MasterSeed {
 	{
 		//if both events have the same URL, they are the same event
 		if (url.equals(ms.url)) return true;
-		return false
+		return false;
 	}
 }
