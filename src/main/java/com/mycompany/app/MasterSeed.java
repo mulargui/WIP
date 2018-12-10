@@ -26,21 +26,22 @@ public class MasterSeed {
     private Timestamp created;
 	
 	
+    private String url;
     // length=MAX_NAME_LENGTH
     private String title;
-    // length=MAX_TEXT_LENGTH
-    private String description;
-    private String startDate;
     private String longitude;
     private String latitude;
+    private String startDate;
     private Long eventStartUtc;
     private String eventEndUtc;
-    private String url;
+    // length=MAX_TEXT_LENGTH
+    private String description;
 	
 	boolean equals (MasterSeed ms)
 	{
 		boolean sameurl = url.equals(ms.url);
 		boolean sametitle = title.equals(ms.title);
+		boolean sameplace = longitude == ms.longitude && latitude == ms.latitude;
 		
 		//if both events have the same URL, they are the same event
 		if (url.equals(ms.url)) return true;
