@@ -13,32 +13,35 @@ public class MasterSeed {
     //private long id;
 	// length=MAX_URL_LENGTH)
     private String logoUrl;
+    private String postedBy;
+    private Long userId;
+    private Long modified;
+    private Long expires;
+    private Long deletedDate;
+    //private Category category;
+    private String sourceId;
+    private String sourceUpdatedAt;
+    //private EventSource source;
+    private Timestamp updatedAt;
+    private Timestamp created;
 	
 	
     // length=MAX_NAME_LENGTH
     private String title;
     // length=MAX_TEXT_LENGTH
     private String description;
-    private String postedBy;
-    private Long userId;
     private String startDate;
-    private Timestamp created;
-    private Long modified;
-    private Long expires;
     private String longitude;
     private String latitude;
-    private Long deletedDate;
-    //private Category category;
-    private String sourceId;
-    private String sourceUpdatedAt;
     private Long eventStartUtc;
     private String eventEndUtc;
     private String url;
-    //private EventSource source;
-    private Timestamp updatedAt;
 	
 	boolean equals (MasterSeed ms)
 	{
+		boolean sameurl = url.equals(ms.url);
+		boolean sametitle = title.equals(ms.title);
+		
 		//if both events have the same URL, they are the same event
 		if (url.equals(ms.url)) return true;
 		return false;

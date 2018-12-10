@@ -14,16 +14,28 @@ podTemplate(
   node(label) {
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
+    def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
+    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
  
     stage('Build') {
+      container('maven') {
+        sh "mvn validate compile"
+      }
+    }
+    stage('Test') {
       try {
         container('maven') {
-			sh "mvn validate compile test package"
+          sh "mvn test"
         }
       } catch (exc) {
-        println "Failed to build - ${currentBuild.fullDisplayName}"
+        println "Failed to test - ${currentBuild.fullDisplayName}"
         throw(exc)
+      }
+    }
+    stage('Package') {
+      container('maven') {
+        sh "mvn package"
       }
     }
     stage('Create Docker image') {
