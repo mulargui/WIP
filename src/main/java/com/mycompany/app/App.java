@@ -1,6 +1,6 @@
 package com.mycompany.app;
 
-import com.mycompany.masterseed;
+import com.mycompany.MasterSeed;
 
 public class App 
 {
