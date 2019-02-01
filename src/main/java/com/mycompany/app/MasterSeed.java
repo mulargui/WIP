@@ -39,12 +39,26 @@ public class MasterSeed {
 	
 	boolean equals (MasterSeed ms)
 	{
-		boolean sameurl = url.equals(ms.url);
-		boolean sametitle = title.equals(ms.title);
-		boolean sameplace = longitude == ms.longitude && latitude == ms.latitude;
+		static long SIMILAR_TIME = 20000;
+		static float SIMILAR_LAT = 0.0009; //roughly 100 meters
+		static float SIMILAR_LONG = 0.0012; //roughly 100 meters
+		
+		float fLongitude = float (longitude);
+		float fLatitude = float (latitude);
+		float mfLatitude = float (ms.latitude);
+		float mfLongitude = float (ms.longitude);
+		
+		boolean sameUrl = url.equals(ms.url);
+		boolean sameTitle = title.equals(ms.title);
+		boolean samePlace = fLongitude == mfLongitude && fLatitude == mfLatitude;
+		boolean closePlace = (abs(fLatitude - mfLatitude) < SIMILAR_LAT) && (abs(flongitude - mflongitude) < SIMILAR_LONG);
+		boolean sameStartTime = eventStartUtc == ms.eventStartUtc;
+		boolean closeStartTime = abs(eventStartUtc - ms.eventStartUtc) < SIMILAR_TIME;
 		
 		//if both events have the same URL, they are the same event
-		if (url.equals(ms.url)) return true;
+		if (sameUrl) return true;
+		if(sameTitle && samePlace && sameStartTime) return true;
+		if(sameTitle && closePlace && closeStartTime) return true;
 		return false;
 	}
 }
