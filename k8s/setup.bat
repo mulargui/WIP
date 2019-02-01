@@ -32,6 +32,6 @@ rem wait till everything is up and running
 timeout 120
 
 rem show the dashboard
-start minikube dashboard
+start /b minikube dashboard
 
 exit /B 0
