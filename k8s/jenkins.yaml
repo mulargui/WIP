@@ -1,8 +1,0 @@
-
-Master:
-  AdminPassword: tmp
-  ServiceType: NodePort
-  NodePort: 30500
-
-rbac:
-  install: true
