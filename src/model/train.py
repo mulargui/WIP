@@ -1,3 +1,7 @@
+#avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
+
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
@@ -58,7 +62,7 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 #train the model
-model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=250)
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=150)
 
 #save the model
 model.save('/model')
