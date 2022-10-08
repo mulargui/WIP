@@ -56,7 +56,7 @@ num_features = 54
 
 model = Sequential()
 model.add(Dense(units=num_features*2/3, activation='relu', kernel_initializer='normal', input_dim=num_features))
-model.add(Dense(num_classes, activation='softmax'))
+model.add(Dense(units=num_classes, activation='softmax'))
 model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer='Adam',
               metrics=['accuracy'])
