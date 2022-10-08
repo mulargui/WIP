@@ -141,7 +141,9 @@ async def predict(request: Request):
         request.Soil_Type40
         ], dtype=np.single)
 
-    prediction = model.predict(x)
+    x1 = {name: tf.convert_to_tensor([value]) for name, value in request.items()}
+
+    prediction = model.predict(x1)
     #prediction = model(x, training=False)
     
     return {"prediction": int(prediction)}
