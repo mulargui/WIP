@@ -77,11 +77,6 @@ async def index():
 @app.post('/predict/')
 async def predict(request: Request):
 
-    print('Elevation: ', request.Elevation)
-    print('Aspect: ', request.Aspect)
-    print('Slope: ', request.Slope)
-    print('Horizontal_Distance_To_Hydrology: ', request.Horizontal_Distance_To_Hydrology)
-
     #there needs to be a better way
     #x = tf.convert_to_tensor([
     x = np.array([
@@ -141,7 +136,7 @@ async def predict(request: Request):
         request.Soil_Type40
         ], dtype=np.single)
 
-    x1 = {name: tf.convert_to_tensor([value]) for name, value in request.items()}
+    x1 = {name: tf.convert_to_tensor([value]) for name, value in request}
 
     prediction = model.predict(x1)
     #prediction = model(x, training=False)
