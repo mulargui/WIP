@@ -10,7 +10,7 @@ from pydantic import BaseModel
 import numpy as np
 
 #import the model
-model = tf.keras.models.load_model('/model')
+#model = tf.keras.models.load_model('/model')
 
 app = FastAPI()
 
@@ -78,7 +78,6 @@ async def index():
 async def predict(request: Request):
 
     #there needs to be a better way
-    #x = tf.convert_to_tensor([
     x = np.array([
         request.Elevation,
         request.Aspect,
@@ -136,9 +135,14 @@ async def predict(request: Request):
         request.Soil_Type40
         ], dtype=np.float32)
 
+    print(x)
+    print (x.shape)
     #x1 = {name: tf.convert_to_tensor([value]) for name, value in request}
+    #iterable  = (value for value in request)
+    #x = np.fromiter(iterable, float)
 
-    prediction = model.predict(x)
+    #prediction = model.predict(x)
     #prediction = model(x, training=False)
+    prediction = 1
     
     return {"prediction": int(prediction)}
