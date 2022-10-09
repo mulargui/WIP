@@ -60,5 +60,5 @@ fi
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
 	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
-	#uvicorn src.api.main:app --host 0.0.0.0 --port 80
+	#uvicorn src.main:app --host 0.0.0.0 --port 80
 fi

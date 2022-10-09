@@ -62,7 +62,7 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 #train the model
-model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=150)
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=75)
 
 #save the model
 model.save('/model-registry/model/')
