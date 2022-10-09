@@ -8,7 +8,7 @@ set +x
 export DEBIAN_FRONTEND=noninteractive
 # Absolute path to this repo
 SCRIPT=$(readlink -f "$0")
-export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/infra\/docker//g')
+export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/model\/docker//g')
 
 # what you can do
 CLEAR=N
@@ -34,31 +34,31 @@ done
 
 # clean up all containers
 if [ "${CLEAR}" == "Y" ]; then
-	sudo docker stop MODEL-API
-	sudo docker kill MODEL-API
-	sudo docker rm -f MODEL-API
+	sudo docker stop MODEL-BUILDER
+	sudo docker kill MODEL-BUILDER
+	sudo docker rm -f MODEL-BUILDER
 fi
 
 # clean up all images
 if [ "${CLEANUP}" == "Y" ]; then
 	$0 CLEAR
-	sudo docker rmi -f model-api
+	sudo docker rmi -f model-builder
 fi
 
 # create image
 if [ "${BUILD}" == "Y" ]; then
 	$0 CLEAR
 	$0 CLEANUP
-	sudo docker build $REPOPATH --rm=true -t model-api -f $REPOPATH/infra/docker/dockerfile
+	sudo docker build $REPOPATH --rm=true -t model-builder -f $REPOPATH/model/docker/dockerfile
 fi
 
 # run the container in the background
 if [ "${RUN}" == "Y" ]; then
-	sudo docker run -d --name MODEL-API -p 80:80 model-api
+	sudo docker run -d --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder
 fi
 
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
-	sudo docker run -ti --name MODEL-API -p 80:80 model-api /bin/bash
+	sudo docker run -ti --name MODEL-BUILDER -p 80:80 $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
 	#uvicorn src.api.main:app --host 0.0.0.0 --port 80
 fi
