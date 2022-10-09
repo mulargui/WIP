@@ -77,11 +77,11 @@ async def index():
 @app.post('/predict/')
 async def predict(request: Request):
 
-    #convert to a numpy array
+    #convert input to a numpy array
     iterable  = (value for name, value in request)
     x = np.fromiter(iterable, float)
-    print(x)
-    print (x.shape)
+    #print(x)
+    #print (x.shape)
  
     #prediction = model.predict(x)
     prediction = model(x, training=False)
