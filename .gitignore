@@ -8,4 +8,7 @@
 **/loaddata.sh
 **/github.txt
 **/.DS_Store
+
+#not include models in model-registry
 /model-registry/*
+!model-registry/.gitkeep
