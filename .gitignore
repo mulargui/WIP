@@ -8,4 +8,4 @@
 **/loaddata.sh
 **/github.txt
 **/.DS_Store
-
+/model-registry/*
