@@ -138,9 +138,11 @@ async def predict(request: Request):
     print(x)
     print (x.shape)
     #x1 = {name: tf.convert_to_tensor([value]) for name, value in request}
-    #iterable  = (value for value in request)
-    #x = np.fromiter(iterable, float)
-
+    iterable  = (value for value in request)
+    x1 = np.fromiter(iterable, float)
+    print(x1)
+    print (x1.shape)
+ 
     #prediction = model.predict(x)
     #prediction = model(x, training=False)
     prediction = 1
