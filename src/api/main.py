@@ -10,7 +10,7 @@ from pydantic import BaseModel
 import numpy as np
 
 #import the model
-#model = tf.keras.models.load_model('/model')
+model = tf.keras.models.load_model('/model')
 
 app = FastAPI()
 
@@ -77,74 +77,14 @@ async def index():
 @app.post('/predict/')
 async def predict(request: Request):
 
-    #there needs to be a better way
-    x = np.array([
-        request.Elevation,
-        request.Aspect,
-        request.Slope,
-        request.Horizontal_Distance_To_Hydrology,
-        request.Vertical_Distance_To_Hydrology,
-        request.Horizontal_Distance_To_Roadways,
-        request.Hillshade_9am,
-        request.Hillshade_Noon,
-        request.Hillshade_3pm,
-        request.Horizontal_Distance_To_Fire_Points,
-        request.Wilderness_Area1,
-        request.Wilderness_Area2,
-        request.Wilderness_Area3,
-        request.Wilderness_Area4,
-        request.Soil_Type1,
-        request.Soil_Type2,
-        request.Soil_Type3,
-        request.Soil_Type4,
-        request.Soil_Type5,
-        request.Soil_Type6,
-        request.Soil_Type7,
-        request.Soil_Type8,
-        request.Soil_Type9,
-        request.Soil_Type10,
-        request.Soil_Type11,
-        request.Soil_Type12,
-        request.Soil_Type13,
-        request.Soil_Type14,
-        request.Soil_Type15,
-        request.Soil_Type16,
-        request.Soil_Type17,
-        request.Soil_Type18,
-        request.Soil_Type19,
-        request.Soil_Type20,
-        request.Soil_Type21,
-        request.Soil_Type22,
-        request.Soil_Type23,
-        request.Soil_Type24,
-        request.Soil_Type25,
-        request.Soil_Type26,
-        request.Soil_Type27,
-        request.Soil_Type28,
-        request.Soil_Type29,
-        request.Soil_Type30,
-        request.Soil_Type31,
-        request.Soil_Type32,
-        request.Soil_Type33,
-        request.Soil_Type34,
-        request.Soil_Type35,
-        request.Soil_Type36,
-        request.Soil_Type37,
-        request.Soil_Type38,
-        request.Soil_Type39,
-        request.Soil_Type40
-        ], dtype=np.float32)
-
+    #convert to a numpy array
+    iterable  = (value for name, value in request)
+    x = np.fromiter(iterable, float)
     print(x)
     print (x.shape)
-    #x1 = {name: tf.convert_to_tensor([value]) for name, value in request}
-    iterable  = (value for name, value in request)
-    x1 = np.fromiter(iterable, float)
-    print(x1)
-    print (x1.shape)
  
     #prediction = model.predict(x)
-    #prediction = model(x, training=False)
-    prediction = 1
+    prediction = model(x, training=False)
+    #prediction = 1
     
     return {"prediction": int(prediction)}
