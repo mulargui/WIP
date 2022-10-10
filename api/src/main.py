@@ -80,8 +80,8 @@ async def predict(request: Request):
     #convert input to a numpy array
     iterable  = (value for name, value in request)
     x = np.fromiter(iterable, float)
-    #print(x)
-    #print (x.shape)
+    print(x)
+    print (x.shape)
  
     #prediction = model.predict(x)
     prediction = model(x, training=False)
