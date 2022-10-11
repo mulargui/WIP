@@ -1,9 +1,7 @@
-#constants
-NUM_FEATURES = 54
-NUM_CLASSES = 7
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import constants 
 
 class Data:
     #constructor
@@ -49,7 +47,7 @@ class Data:
         self.y = self.y.to_numpy()
 
         from tensorflow.keras.utils import to_categorical
-        self.y = to_categorical(self.y, NUM_CLASSES)
+        self.y = to_categorical(self.y, constants.NUM_CLASSES)
 
     #split in train and test sets 
     def split(self, percentage):

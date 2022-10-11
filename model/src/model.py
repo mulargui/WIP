@@ -1,6 +1,3 @@
-#constants
-NUM_FEATURES = 54
-NUM_CLASSES = 7
 
 #avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
 import os
@@ -10,6 +7,7 @@ import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
+import constants
 
 class Model:
     NUM_EPOCS = 75
@@ -18,8 +16,8 @@ class Model:
     def __init__(self):
         #here is the NN model
         self.model = Sequential()
-        self.model.add(Dense(units = NUM_FEATURES * 2/3, activation = 'relu', kernel_initializer = 'normal', input_dim = NUM_FEATURES))
-        self.model.add(Dense(units = NUM_CLASSES, activation = 'softmax'))
+        self.model.add(Dense(units = constants.NUM_FEATURES * 2/3, activation = 'relu', kernel_initializer = 'normal', input_dim = constants.NUM_FEATURES))
+        self.model.add(Dense(units = constants.NUM_CLASSES, activation = 'softmax'))
         self.model.compile(loss = keras.losses.categorical_crossentropy,
             optimizer = 'Adam',
             metrics = ['accuracy'])
