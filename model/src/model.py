@@ -26,7 +26,7 @@ class Model:
 
     #train the model
     def train(self, x_train, y_train, x_test, y_test):
-        self.model.fit(x_train, y_train, validation_data = (x_test, y_test), epochs = NUM_EPOCS)
+        self.model.fit(x_train, y_train, validation_data = (x_test, y_test), epochs = self.NUM_EPOCS)
     
     #save the model
     def save(self):
