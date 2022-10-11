@@ -9,7 +9,9 @@ class Data:
         #read the csv file in a pandas dataframe
         df = pd.read_csv(source)
 
+        print ('uno')
         print(df.isnull().sum(axis = 0))
+        print('dos')
         print(df[df.drop(['Id','Cover_Type'], axis=1).eq(0).all(1)].empty)
 
         #split in features and labels
@@ -52,12 +54,14 @@ class Data:
         self.x['Hillshade_3pm']=self.x['Hillshade_3pm']/254                      
         self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
-        print(x[x.eq(0).all(1)].empty)
+        print('tres')
+        print(self.x[self.x.eq(0).all(1)].empty)
 
         #convert the features dataframes to numpy arrays
         self.x = self.x.to_numpy()
 
-        print(x[x.eq(0).all(1)].empty)
+        print('cuatro')
+        print(self.x[self.x.eq(0).all(1)].empty)
 
         # convert the label to One Hot Encoding
         #to_categorical requires 0..6 instead of 1..7
