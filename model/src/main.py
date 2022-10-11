@@ -51,7 +51,7 @@ print (x_train[0])
 print (x.ndim)
 
 import sys
-sys.exit(0)
+#sys.exit(0)
 
 #here is the NN model
 import keras

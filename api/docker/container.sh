@@ -47,18 +47,19 @@ fi
 
 # create image
 if [ "${BUILD}" == "Y" ]; then
-	$0 CLEAR
 	$0 CLEANUP
 	sudo docker build $REPOPATH --rm=true -t model-api -f $REPOPATH/api/docker/dockerfile
 fi
 
 # run the container in the background
 if [ "${RUN}" == "Y" ]; then
+	$0 CLEAR
 	sudo docker run -d --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api
 fi
 
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
+	$0 CLEAR
 	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
 	#sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
 	#uvicorn src.main:app --host 0.0.0.0 --port 80

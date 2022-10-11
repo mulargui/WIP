@@ -10,7 +10,7 @@ from pydantic import BaseModel
 import numpy as np
 
 #import the model
-#model = tf.keras.models.load_model('/model-registry/model')
+model = tf.keras.models.load_model('/model-registry/model')
 
 app = FastAPI()
 
@@ -87,6 +87,6 @@ async def predict(request: Request):
     print (x[0])
  
     #prediction = model.predict(x)
-    #prediction = model(x, training=False)
+    prediction = model(x, training=False)
     
-    #return {"prediction": str(prediction)}
+    return {"prediction": str(prediction)}
