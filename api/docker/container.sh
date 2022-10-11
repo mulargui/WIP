@@ -54,7 +54,8 @@ fi
 # run the container in the background
 if [ "${RUN}" == "Y" ]; then
 	$0 CLEAR
-	sudo docker run -d --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api
+	#attached as a volume the model to use
+	sudo docker run -d --name MODEL-API -p 80:80 -v $REPOPATH/model-registry:/model-registry model-api
 fi
 
 # run the container in the console
@@ -63,6 +64,6 @@ if [ "${INTERACTIVE}" == "Y" ]; then
 	#sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
 
 	#added the code folder as a volume for fast testing of code changes without rebuilding the container
-	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/data:/data \
-		-v $REPOPATH/model-registry:/model-registry model-api uvicorn src2.main:app --host 0.0.0.0 --port 80
+	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/model-registry:/model-registry \
+		model-api uvicorn src2.main:app --host 0.0.0.0 --port 80
 fi
