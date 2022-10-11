@@ -60,6 +60,8 @@ fi
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
 	$0 CLEAR
-	sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/model/src:/src2 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
 	#sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
+
+	#added the code folder as a volume for fast testing of code changes without rebuilding the container
+	sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/model/src:/src2 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
 fi
