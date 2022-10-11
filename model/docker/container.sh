@@ -55,15 +55,18 @@ fi
 if [ "${RUN}" == "Y" ]; then
 	$0 CLEAR
 	#we attach to the container as a volume the training data and where to export the model
-	sudo docker run -d --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder
+	sudo docker run -d --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data \
+		-v $REPOPATH/model-registry:/model-registry model-builder
 fi
 
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
 	$0 CLEAR
-	#sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
+	#sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data \
+	#	-v $REPOPATH/model-registry:/model-registry model-builder /bin/bash
 
 	#added the code folder as a volume for fast testing of code changes without rebuilding the container
 	sudo docker run -ti --name MODEL-BUILDER -p 80:80 -v $REPOPATH/model/src:/src2 \
-		-v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-builder python3 src2/main.py
+		-v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry \
+		model-builder python3 src2/main.py
 fi

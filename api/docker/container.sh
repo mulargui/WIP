@@ -61,7 +61,8 @@ fi
 # run the container in the console
 if [ "${INTERACTIVE}" == "Y" ]; then
 	$0 CLEAR
-	#sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
+	#sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data \
+	#	-v $REPOPATH/model-registry:/model-registry model-api /bin/bash
 
 	#added the code folder as a volume for fast testing of code changes without rebuilding the container
 	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/model-registry:/model-registry \
