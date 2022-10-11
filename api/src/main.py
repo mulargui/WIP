@@ -1,3 +1,6 @@
+#constants
+NUM_FEATURES = 54
+
 #avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
@@ -78,15 +81,11 @@ async def index():
 async def predict(request: Request):
 
     #convert input to a numpy array
-    x = np.zeros(shape=(2, 54))
+    #there is something wrong, I was forced to have a 2 dims array and generates 2 predictions
+    x = np.zeros(shape=(2, NUM_FEATURES))
     iterable  = (value for name, value in request)
-    x [0] = np.fromiter(iterable, float)
-    print(x)
-    print (x.shape)
-    print (x.ndim)
-    print (x[0])
- 
-    #prediction = model.predict(x)
+    x[0] = np.fromiter(iterable, float)
+
     prediction = model(x, training=False)
     
-    return {"prediction": str(prediction)}
+    return {"prediction": str(np.argmax(prediction[0])+1)}

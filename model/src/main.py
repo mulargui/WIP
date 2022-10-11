@@ -46,13 +46,6 @@ x = x.to_numpy()
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.2)
 
-print (x_train.shape)
-print (x_train[0])
-print (x.ndim)
-
-import sys
-#sys.exit(0)
-
 #here is the NN model
 import keras
 from tensorflow.keras.models import Sequential
