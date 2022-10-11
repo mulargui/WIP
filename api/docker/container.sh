@@ -63,6 +63,6 @@ if [ "${INTERACTIVE}" == "Y" ]; then
 	#sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
 
 	#added the code folder as a volume for fast testing of code changes without rebuilding the container
-	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/data:/data -v $REPOPATH/model-registry:/model-registry model-api /bin/bash
-	#uvicorn src2.main:app --host 0.0.0.0 --port 80
+	sudo docker run -ti --name MODEL-API -p 80:80 -v $REPOPATH/api/src:/src2 -v $REPOPATH/data:/data \
+		-v $REPOPATH/model-registry:/model-registry model-api uvicorn src2.main:app --host 0.0.0.0 --port 80
 fi
