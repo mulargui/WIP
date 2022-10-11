@@ -5,18 +5,12 @@ NUM_FEATURES = 54
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 
-import tensorflow as tf
-
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+import tensorflow as tf
 import numpy as np
 
-#import the model
-model = tf.keras.models.load_model('/model-registry/model')
-
-app = FastAPI()
-
+#create a payload for the API that includes all features with defaults
 class Request(BaseModel):
     Elevation = 0.0
     Aspect = 0.0
@@ -73,10 +67,18 @@ class Request(BaseModel):
     Soil_Type39 = 0.0
     Soil_Type40 = 0.0
 
+#import the model
+model = tf.keras.models.load_model('/model-registry/model')
+
+#start the web server
+app = FastAPI()
+
+#for server testing purposes
 @app.get('/')
 async def index():
     return {"Message": "Hello World!"}
 
+#api to the model
 @app.post('/predict/')
 async def predict(request: Request):
 
@@ -86,6 +88,8 @@ async def predict(request: Request):
     iterable  = (value for name, value in request)
     x[0] = np.fromiter(iterable, float)
 
+    #here it goes, magic at work
     prediction = model(x, training=False)
     
+    #we normalized predictions to 0..6 when training the model instead of 1..7 in the data
     return {"prediction": str(np.argmax(prediction[0])+1)}
