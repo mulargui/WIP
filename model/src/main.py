@@ -1,3 +1,8 @@
+#constants
+NUM_FEATURES = 54
+NUM_CLASSES = 7
+NUM_EPOCS = 75
+
 #avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
@@ -5,46 +10,63 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
-#load data
-dftrain=pd.read_csv('/data/train.csv')
+class Data:
+    #constructor
+    def __init__(self, source):
+        #read the csv file in a pandas dataframe
+        df = pd.read_csv(source)
 
-#split train data in features and labels
-y = dftrain.Cover_Type
-x = dftrain.drop(['Id','Cover_Type'], axis=1)
+        #split in features and labels
+        self.y = df.Cover_Type
+        self.x = df.drop(['Cover_Type'], axis=1)
 
-#force all types to float
-x = x.astype(float)
+    #data validation
+    #def data_validation(self):
 
-#normalize features
-#in the future it can be done more elegantly, for now just using the max min values of the data that we know
-#x['Elevation']=(x['Elevation']-x['Elevation'].min())/(x['Elevation'].max()-x['Elevation'].min())                             
-x['Elevation']=(x['Elevation']-1859)/(3858-1859)                             
-x['Aspect']=x['Aspect']/360                      
-x['Slope']=x['Slope']/66                      
-x['Horizontal_Distance_To_Hydrology']=x['Horizontal_Distance_To_Hydrology']/1397                      
-x['Vertical_Distance_To_Hydrology']=(x['Vertical_Distance_To_Hydrology']+173)/(601+173)                             
-x['Horizontal_Distance_To_Roadways']=x['Horizontal_Distance_To_Roadways']/7117                      
-x['Hillshade_9am']=x['Hillshade_9am']/254                      
-x['Hillshade_Noon']=x['Hillshade_Noon']/254                      
-x['Hillshade_3pm']=x['Hillshade_3pm']/254                      
-x['Horizontal_Distance_To_Fire_Points']=x['Horizontal_Distance_To_Fire_Points']/67173                      
+    #data engineering
+    def data_engineering(self):
+        #remove the Id feature, not needed (it just enaumerates the samples)
+        self.x = self.x.drop(['Id'], axis=1)
 
-# convert the label to One Hot Encoding
-#to_categorical requires 0..6 instead of 1..7
-y -=1
-y = y.to_numpy()
+        #force all types to float
+        self.x = self.x.astype(float)
 
-num_classes = 7
+        #normalize features
+        #in the future it can be done more elegantly, for now just using the max min values of the data that we know
+        #x['Elevation']=(x['Elevation']-x['Elevation'].min())/(x['Elevation'].max()-x['Elevation'].min())                             
+        self.x['Elevation']=(self.x['Elevation']-1859)/(3858-1859)                             
+        self.x['Aspect']=self.x['Aspect']/360                      
+        self.x['Slope']=self.x['Slope']/66                      
+        self.x['Horizontal_Distance_To_Hydrology']=self.x['Horizontal_Distance_To_Hydrology']/1397                      
+        self.x['Vertical_Distance_To_Hydrology']=(self.x['Vertical_Distance_To_Hydrology']+173)/(601+173)                             
+        self.x['Horizontal_Distance_To_Roadways']=self.x['Horizontal_Distance_To_Roadways']/7117                      
+        self.x['Hillshade_9am']=self.x['Hillshade_9am']/254                      
+        self.x['Hillshade_Noon']=self.x['Hillshade_Noon']/254                      
+        self.x['Hillshade_3pm']=self.x['Hillshade_3pm']/254                      
+        self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
-from tensorflow.keras.utils import to_categorical
-y = to_categorical(y, num_classes)
+        #convert the features dataframes to numpy arrays
+        self.x = self.x.to_numpy()
 
-#convert the features dataframes to numpy arrays
-x = x.to_numpy()
+        # convert the label to One Hot Encoding
+        #to_categorical requires 0..6 instead of 1..7
+        self.y -=1
+        self.y = self.y.to_numpy()
 
-#split in train (80%) and test (20%) sets 
-from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.2)
+        from tensorflow.keras.utils import to_categorical
+        self.y = to_categorical(self.y, NUM_CLASSES)
+
+    #split in train and test sets 
+    split(self, percentage):
+        from sklearn.model_selection import train_test_split
+        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x, self.y,test_size = percentage)
+
+
+
+Data d('/data/train.csv')
+#d.data_validation()
+d.data_engineering()
+d.split(0.2)
 
 #here is the NN model
 import keras
@@ -52,17 +74,15 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
 
-num_features = 54
-
 model = Sequential()
-model.add(Dense(units=num_features*2/3, activation='relu', kernel_initializer='normal', input_dim=num_features))
-model.add(Dense(units=num_classes, activation='softmax'))
-model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer='Adam',
-              metrics=['accuracy'])
+model.add(Dense(units = NUM_FEATURES * 2/3, activation = 'relu', kernel_initializer = 'normal', input_dim = NUM_FEATURES))
+model.add(Dense(units = NUM_CLASSES, activation = 'softmax'))
+model.compile(loss = keras.losses.categorical_crossentropy,
+              optimizer = 'Adam',
+              metrics = ['accuracy'])
 
 #train the model
-model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=75)
+model.fit(d.x_train, d.y_train, validation_data = (d.x_test, d.y_test), epochs = NUM_EPOCS)
 
 #save the model
 model.save('/model-registry/model/')
