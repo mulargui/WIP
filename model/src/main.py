@@ -63,7 +63,7 @@ class Data:
 
 
 
-Data d('/data/train.csv')
+d = Data('/data/train.csv')
 #d.data_validation()
 d.data_engineering()
 d.split(0.2)
