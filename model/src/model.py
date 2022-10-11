@@ -2,14 +2,14 @@
 NUM_FEATURES = 54
 NUM_CLASSES = 7
 
+#avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
+
 import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
-
-#avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 
 class Model:
     NUM_EPOCS = 75
@@ -31,4 +31,8 @@ class Model:
     #save the model
     def save(self):
         self.model.save('/model-registry/model/')
+
+    #import a model
+    def load(self):
+        self.model = tf.keras.models.load_model('/model-registry/model/')
 
