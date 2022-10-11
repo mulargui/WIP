@@ -57,7 +57,7 @@ class Data:
         self.y = to_categorical(self.y, NUM_CLASSES)
 
     #split in train and test sets 
-    split(self, percentage):
+    def split(self, percentage):
         from sklearn.model_selection import train_test_split
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x, self.y,test_size = percentage)
 
