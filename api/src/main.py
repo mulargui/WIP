@@ -84,6 +84,7 @@ async def predict(request: Request):
     print(x)
     print (x.shape)
     print (x.ndim)
+    print (x[0])
  
     #prediction = model.predict(x)
     #prediction = model(x, training=False)
