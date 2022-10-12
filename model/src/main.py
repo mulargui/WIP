@@ -5,6 +5,8 @@ d = Data('/data/train.csv')
 d.data_engineering()
 if d.validationError:
     print('error in validation')
+else:
+    print('NO error in validation')
 d.split(0.2)
 
 #create the model object, train it and save it
