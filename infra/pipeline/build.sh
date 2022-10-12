@@ -35,6 +35,8 @@ if ! $REPOPATH/api/docker/container.sh RUN; then
     echo 'error starting the server'
     exit -1
 fi
+#some time to allow the server to start
+sleep 10
 echo 'deployment completed'
 
 #step5: test the api

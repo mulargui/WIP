@@ -39,8 +39,8 @@ done
 if [ "${CLEAR}" == "Y" ]; then
 	sudo docker stop MODEL-BUILDER
 	sudo docker kill MODEL-BUILDER
-	#sudo docker rm -f MODEL-BUILDER
-	sudo docker rm -f $(sudo docker ps -a | grep MODEL-BUILDER | awk '{ print $1 }')
+	sudo docker rm -f MODEL-BUILDER
+	#sudo docker rm -f $(sudo docker ps -a | grep MODEL-BUILDER | awk '{ print $1 }')
 fi
 
 # clean up all images
