@@ -10,7 +10,7 @@ class Data:
         df = pd.read_csv(source)
 
         #validate the data source
-        data_prevalidation(df)
+        self.data_prevalidation(df)
 
         #split in features and labels
         self.y = df.Cover_Type
