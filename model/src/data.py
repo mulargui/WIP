@@ -10,7 +10,8 @@ class Data:
         df = pd.read_csv(source)
 
         print ('uno')
-        print(df.isnull().sum(axis = 0))
+        print(df.isna().sum().sum())
+        print(df.isnull().sum().sum())
         print('dos')
         print(df[df.drop(['Id','Cover_Type'], axis=1).eq(0).all(1)].empty)
 
