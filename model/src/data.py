@@ -20,7 +20,7 @@ class Data:
         self.x = df.drop(['Cover_Type'], axis=1)
 
     #data validation - pre
-    #def data_validation(self):
+    #def data_prevalidation(self):
         #validate files - nans per feature
         #print(df.isnull().sum(axis = 0))
 
@@ -28,10 +28,9 @@ class Data:
         #print(df[df.drop(['Id','Cover_Type'], axis=1).eq(0).all(1)].empty)
 
     #data validation - post
-    #def data_validation(self):
+    def data_postvalidation(self):
         #validate data - no rows with all zeros
-        #x.index[x.eq(0).all(1)]
-        #print(x[x.eq(0).all(1)].empty)
+        return (self.x[self.x.eq(0).all(1)].empty)
 
     #data engineering
     def data_engineering(self):
@@ -55,9 +54,11 @@ class Data:
         self.x['Hillshade_3pm']=self.x['Hillshade_3pm']/254                      
         self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
+        #run validation tests after transformations
         print('tres')
-        print(self.x[self.x.eq(0).all(1)].empty)
-
+        if data_postvalidation(): 
+            print ('exito')
+    
         #convert the features dataframes to numpy arrays
         self.x = self.x.to_numpy()
 
