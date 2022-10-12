@@ -58,8 +58,7 @@ class Data:
         self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
         #run validation tests after transformations
-        if not self.data_postvalidation(): 
-            return False
+        elf.data_postvalidation(): 
     
         #convert the features dataframes to numpy arrays
         self.x = self.x.to_numpy()
@@ -71,8 +70,6 @@ class Data:
 
         from tensorflow.keras.utils import to_categorical
         self.y = to_categorical(self.y, constants.NUM_CLASSES)
-
-        return True
 
     #split in train and test sets 
     def split(self, percentage):
