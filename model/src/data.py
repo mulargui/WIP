@@ -4,6 +4,9 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import constants 
 
 class Data:
+    #persist if we found any validation error
+    validationError = False
+
     #constructor
     def __init__(self, source):
         #read the csv file in a pandas dataframe
@@ -11,27 +14,26 @@ class Data:
 
         #validate the data source
         self.data_prevalidation(df)
-
+ 
         #split in features and labels
         self.y = df.Cover_Type
         self.x = df.drop(['Cover_Type'], axis=1)
 
     #data validation - pre
     def data_prevalidation(self, df):
-        #validate nans per feature
-        print ('uno')
-        print(df.isna().sum().sum())
-        print(df.isnull().sum().sum())
-        print(df.isnull().sum(axis = 0))
+        #validate no nans in the data set
+        if df.isna().sum().sum():
+            validationError = True
 
-        #validate no rows with all zeros
-        print('dos')
-        print(df[df.drop(['Id','Cover_Type'], axis=1).eq(0).all(1)].empty)
+        #validate no nulls in the data set
+        if df.isnull().sum().sum():
+           validationError = True
 
     #data validation - post
     def data_postvalidation(self):
         #validate data - no rows with all zeros
-        return (self.x[self.x.eq(0).all(1)].empty)
+        if not self.x[self.x.eq(0).all(1)].empty:
+            validationError = True
 
     #data engineering
     def data_engineering(self):
