@@ -1,3 +1,5 @@
+#constants
+import constants
 
 #avoid TF INFO messages about internal optimizations (This TensorFlow binary is optimized with ...)
 import os
@@ -7,10 +9,10 @@ import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
-import constants
 
 class Model:
     NUM_EPOCS = 75
+    MODEL_REGISTRY = '/model-registry/model/'
 
     #constructor
     def __init__(self):
@@ -28,9 +30,9 @@ class Model:
     
     #save the model
     def save(self):
-        self.model.save('/model-registry/model/')
+        self.model.save(MODEL_REGISTRY)
 
     #import a model
     def load(self):
-        self.model = tf.keras.models.load_model('/model-registry/model/')
+        self.model = tf.keras.models.load_model(MODEL_REGISTRY)
 
