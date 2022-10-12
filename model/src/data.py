@@ -58,7 +58,7 @@ class Data:
         self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
         #run validation tests after transformations
-        elf.data_postvalidation(): 
+        self.data_postvalidation(): 
     
         #convert the features dataframes to numpy arrays
         self.x = self.x.to_numpy()
