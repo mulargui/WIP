@@ -30,9 +30,9 @@ class Model:
     
     #save the model
     def save(self):
-        self.model.save(MODEL_REGISTRY)
+        self.model.save(self.MODEL_REGISTRY)
 
     #import a model
     def load(self):
-        self.model = tf.keras.models.load_model(MODEL_REGISTRY)
+        self.model = tf.keras.models.load_model(self.MODEL_REGISTRY)
 
