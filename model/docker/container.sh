@@ -60,7 +60,7 @@ if [ "${MODEL}" == "Y" ]; then
 	#we attach to the container as a volume the training data and where to export the model
 	sudo docker run --name MODEL-BUILDER -p 80:80 -v $REPOPATH/data:/data \
 		-v $REPOPATH/model-registry:/model-registry model-builder
-i
+fi
 
 # run the container in the background
 if [ "${RUN}" == "Y" ]; then
