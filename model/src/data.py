@@ -55,15 +55,11 @@ class Data:
         self.x['Horizontal_Distance_To_Fire_Points']=self.x['Horizontal_Distance_To_Fire_Points']/67173                      
 
         #run validation tests after transformations
-        print('tres')
         if not self.data_postvalidation(): 
-            print ('fracaso')
+            return False
     
         #convert the features dataframes to numpy arrays
         self.x = self.x.to_numpy()
-
-        print('cuatro')
-        print(self.x[self.x.eq(0).all(1)].empty)
 
         # convert the label to One Hot Encoding
         #to_categorical requires 0..6 instead of 1..7
@@ -72,6 +68,8 @@ class Data:
 
         from tensorflow.keras.utils import to_categorical
         self.y = to_categorical(self.y, constants.NUM_CLASSES)
+
+        return True
 
     #split in train and test sets 
     def split(self, percentage):
