@@ -13,22 +13,32 @@ SCRIPT=$(readlink -f "$0")
 export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/infra\/pipeline//g')
 
 # step1: build the container to create the model
-$REPOPATH/model/docker/container.sh BUILD
-echo $?
-#if ! docker run container/myContainer:latest; then
-#  do_stuff
-#fi
+if ! $REPOPATH/model/docker/container.sh BUILD; then
+    echo 'error building the model container' 
+    exit -1
+fi
 
 # step2: create and train the model
 $REPOPATH/model/docker/container.sh RUN
-wait
+echo $!
+wait $!
 echo $?
 
 # step3: build the container wiht the api
-$REPOPATH/api/docker/container.sh BUILD
-echo $?
+if ! $REPOPATH/api/docker/container.sh BUILD; then
+    echo 'error building the api container' 
+    exit -1
+fi
 
 # step4: deploy the api
-$REPOPATH/api/docker/container.sh RUN
-echo $?
+if ! $REPOPATH/api/docker/container.sh RUN; then
+    echo 'error starting the server'
+    exit -1
+fi
 echo 'deployment completed'
+
+#step5: test the api
+if ! $REPOPATH/api/docker/test.sh; then
+    echo 'error testing the api container' 
+    exit -1
+fi
