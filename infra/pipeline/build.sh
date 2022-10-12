@@ -19,10 +19,10 @@ if ! $REPOPATH/model/docker/container.sh BUILD; then
 fi
 
 # step2: create and train the model
-$REPOPATH/model/docker/container.sh RUN
-echo $!
-wait $!
-echo $?
+if ! $REPOPATH/model/docker/container.sh MODEL; then
+    echo 'error creating and training the model' 
+    exit -1
+fi
 
 # step3: build the container wiht the api
 if ! $REPOPATH/api/docker/container.sh BUILD; then
