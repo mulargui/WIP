@@ -56,7 +56,7 @@ class Data:
 
         #run validation tests after transformations
         print('tres')
-        if data_postvalidation(): 
+        if self.data_postvalidation(): 
             print ('exito')
     
         #convert the features dataframes to numpy arrays
