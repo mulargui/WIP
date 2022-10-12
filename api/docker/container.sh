@@ -36,7 +36,8 @@ done
 if [ "${CLEAR}" == "Y" ]; then
 	sudo docker stop MODEL-API
 	sudo docker kill MODEL-API
-	sudo docker rm -f MODEL-API
+	#sudo docker rm -f MODEL-API
+	sudo docker rm -f $(sudo docker ps -a | grep MODEL-API | awk '{ print $1 }')
 fi
 
 # clean up all images
