@@ -14,7 +14,7 @@ export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/infra\/pipeline//g')
 
 # step1: build the container to create the model
 $REPOPATH/model/docker/container.sh BUILD
-print $?
+echo $?
 #if ! docker run container/myContainer:latest; then
 #  do_stuff
 #fi
@@ -22,13 +22,13 @@ print $?
 # step2: create and train the model
 $REPOPATH/model/docker/container.sh RUN
 wait
-print $?
+echo $?
 
 # step3: build the container wiht the api
 $REPOPATH/api/docker/container.sh BUILD
-print $?
+echo $?
 
 # step4: deploy the api
 $REPOPATH/api/docker/container.sh RUN
-print $?
-print 'deployment completed'
+echo $?
+echo 'deployment completed'
