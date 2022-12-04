@@ -14,5 +14,6 @@ tf_estimator = TensorFlow(entry_point='main.py',
                           script_mode=True
                         )
 
-#tf_estimator.fit({'training': local_training_input_path, 'validation': local_validation_input_path})
-tf_estimator.fit()
+local_training_input_path = 'file://data/train.csv'
+tf_estimator.fit(local_training_input_path)
+#tf_estimator.fit()
