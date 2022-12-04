@@ -5,7 +5,7 @@ role = sagemaker.get_execution_role()
 
 from sagemaker.tensorflow import TensorFlow
 
-tf_estimator = TensorFlow(entry_point='mnist_keras_tf.py', 
+tf_estimator = TensorFlow(entry_point='main.py', 
                           role=role,
                           instance_count=1, 
                           instance_type='local',
@@ -14,3 +14,9 @@ tf_estimator = TensorFlow(entry_point='mnist_keras_tf.py',
                           script_mode=True,
                           hyperparameters={'epochs': 1}
                          )
+
+#local_training_input_path   = 'file://data/training.npz'
+#local_validation_input_path = 'file://data/validation.npz'
+
+#tf_estimator.fit({'training': local_training_input_path, 'validation': local_validation_input_path})
+tf_estimator.fit()
