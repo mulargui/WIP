@@ -11,6 +11,8 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
 
 class Model:
+    NUM_EPOCS = 1
+    MODEL_REGISTRY = '/model-registry/model/'
 
     #constructor
     def __init__(self):
@@ -23,14 +25,13 @@ class Model:
             metrics = ['accuracy'])
 
     #train the model
-    def train(self, x_train, y_train, x_test, y_test, epochs):
-        self.model.fit(x_train, y_train, validation_data = (x_test, y_test), epochs = epochs)
+    def train(self, x_train, y_train, x_test, y_test):
+        self.model.fit(x_train, y_train, validation_data = (x_test, y_test), epochs = self.NUM_EPOCS)
     
     #save the model
-    def save(self, dataset_dir):
-        self.model.save(dataset_dir)
+    def save(self):
+        self.model.save(self.MODEL_REGISTRY)
 
     #import a model
-    def load(self, dataset_dir):
-        self.model = tf.keras.models.load_model(dataset_dir)
-
+    def load(self):
+        self.model = tf.keras.models.load_model(self.MODEL_REGISTRY)
