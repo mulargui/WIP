@@ -22,5 +22,5 @@ if __name__ == '__main__':
 
   #run the job
   local_training_input_path = 'file://data/train.csv'
-  tf_estimator.fit({'training': local_training_input_path})
+  tf_estimator.fit({'training': training_input_path})
  
