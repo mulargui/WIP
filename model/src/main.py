@@ -3,13 +3,15 @@ import sys
 
 if __name__ == '__main__':
     
+    #get job arguments from sagemaker
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--epochs', type=int, default=1)
-    #parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
-    #parser.add_argument('--training', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
-    parser.add_argument('--model-dir', type=str, default='/tmp')
-    parser.add_argument('--training', type=str, default='./data/train.csv')
+    parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
+    parser.add_argument('--training', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
+    #for local execution
+    #parser.add_argument('--model-dir', type=str, default='/tmp')
+    #parser.add_argument('--training', type=str, default='./data/train.csv')
        
     args, _ = parser.parse_known_args()
     
