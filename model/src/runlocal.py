@@ -25,7 +25,7 @@ if __name__ == '__main__':
   tf_estimator = TensorFlow(entry_point='main.py', 
     role=role,
     train_instance_count=1, 
-    train_instance_type='ml.p3.2xlarge',
+    train_instance_type='ml.p3.xlarge',
     train_use_spot_instances=True,         # Use spot instance
     train_max_run=60*5,                    # Max training time
     train_max_wait=60*10,                  # Max training time + spot waiting time
@@ -37,7 +37,8 @@ if __name__ == '__main__':
   )
 
   #training dataset, S3 bucket
-  training_input_path  = sess.upload_data('./data/train.csv', key_prefix='kaggle/training')
+  bucket = sess.default_bucket() 
+  training_input_path  = sess.upload_data('./data/train.csv', key_prefix=bucket+'/training')
   """
 
   #run the job
