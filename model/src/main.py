@@ -1,10 +1,23 @@
+import argparse, os
 import sys
 
 if __name__ == '__main__':
     
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--epochs', type=int, default=1)
+    parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
+    parser.add_argument('--training', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
+    
+    args, _ = parser.parse_known_args()
+    
+    epochs     = args.epochs
+    model_dir  = args.model_dir
+    training_dir   = args.training
+ 
     #create a data object and prepare it to train the model
     from data import Data
-    d = Data('/data/train.csv')
+    d = Data(training_dir)
     d.data_engineering()
     if d.validationError:
         print('error in validation')
@@ -14,5 +27,5 @@ if __name__ == '__main__':
     #create the model object, train it and save it
     from model import Model
     m = Model()
-    m.train(d.x_train, d.y_train, d.x_test, d.y_test)
-    m.save()
+    m.train(d.x_train, d.y_train, d.x_test, d.y_test,epochs)
+    m.save(model_dir)
