@@ -21,10 +21,11 @@ if __name__ == '__main__':
 
     print(model_dir)
     print(training_dir)
+    print (os.path.join(training_dir, 'train.csv'))
  
     #create a data object and prepare it to train the model
     from data import Data
-    d = Data(training_dir)
+    d = Data(os.path.join(training_dir, 'train.csv'))
     d.data_engineering()
     if d.validationError:
         print('error in validation')

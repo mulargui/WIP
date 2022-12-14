@@ -1,9 +1,11 @@
-import sys
+import sys, os
 import sagemaker
 from sagemaker.tensorflow import TensorFlow
 
 if __name__ == '__main__':
 
+  print (os.getcwd())
+  
   #run locally in the notebook or use a sagemaker instance
   #if no argument, run on sagemaker by default
   if len(sys.argv) != 2:
@@ -24,7 +26,7 @@ if __name__ == '__main__':
       framework_version='2.1.0', 
       py_version='py3',
       script_mode=True,
-      model_dir='/tmp/model',
+      model_dir='/tmp/model-registry',
       hyperparameters={'epochs': 1},
       instance_type='local'
     )
@@ -40,7 +42,7 @@ if __name__ == '__main__':
       framework_version='2.1.0', 
       py_version='py3',
       script_mode=True,
-      model_dir='/tmp/model',
+      model_dir='/tmp/model-registry',
       hyperparameters={'epochs': 1},
       instance_type='ml.p3.2xlarge',
       #use_spot_instances=True,        # Use spot instance
