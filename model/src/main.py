@@ -3,6 +3,9 @@ import sys
 
 if __name__ == '__main__':
     
+    #filename of the train set
+    TRAINSET = 'train.csv'
+
     #get job arguments from sagemaker
     parser = argparse.ArgumentParser()
 
@@ -21,11 +24,11 @@ if __name__ == '__main__':
 
     print(model_dir)
     print(training_dir)
-    print (os.path.join(training_dir, 'train.csv'))
+    print (os.path.join(training_dir, TRAINSET))
  
     #create a data object and prepare it to train the model
     from data import Data
-    d = Data(os.path.join(training_dir, 'train.csv'))
+    d = Data(os.path.join(training_dir, TRAINSET))
     d.data_engineering()
     if d.validationError:
         print('error in validation')

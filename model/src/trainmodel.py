@@ -26,7 +26,7 @@ if __name__ == '__main__':
       framework_version='2.1.0', 
       py_version='py3',
       script_mode=True,
-      model_dir='/tmp/model-registry',
+      #model_dir='/tmp/model-registry',
       hyperparameters={'epochs': 1},
       instance_type='local'
     )
@@ -42,7 +42,7 @@ if __name__ == '__main__':
       framework_version='2.1.0', 
       py_version='py3',
       script_mode=True,
-      model_dir='/tmp/model-registry',
+      #model_dir='/tmp/model-registry',
       hyperparameters={'epochs': 1},
       instance_type='ml.p3.2xlarge',
       #use_spot_instances=True,        # Use spot instance
