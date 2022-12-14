@@ -10,7 +10,7 @@ if __name__ == '__main__':
     parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
     parser.add_argument('--training', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
     #for local execution
-    #parser.add_argument('--model-dir', type=str, default='/tmp')
+    #parser.add_argument('--model-dir', type=str, default='/tmp/model')
     #parser.add_argument('--training', type=str, default='./data/train.csv')
        
     args, _ = parser.parse_known_args()
