@@ -18,6 +18,9 @@ if __name__ == '__main__':
     epochs     = args.epochs
     model_dir  = args.model_dir
     training_dir   = args.training
+
+    print(model_dir)
+    print(training_dir)
  
     #create a data object and prepare it to train the model
     from data import Data

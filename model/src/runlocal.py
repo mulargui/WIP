@@ -13,7 +13,7 @@ if __name__ == '__main__':
     framework_version='2.1.0', 
     py_version='py3',
     script_mode=True,
-    model_dir='/opt/ml/model',
+    model_dir='/tmp',
     hyperparameters={'epochs': 1}
   )
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
   #training dataset, S3 bucket
   bucket = sess.default_bucket() 
-  training_input_path  = sess.upload_data('./data/train.csv', key_prefix=bucket+'/training')
+  training_input_path  = sess.upload_data('./data/train.csv', bucket)
   """
 
   #run the job
