@@ -5,7 +5,7 @@ from sagemaker.tensorflow import TensorFlow
 if __name__ == '__main__':
 
   #filename of the train set
-  TRAINSET = '/../../data/train.csv'
+  TRAINSET = '../../data/train.csv'
   
   #run locally in the notebook or use a sagemaker instance
   #if no argument, run on sagemaker by default
@@ -20,7 +20,7 @@ if __name__ == '__main__':
   role = sagemaker.get_execution_role()
 
   if localmode:
-    #create the job, run localy in the jupyter notebook
+    #create the job, run localy in the jupyter notebook instance
     tf_estimator = TensorFlow(entry_point='main.py', 
       role=role,
       instance_count=1, 
@@ -28,9 +28,9 @@ if __name__ == '__main__':
       py_version='py3',
       script_mode=True,
       source_dir=os.getcwd(),
-      #model_dir='/tmp/model-registry',
       hyperparameters={'epochs': 1},
-      instance_type='local'
+      instance_type='local',
+      model_dir=os.path.join(os.getcwd(), '../../model-registry')
     )
 
     #training dataset, local file
@@ -45,13 +45,12 @@ if __name__ == '__main__':
       py_version='py3',
       script_mode=True,
       source_dir=os.getcwd(),
-      model_dir='model-registry',
       hyperparameters={'epochs': 1},
-      instance_type='ml.p3.2xlarge',
+      instance_type='ml.m5.xlarge',
       #use_spot_instances=True,        # Use spot instance
-      max_run=60*10                     # Max training time
-      #max_wait=60*10                  # Max training time + spot waiting time
-    )
+      #max_wait=60*15,                 # Max training time + spot waiting time
+      max_run=60*10                    # Max training time
+   )
 
     #training dataset, S3 bucket
     bucket = sess.default_bucket() 
