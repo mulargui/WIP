@@ -15,11 +15,11 @@ if __name__ == '__main__':
     localmode = True
   else:
     localmode = False
-
-  sess = sagemaker.Session()
-  role = sagemaker.get_execution_role()
-
+ 
   if localmode:
+    sess = sagemaker.Session()
+    role = 'ME'
+
     #create the job, run localy in the jupyter notebook instance
     tf_estimator = TensorFlow(entry_point='main.py', 
       role=role,
@@ -37,6 +37,9 @@ if __name__ == '__main__':
     training_input_path = 'file://'+os.path.join(os.getcwd(), TRAINSET)
 
   else:
+    sess = sagemaker.Session()
+    role = sagemaker.get_execution_role()
+
     #create the job, run in a sagemaker instance
     tf_estimator = TensorFlow(entry_point='main.py', 
       role=role,
