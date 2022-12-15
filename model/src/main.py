@@ -19,10 +19,6 @@ if __name__ == '__main__':
     model_dir  = args.model_dir
     training_dir   = args.training
 
-    print(model_dir)
-    print(training_dir)
-    print (os.path.join(training_dir, TRAINSET))
- 
     #create a data object and prepare it to train the model
     from data import Data
     d = Data(os.path.join(training_dir, TRAINSET))

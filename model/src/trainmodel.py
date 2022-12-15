@@ -5,7 +5,7 @@ from sagemaker.tensorflow import TensorFlow
 if __name__ == '__main__':
 
   #filename of the train set
-  TRAINSET = 'train.csv'
+  TRAINSET = '/../../data/train.csv'
   
   #run locally in the notebook or use a sagemaker instance
   #if no argument, run on sagemaker by default
@@ -45,7 +45,7 @@ if __name__ == '__main__':
       py_version='py3',
       script_mode=True,
       source_dir=os.getcwd(),
-      #model_dir='/tmp/model-registry',
+      model_dir='model-registry',
       hyperparameters={'epochs': 1},
       instance_type='ml.p3.2xlarge',
       #use_spot_instances=True,        # Use spot instance
