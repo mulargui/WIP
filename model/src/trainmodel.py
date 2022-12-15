@@ -29,12 +29,12 @@ if __name__ == '__main__':
       script_mode=True,
       source_dir=os.getcwd(),
       hyperparameters={'epochs': 1},
-      instance_type='local',
-      model_dir=os.path.join(os.getcwd(), '../../model-registry')
+      model_dir=os.path.join(os.getcwd(), '../../model-registry'),
+      instance_type='local'
     )
 
     #training dataset, local file
-    training_input_path = os.path.join(os.getcwd(), TRAINSET)
+    training_input_path = 'file://'+os.path.join(os.getcwd(), TRAINSET)
 
   else:
     #create the job, run in a sagemaker instance
@@ -46,6 +46,7 @@ if __name__ == '__main__':
       script_mode=True,
       source_dir=os.getcwd(),
       hyperparameters={'epochs': 1},
+      #model_dir='model-registry',
       instance_type='ml.m5.xlarge',
       #use_spot_instances=True,        # Use spot instance
       #max_wait=60*15,                 # Max training time + spot waiting time
