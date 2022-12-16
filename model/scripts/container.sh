@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#
+# You need to add your AWS credentials before executing this script for SGLOCAL and SG modes
+#
+
 set +x
 export DEBIAN_FRONTEND=noninteractive
 # Absolute path to this repo
