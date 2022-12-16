@@ -31,6 +31,7 @@ if __name__ == '__main__':
   bucket = sess.default_bucket() 
   print(bucket)
   print(os.getcwd())
+  print(os.path.dirname(__file__))
   print(os.path.join(os.getcwd(), TRAINSET))
   
   training_input_path  = sess.upload_data(os.path.join(os.getcwd(), TRAINSET), bucket)
