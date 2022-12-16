@@ -34,5 +34,8 @@ fi
 
 #train in sagemaker
 if [ "${SG}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainmodel.sh
+	docker run -ti -v $REPOPATH:/WIP \
+		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
+		-e AWS_REGION -e AWS_DEFAULT_REGION \
+		tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainmodel.sh
 fi
