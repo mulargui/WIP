@@ -62,5 +62,7 @@ if __name__ == '__main__':
     training_input_path  = sess.upload_data(os.path.join(os.getcwd(), TRAINSET), bucket)
 
   #run the job
+  print ('starting fit')
   tf_estimator.fit({'training': training_input_path})
+  print ('ending fit')
  
