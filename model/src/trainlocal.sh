@@ -1,5 +1,5 @@
 #train locally
-#docker run -ti -v /home/ulargm:/ulargm tensorflow/tensorflow /bin/bash /home/ulargm/WIP/model/src/trainlocal.sh
+#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/src/trainlocal.sh
 
 #install packages
 pip install -q --upgrade pip
@@ -15,3 +15,5 @@ export SM_CHANNEL_TRAINING=$REPOPATH/data
 
 #train locally
 python3 $REPOPATH/model/src/main.py
+
+ls -la $SM_MODEL_DIR
