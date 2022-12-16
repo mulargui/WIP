@@ -17,7 +17,10 @@ if __name__ == '__main__':
     localmode = False
  
   if localmode:
-    sess = sagemaker.Session()
+    from sagemaker.local import LocalSession
+
+    sagemaker_session = LocalSession()
+    sagemaker_session.config = {'local': {'local_code': True}}
     role = 'ME'
 
     #create the job, run localy in the jupyter notebook instance
