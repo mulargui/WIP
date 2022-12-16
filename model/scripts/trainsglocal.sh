@@ -1,5 +1,5 @@
 #train locally using sagemaker
-#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/src/trainsglocal.sh
+#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainsglocal.sh
 
 #install packages
 pip install -q --upgrade pip
@@ -10,9 +10,9 @@ export AWS_DEFAULT_REGION=us-east-1
 
 # Absolute path to this file
 SCRIPT=$(readlink -f "$0")
-export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/model\/src//g')
+export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/model\/scripts//g')
 
 #train locally
-python3 $REPOPATH/model/src/trainmodel.py local
+python3 $REPOPATH/model/src/trainsglocal.py local
 
 ls -la $REPOPATH/model-registry
