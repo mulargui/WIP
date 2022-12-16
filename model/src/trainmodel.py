@@ -30,7 +30,7 @@ if __name__ == '__main__':
       framework_version='2.1.0', 
       py_version='py3',
       script_mode=True,
-      source_dir=os.getcwd(),
+      #source_dir=os.getcwd(),
       hyperparameters={'epochs': 1},
       model_dir=os.path.join(os.getcwd(), '../../model-registry'),
       instance_type='local'
