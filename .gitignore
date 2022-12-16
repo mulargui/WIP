@@ -12,3 +12,4 @@
 #not include models in model-registry
 /model-registry/*
 !model-registry/.gitkeep
+/__pycache__/*
