@@ -28,8 +28,11 @@ if __name__ == '__main__':
   )
 
   #training dataset, S3 bucket
-  print(os.path.join(os.getcwd(), TRAINSET))
   bucket = sess.default_bucket() 
+  print(bucket)
+  print(os.getcwd())
+  print(os.path.join(os.getcwd(), TRAINSET))
+  
   training_input_path  = sess.upload_data(os.path.join(os.getcwd(), TRAINSET), bucket)
 
   #run the job
