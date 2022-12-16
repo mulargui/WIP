@@ -8,7 +8,8 @@ if __name__ == '__main__':
   TRAINSET = '../../data/train.csv'
   
   sess = sagemaker.Session()
-  role = sagemaker.get_execution_role()
+  #role = sagemaker.get_execution_role()
+  role = 'ME'
 
   #create the job, run in a sagemaker instance
   tf_estimator = TensorFlow(entry_point='main.py', 
