@@ -18,7 +18,7 @@ if __name__ == '__main__':
     framework_version='2.1.0', 
     py_version='py3',
     script_mode=True,
-    source_dir=os.getcwd(),
+    source_dir=os.path.dirname(__file__),
     hyperparameters={'epochs': 1},
     #model_dir='model-registry',
     instance_type='ml.m5.xlarge',
@@ -32,9 +32,9 @@ if __name__ == '__main__':
   print(bucket)
   print(os.getcwd())
   print(os.path.dirname(__file__))
-  print(os.path.join(os.getcwd(), TRAINSET))
+  print(os.path.join(os.path.dirname(__file__), TRAINSET))
   
-  training_input_path  = sess.upload_data(os.path.join(os.getcwd(), TRAINSET), bucket)
+  training_input_path  = sess.upload_data(os.path.join(os.path.dirname(__file__), TRAINSET), bucket)
 
   #run the job
   tf_estimator.fit({'training': training_input_path})
