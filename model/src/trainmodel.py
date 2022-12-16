@@ -35,6 +35,7 @@ if __name__ == '__main__':
 
     #training dataset, local file
     training_input_path = 'file://'+os.path.join(os.getcwd(), TRAINSET)
+    print (training_input_path)
 
   else:
     sess = sagemaker.Session()
