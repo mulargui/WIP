@@ -1,4 +1,3 @@
-%%sh
 #train locally using sagemaker
 #docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/src/trainsglocal.sh
 
