@@ -1,9 +1,6 @@
-#train locally
-#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainlocal.sh
-
 #install packages
 pip install -q --upgrade pip
-pip install -q --upgrade pandas scikit-learn
+pip install -q --upgrade pandas scikit-learn tensorflow
 
 # Absolute path to this file
 SCRIPT=$(readlink -f "$0")
