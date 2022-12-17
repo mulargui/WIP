@@ -19,14 +19,14 @@ if __name__ == '__main__':
     framework_version='2.1.0', 
     py_version='py3',
     script_mode=True,
-    source_dir=os.getcwd(),
+    source_dir=os.path.dirname(__file__),
     hyperparameters={'epochs': 1},
-    model_dir=os.path.join(os.getcwd(), '../../model-registry'),
+    model_dir=os.path.join(os.path.dirname(__file__), '../../model-registry'),
     instance_type='local'
   )
 
   #training dataset, local file
-  training_input_path = 'file://'+os.path.join(os.getcwd(), TRAINSET)
+  training_input_path = 'file://'+os.path.join(os.path.dirname(__file__), TRAINSET)
   print (training_input_path)
  
   #run the job
