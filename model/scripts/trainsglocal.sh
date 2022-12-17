@@ -1,6 +1,3 @@
-#train locally using sagemaker
-#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainsglocal.sh
-
 #install packages
 pip install -q --upgrade pip
 pip install -q --upgrade pandas scikit-learn 'sagemaker[local]' boto3 awscli

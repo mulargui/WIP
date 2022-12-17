@@ -1,6 +1,3 @@
-#train using sagemaker
-#docker run -ti -v $PWD:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainmodel.sh
-
 #install packages
 pip install -q --upgrade pip
 pip install -q --upgrade sagemaker
@@ -13,4 +10,4 @@ SCRIPT=$(readlink -f "$0")
 export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/model\/scripts//g')
 
 #train in sagemaker
-python3 $REPOPATH/model/src/trainmodel.py
+python3 $REPOPATH/model/src/trainsg.py
