@@ -14,9 +14,7 @@ SCRIPT=$(readlink -f "$0")
 export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/api\/scripts//g')
 
 #deploy the model as a sagemaker serverless endpoint
-if [ "${SG}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP \
-		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
-		-e AWS_REGION -e AWS_DEFAULT_REGION \
-		tensorflow/tensorflow /bin/bash /WIP/api/scripts/deployapi.sh
-fi
+docker run -ti -v $REPOPATH:/WIP \
+	-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
+	-e AWS_REGION -e AWS_DEFAULT_REGION \
+	tensorflow/tensorflow /bin/bash /WIP/api/scripts/deployapi.sh
