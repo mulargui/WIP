@@ -4,7 +4,7 @@ from sagemaker.serverless.serverless_inference_config import ServerlessInference
 
 if __name__ == '__main__':
 
-    role = sagemaker.get_execution_role()
+    role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
     model_url = "s3://sagemaker-us-east-1-867679111813/tensorflow-training-2022-12-17-17-26-10-301/output/model.tar.gz"
 
     #configuration
