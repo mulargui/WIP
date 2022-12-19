@@ -11,7 +11,7 @@ set +x
 export DEBIAN_FRONTEND=noninteractive
 # Absolute path to this repo
 SCRIPT=$(readlink -f "$0")
-export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/model\/scripts//g')
+export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/api\/scripts//g')
 
 #deploy the model as a sagemaker serverless endpoint
 if [ "${SG}" == "Y" ]; then
