@@ -1,6 +1,5 @@
 import sys, os
 import sagemaker
-from sagemaker.local import LocalSession
 from sagemaker.tensorflow import TensorFlow
 
 if __name__ == '__main__':
@@ -8,8 +7,7 @@ if __name__ == '__main__':
   #filename of the train set
   TRAINSET = '../../data/train.csv'
   
-  sagemaker_session = LocalSession()
-  sagemaker_session.config = {'local': {'local_code': True}}
+  sess = sagemaker.Session()
   role = 'ME'
 
   #create the job, run localy in the jupyter notebook instance
@@ -27,8 +25,7 @@ if __name__ == '__main__':
 
   #training dataset, local file
   training_input_path = 'file://'+os.path.join(os.path.dirname(__file__), TRAINSET)
-  print (training_input_path)
- 
+  
   #run the job
   tf_estimator.fit({'training': training_input_path})
  

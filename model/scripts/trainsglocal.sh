@@ -1,9 +1,6 @@
 #install packages
 pip install -q --upgrade pip
-pip install -q --upgrade pandas scikit-learn 'sagemaker[local]' boto3 awscli
-
-#AWS region to use
-export AWS_DEFAULT_REGION=us-east-1
+pip install -q --upgrade pandas scikit-learn sagemaker
 
 # Absolute path to this file
 SCRIPT=$(readlink -f "$0")
