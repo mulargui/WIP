@@ -15,7 +15,9 @@ if __name__ == '__main__':
   #role = boto3.client('iam').get_role(RoleName='AmazonSageMaker-ExecutionRole-')['Role']['Arn']
   #role = boto3.client('iam').list_roles(PathPrefix='/role/service-role/AmazonSageMaker-ExecutionRole-')
   rolelist = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
-  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r[RoleName]]
+  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']]
+  #for r in rolelist
+  #  print(r)
   #[0]['Arn']
   print(role)
   sys.exit(0)
