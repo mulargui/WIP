@@ -13,7 +13,7 @@ if __name__ == '__main__':
   role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']]
   #role=role['Arn']
   print(role)
-  print(role['Arn'])
+  print(role[0]['Arn'])
   sys.exit(0)
 
   #create the job, run in a sagemaker instance
