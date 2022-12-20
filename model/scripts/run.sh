@@ -34,6 +34,7 @@ if [ "${LOCAL}" == "Y" ]; then
 fi
 
 #train locally using sagemaker
+#this part doesn't work, wip
 if [ "${SGLOCAL}" == "Y" ]; then
 	docker run -ti -v $REPOPATH:/WIP \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \

@@ -1,6 +1,5 @@
 import sys, os
 import sagemaker
-import boto3
 from sagemaker.tensorflow import TensorFlow
 
 if __name__ == '__main__':
@@ -36,15 +35,4 @@ if __name__ == '__main__':
 
   #run the job
   tf_estimator.fit({'training': training_input_path})
-
-  from sagemaker.serverless.serverless_inference_config import ServerlessInferenceConfig
-  
-  #configuration
-  serverless_config = ServerlessInferenceConfig(
-      memory_size_in_mb=1024,
-      max_concurrency=1
-  )
-
-  endpoint = tf_estimator.deploy(serverless_inference_config=serverless_config)
-
-  print('Done!')
+ 
