@@ -13,7 +13,7 @@ if __name__ == '__main__':
   #role = sagemaker.get_execution_role()
   #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
   iam = boto3.client('iam')
-  role = iam.get_role(RoleName='AmazonSageMaker-ExecutionRole-*')['Role']['Arn']
+  role = boto3.client('iam').get_role(RoleName='AmazonSageMaker-ExecutionRole-*')['Role']['Arn']
   print(role)
   sys.exit(0)
 
