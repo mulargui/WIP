@@ -11,8 +11,9 @@ if __name__ == '__main__':
   #role = sagemaker.get_execution_role()
   rolelist = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
   role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']]
-  role=role['Arn']
+  #role=role['Arn']
   print(role)
+  print(role['Arn'])
   sys.exit(0)
 
   #create the job, run in a sagemaker instance
