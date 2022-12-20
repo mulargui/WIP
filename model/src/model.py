@@ -28,8 +28,8 @@ class Model:
     
     #save the model
     def save(self, model_dir):
-        self.model.save(os.path.join(model_dir, "/1"))
+        self.model.save(os.path.join(model_dir, "0001"))
 
     #import a model
     def load(self, model_dir):
-        self.model = tf.keras.models.load_model(os.path.join(model_dir, "/1"))
+        self.model = tf.keras.models.load_model(os.path.join(model_dir, "0001"))
