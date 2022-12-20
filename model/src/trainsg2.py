@@ -1,6 +1,5 @@
 import sys, os
 import sagemaker
-import boto3
 from sagemaker.tensorflow import TensorFlow
 
 if __name__ == '__main__':
@@ -10,11 +9,7 @@ if __name__ == '__main__':
 
   sess = sagemaker.Session()
   #role = sagemaker.get_execution_role()
-  #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
-  iam = boto3.client('iam')
-  role = iam.get_role(RoleName='AmazonSageMaker-ExecutionRole-*')['Role']['Arn']
-  print(role)
-  sys.exit(0)
+  role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
 
   #create the job, run in a sagemaker instance
   tf_estimator = TensorFlow(entry_point='main.py', 
@@ -38,15 +33,4 @@ if __name__ == '__main__':
 
   #run the job
   tf_estimator.fit({'training': training_input_path})
-
-  from sagemaker.serverless.serverless_inference_config import ServerlessInferenceConfig
-  
-  #configuration
-  serverless_config = ServerlessInferenceConfig(
-      memory_size_in_mb=1024,
-      max_concurrency=1
-  )
-
-   endpoint = tf_estimator.deploy(serverless_inference_config=serverless_config)
-
-   print('Done!')
+ 
