@@ -8,17 +8,10 @@ if __name__ == '__main__':
   #filename of the train set
   TRAINSET = '../../data/train.csv'
 
-  sess = sagemaker.Session()
-
   #role = sagemaker.get_execution_role()
-  #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
-  #role = boto3.client('iam').get_role(RoleName='AmazonSageMaker-ExecutionRole-')['Role']['Arn']
-  #role = boto3.client('iam').list_roles(PathPrefix='/role/service-role/AmazonSageMaker-ExecutionRole-')
   rolelist = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
-  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']]['Arn']
-  #for r in rolelist
-  #  print(r)
-  #[0]['Arn']
+  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']]
+  role=role['Arn']
   print(role)
   sys.exit(0)
 
