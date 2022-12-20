@@ -30,7 +30,8 @@ if __name__ == '__main__':
   )
 
   #training dataset, S3 bucket
-  bucket = sagemaker.Session().default_bucket() 
+  sess = sagemaker.Session()
+  bucket = sess.default_bucket() 
   training_input_path  = sess.upload_data(os.path.join(os.path.dirname(__file__), TRAINSET), bucket)
 
   #run the job
