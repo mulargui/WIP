@@ -9,6 +9,7 @@ if __name__ == '__main__':
   TRAINSET = '../../data/train.csv'
 
   sess = sagemaker.Session()
+  
   #role = sagemaker.get_execution_role()
   #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
   iam = boto3.client('iam')
