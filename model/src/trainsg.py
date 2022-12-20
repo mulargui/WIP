@@ -14,7 +14,7 @@ if __name__ == '__main__':
   #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
   #role = boto3.client('iam').get_role(RoleName='AmazonSageMaker-ExecutionRole-')['Role']['Arn']
   #role = boto3.client('iam').list_roles(PathPrefix='/role/service-role/AmazonSageMaker-ExecutionRole-')
-  role = boto3.client('iam').list_roles(PathPrefix='/service-role')
+  role = boto3.client('iam').list_roles(PathPrefix='/service-role/AmazonSageMaker')
   #['Roles'][0]
   #[0]['Arn']
   print(role)
