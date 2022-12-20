@@ -21,4 +21,4 @@ if __name__ == '__main__':
 
     #endpoint creation
     model = TensorFlowModel(model_data=model_url, role=role, framework_version='2.1.0')
-    model.deploy(serverless_inference_config=serverless_config)
+    model.deploy(serverless_inference_config=serverless_config, endpoint_name='predict-forest-type')
