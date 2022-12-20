@@ -27,6 +27,7 @@ class Model:
         self.model.fit(x_train, y_train, validation_data = (x_test, y_test), epochs = epochs)
     
     #save the model
+    #sagemaker requires to have the model stored under a numeric folder. temporary hack
     def save(self, model_dir):
         self.model.save(os.path.join(model_dir, "0001"))
 

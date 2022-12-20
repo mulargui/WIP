@@ -7,10 +7,11 @@ if __name__ == '__main__':
   #filename of the train set
   TRAINSET = '../../data/train.csv'
 
-  sess = sagemaker.Session()
-  #role = sagemaker.get_execution_role()
-  role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
-
+  #role used in sagemaker
+  #role = sagemaker.get_execution_role() #this only works on Sagemaker Studio
+  rolelist = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
+  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r['RoleName']][0]['Arn']
+  
   #create the job, run in a sagemaker instance
   tf_estimator = TensorFlow(entry_point='main.py', 
     role=role,
@@ -28,6 +29,7 @@ if __name__ == '__main__':
   )
 
   #training dataset, S3 bucket
+  sess = sagemaker.Session()
   bucket = sess.default_bucket() 
   training_input_path  = sess.upload_data(os.path.join(os.path.dirname(__file__), TRAINSET), bucket)
 

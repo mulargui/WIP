@@ -4,7 +4,6 @@
 # You need to add your AWS credentials before executing this script for SGLOCAL and SG modes
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ACCOUNT_ID
 # AWS_DEFAULT_REGION, AWS_REGION
-# You also need to add your role for Sagemaker in trainsg.py line12 (sorry for not sharing mine)
 #
 
 set +x

@@ -4,8 +4,7 @@
 # You need to add your AWS credentials before executing this script for SGLOCAL and SG modes
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ACCOUNT_ID
 # AWS_DEFAULT_REGION, AWS_REGION
-# You also need to add your role for Sagemaker in main.py line7 (sorry for not sharing mine)
-# You also need to add the S3 uri to the model tarball in main.py line8
+# You also need to add the S3 uri to the model tarball in main.py line14
 #
 
 set +x
