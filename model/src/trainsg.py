@@ -22,6 +22,7 @@ if __name__ == '__main__':
     source_dir=os.path.dirname(__file__),
     hyperparameters={'epochs': 1},
     #model_dir='model-registry',
+    name='classify-forest-types',
     instance_type='ml.m5.xlarge',
     #use_spot_instances=True,        # Use spot instance
     #max_wait=60*15,                 # Max training time + spot waiting time
