@@ -14,7 +14,8 @@ if __name__ == '__main__':
   #role = 'arn:aws:iam::XXXXXXXXXX:role/service-role/AmazonSageMaker-ExecutionRole-YYYYYYYYYY'
   #role = boto3.client('iam').get_role(RoleName='AmazonSageMaker-ExecutionRole-')['Role']['Arn']
   #role = boto3.client('iam').list_roles(PathPrefix='/role/service-role/AmazonSageMaker-ExecutionRole-')
-  role = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
+  rolelist = boto3.client('iam').list_roles(PathPrefix='/service-role/')['Roles']
+  role = [r for r in rolelist if "AmazonSageMaker-ExecutionRole-" in r.RoleName]
   #[0]['Arn']
   print(role)
   sys.exit(0)
@@ -36,7 +37,7 @@ if __name__ == '__main__':
   )
 
   #training dataset, S3 bucket
-  bucket = sess.default_bucket() 
+  bucket = sagemaker.Session().default_bucket() 
   training_input_path  = sess.upload_data(os.path.join(os.path.dirname(__file__), TRAINSET), bucket)
 
   #run the job
