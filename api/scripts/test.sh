@@ -1,8 +1,6 @@
 API_URL=https://runtime.sagemaker.us-east-1.amazonaws.com/endpoints/predict-forest-type/invocations
 
 date +"%T.%3N"
-curl -i $API_URL ; echo
-date +"%T.%3N"
 curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
 { "features": { "values": [ 2507.0, 160.0, 8.0,
     0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
