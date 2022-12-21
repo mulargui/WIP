@@ -1,3 +1,5 @@
+#This doesn't work as Sagemaker doesn't allow direct requests to the endpoint
+
 API_URL=https://runtime.sagemaker.us-east-1.amazonaws.com/endpoints/predict-forest-type/invocations
 
 date +"%T.%3N"
