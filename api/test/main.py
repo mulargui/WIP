@@ -17,8 +17,9 @@ if __name__ == '__main__':
             0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     }'''
     
-    runtime = boto3.Session().client('sagemaker-runtime')
- 
+    #runtime = boto3.Session().client('sagemaker-runtime')
+r   untime = boto3.Session().client('sagemaker')
+  
     # Send request via InvokeEndpoint API
     #response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='application/json', Body=payload)
     response = runtime.describe_endpoint(EndpointName=endpoint)
