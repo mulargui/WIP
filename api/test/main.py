@@ -3,7 +3,7 @@ import boto3
 if __name__ == '__main__':
 
     endpoint = 'predict-forest-type'
-    payload = b '''{ 
+    payload = '''{ 
         "features": { 
             "values": [ 2507.0, 160.0, 8.0,
                 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
