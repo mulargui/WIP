@@ -1,35 +1,10 @@
-#This doesn't work as Sagemaker doesn't allow direct requests to the endpoint
+#install packages
+pip install -q --upgrade pip
+pip install -q --upgrade boto3
 
-API_URL=https://runtime.sagemaker.us-east-1.amazonaws.com/endpoints/predict-forest-type/invocations
+# Absolute path to this file
+SCRIPT=$(readlink -f "$0")
+export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/api\/scripts//g')
 
-date +"%T.%3N"
-curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
-{ "features": { "values": [ 2507.0, 160.0, 8.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0] }}' ; echo
-date +"%T.%3N"
-curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
-{ "features": { "values": [ 7.0, 160.0, 8.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0] }}' ; echo
-date +"%T.%3N"
-curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
-{ "features": { "values": [ 2507.0, 1.0, 8.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0] }}' ; echo
-date +"%T.%3N"
-curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
-{ "features": { "values": [ 2507.0, 160.0, 80.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0] }}' ; echo
-date +"%T.%3N"
-curl -X POST $API_URL -H 'Content-Type: application/json' --data-raw '
-{ "features": { "values": [ 7.0, 1.0, 80.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0] }}' ; echo
-date +"%T.%3N"
+#train in sagemaker
+python3 $REPOPATH/api/src/main.py

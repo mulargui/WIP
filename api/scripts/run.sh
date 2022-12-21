@@ -39,5 +39,5 @@ if [ "${TEST}" == "Y" ]; then
 	docker run -ti -v $REPOPATH:/WIP \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 		-e AWS_REGION -e AWS_DEFAULT_REGION \
-		tensorflow/tensorflow python3 /WIP/api/src/main.py
+		tensorflow/tensorflow  /bin/bash /WIP/api/scripts/test.sh
 fi
