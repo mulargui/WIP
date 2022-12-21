@@ -21,8 +21,8 @@ if __name__ == '__main__':
     runtime = boto3.Session().client('sagemaker-runtime')
   
     # Send request via InvokeEndpoint API
-    response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='application/json', Body=payload1)
-    #response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='text/csv', Body=payload3)
+    #response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='application/json', Body=payload1)
+    response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='text/csv', Body=payload3)
 
     # Unpack response
     result = json.loads(response['Body'].read().decode())
