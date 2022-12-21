@@ -4,6 +4,8 @@ import json
 if __name__ == '__main__':
 
     endpoint = 'predict-forest-type'
+
+    #amazingly only payload3 works
     payload = '''{ 
         "instances": [ 2507.0, 160.0, 8.0,
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
