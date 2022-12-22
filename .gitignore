@@ -12,4 +12,6 @@
 #not include models in model-registry
 /model-registry/*
 !model-registry/.gitkeep
+
+#not include python cache
 /__pycache__/*
