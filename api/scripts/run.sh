@@ -28,16 +28,16 @@ done
 
 #deploy the model as a sagemaker serverless endpoint
 if [ "${DEPLOY}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP \
+	docker run -ti -v $REPOPATH:/repo \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 		-e AWS_REGION -e AWS_DEFAULT_REGION \
-		tensorflow/tensorflow /bin/bash /WIP/api/scripts/deployapi.sh
+		tensorflow/tensorflow /bin/bash /repo/api/scripts/deployapi.sh
 fi
 
 #test the endpoint
 if [ "${TEST}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP \
+	docker run -ti -v $REPOPATH:/repo \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 		-e AWS_REGION -e AWS_DEFAULT_REGION \
-		tensorflow/tensorflow  /bin/bash /WIP/api/scripts/test.sh
+		tensorflow/tensorflow  /bin/bash /repo/api/scripts/test.sh
 fi

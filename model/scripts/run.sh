@@ -30,22 +30,22 @@ done
 
 #train locally
 if [ "${LOCAL}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainlocal.sh
+	docker run -ti -v $REPOPATH:/repo tensorflow/tensorflow /bin/bash /repo/model/scripts/trainlocal.sh
 fi
 
 #train locally using sagemaker
 #this part doesn't work, wip
 if [ "${SGLOCAL}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP \
+	docker run -ti -v $REPOPATH:/repo \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 		-e AWS_REGION -e AWS_DEFAULT_REGION \
-	tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainsglocal.sh
+	tensorflow/tensorflow /bin/bash /repo/model/scripts/trainsglocal.sh
 fi
 
 #train in sagemaker
 if [ "${SG}" == "Y" ]; then
-	docker run -ti -v $REPOPATH:/WIP \
+	docker run -ti -v $REPOPATH:/repo \
 		-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 		-e AWS_REGION -e AWS_DEFAULT_REGION \
-		tensorflow/tensorflow /bin/bash /WIP/model/scripts/trainsg.sh
+		tensorflow/tensorflow /bin/bash /repo/model/scripts/trainsg.sh
 fi
