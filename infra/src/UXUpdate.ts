@@ -9,7 +9,7 @@ const {
     APIGatewayClient,
     GetRestApisCommand
 } = require("@aws-sdk/client-api-gateway");
-const fs = require('fs');
+const fs = require('graceful-fs');
 const path = require('path');
 const replace = require('replace-in-file');
 

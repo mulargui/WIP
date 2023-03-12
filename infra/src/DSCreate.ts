@@ -10,7 +10,7 @@ const {
 	AuthorizeSecurityGroupIngressCommand
 } = require("@aws-sdk/client-ec2");
 const unzip = require('unzip');
-const fs = require('fs');
+const fs = require('graceful-fs');
 const exec = require('await-exec');
 
 // Set the AWS region and secrets

@@ -14,7 +14,6 @@
 		"@aws-sdk/client-api-gateway": "^3.5.0",
 		"@aws-sdk/node-http-handler": "^3.3.0",
 		"@aws-sdk/types": "^3.3.0",
-		"fstream": "^1.0.12",
 		"graceful-fs": "4.2.10",
 		"path": "^0.12.7",
 		"unzip": "^0.1.11",
