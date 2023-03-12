@@ -87,7 +87,7 @@ async function APIUpdate() {
 		// cleanup of files created	
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');
 		await fs.unlinkSync(constants.ROOT + '/api/src/constants.js');
-		await fs.rmdirSync(constants.ROOT + '/api/src/node_modules', { recursive: true });
+		await fs.rmSync(constants.ROOT + '/api/src/node_modules', { recursive: true });
 
 	} catch (err) {
 		console.log("Error. ", err);

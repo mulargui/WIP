@@ -122,7 +122,9 @@ async function UXCreate() {
 			localeId: 'en_US',
 			slotPriorities: [{priority: 0, slotId: slotid}],
 			slotName: 'DoctorName',
-			//sampleUtterances:[{utterance: "I'm searching for a doctor"}],
+			sampleUtterances:[{utterance: "Searching for a doctor"},
+				{utterance: "Looking for a doctor"},
+				{utterance: "I need a doctor"}],
 			fulfillmentCodeHook: {enabled: true}
 		}));
 		console.log("Success. Updated SearchDoctors intent.");
