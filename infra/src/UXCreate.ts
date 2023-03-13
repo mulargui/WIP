@@ -177,7 +177,7 @@ async function UXCreate() {
 			}
 		}));
 		botalias = data.botAliasId;
-		console.log(data);
+		console.log(JSON.stringify(data));
 
 		while(true) {
 			data = await lexclient.send(new DescribeBotAliasCommand({botId: botid, botAliasId: botalias}));
