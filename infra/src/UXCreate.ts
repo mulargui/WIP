@@ -156,7 +156,7 @@ async function UXCreate() {
 		botversion = data.botVersion;
 		console.log("Success. Created a version of the healthylinkx-bot.");
 		
-/* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
+// THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
 		//create an alias of the bot
 		data = await lexclient.send(new CreateBotAliasCommand({
@@ -177,6 +177,7 @@ async function UXCreate() {
 			}
 		}));
 		botalias = data.botAliasId;
+		console.log(data);
 
 		while(true) {
 			data = await lexclient.send(new DescribeBotAliasCommand({botId: botid, botAliasId: botalias}));
@@ -185,7 +186,7 @@ async function UXCreate() {
 			await sleep(10);
 		}
 		console.log("Success. Created an alias to the healthylinkx-bot.");
-*/
+//
 	} catch (err) {
 		console.log("Error. ", err);
 	}
