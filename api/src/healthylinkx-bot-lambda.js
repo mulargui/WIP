@@ -22,7 +22,7 @@ function ServerReply (code, event){
             //content: 'original event: ' + JSON.stringify(event) + '#end'
             content: 'intent: ' +  event.interpretations[0].intent.name
                 + ' slot: ' +  Object.keys(event.interpretations[0].intent.slots)[0]
-                + ' value: ' +  JSON.stringify(Object.values(event.interpretations[0].intent.slots)[0]) + '#end'
+                + ' value: ' +  JSON.stringify(Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue) + '#end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
