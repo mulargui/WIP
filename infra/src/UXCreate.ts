@@ -157,23 +157,19 @@ async function UXCreate() {
 			botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
 		}));
 		botversion = data.botVersion;
-		console.log(JSON.stringify({
-			botId: botid,
-			botVersion: botversion
-		}))
-		await sleep(10);
 
 		while(true) {
+			await sleep(10);
 			data = await lexclient.send(new DescribeBotVersionCommand({
 				botId: botid,
 				botVersion: botversion
 			}));
 			if (data.botStatus  ===  'Available') break;
 			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
-			await sleep(10);
 		}
+		console.log("Success. healthylinkx-bot version available.");
 		
-/* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
+// THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
 		//create an alias of the bot
 		data = await lexclient.send(new CreateBotAliasCommand({
@@ -197,13 +193,14 @@ async function UXCreate() {
 		console.log(JSON.stringify(data));
 
 		while(true) {
+			await sleep(10);
 			data = await lexclient.send(new DescribeBotAliasCommand({botId: botid, botAliasId: botalias}));
 			if (data.botStatus  === 'Available') break;
 			console.log("Waiting. healthylinkx-bot alias " + data.botStatus);
-			await sleep(10);
+			console.log(JSON.stringify(data));
 		}
 		console.log("Success. Created an alias to the healthylinkx-bot.");
-*/
+
 	} catch (err) {
 		console.log("Error. ", err);
 	}
