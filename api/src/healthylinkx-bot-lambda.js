@@ -21,7 +21,7 @@ function ServerReply (code, event){
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event) + '#end'
             //content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent.intent.name)
-            content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent)
+            content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent.slots)
             //    + ' value: ' + JSON.stringify(event.interpretations[0].intent.intent.slots) + '#end'
         }],
         sessionId: event.sessionId,
