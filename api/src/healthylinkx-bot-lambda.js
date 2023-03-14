@@ -20,8 +20,9 @@ function ServerReply (code, event){
         messages: [{
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event) + '#end'
-            content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent.intent.name)
-                + ' value: ' + JSON.stringify(event.interpretations[0].intent.intent.slots) + '#end'
+            //content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent.intent.name)
+            content: 'intent: ' +  JSON.stringify(event.interpretations[0].intent)
+            //    + ' value: ' + JSON.stringify(event.interpretations[0].intent.intent.slots) + '#end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
