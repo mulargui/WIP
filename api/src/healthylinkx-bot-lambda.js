@@ -21,8 +21,8 @@ function ServerReply (code, event){
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event) + '#end'
             content: 'intent: ' +  event.interpretations[0].intent.name
-                + ' slot: ' +  JSON.stringify(Object.keys(event.interpretations[0].intent.slots)[0])
-                //+ ' value: ' + JSON.stringify(event.interpretations[0].intent.intent.slots) + '#end'
+                + ' slot: ' +  Object.keys(event.interpretations[0].intent.slots)[0]
+                + ' value: ' +  JSON.stringify(Object.values(event.interpretations[0].intent.slots)[0]) + '#end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
