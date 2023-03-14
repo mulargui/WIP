@@ -9,7 +9,7 @@ const AWS_ACCOUNT_ID='1234567890'
 const AWS_REGION=AWS_DEFAULT_REGION
 
 //repo location
-const ROOT='/home/cloudshell-user/healthylinkx-serverless-node'
+const ROOT='/healthylinkx-lex'
 
 //datastore user
 const DBUSER='user'

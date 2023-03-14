@@ -40,7 +40,8 @@ async function UXCreate() {
 	try {
 			
 		//create a role to call the lambda
-		const iamclient = new IAMClient(config);
+		//const iamclient = new IAMClient(config);
+		const iamclient = new IAMClient({});
 		var data = await iamclient.send(new CreateServiceLinkedRoleCommand({AWSServiceName: 'lex.amazonaws.com'}));
 		const iamrolearn = data.Role.Arn;
 		console.log("Success. healthylinkx-bot IAM role created.");
@@ -151,12 +152,16 @@ async function UXCreate() {
 		console.log("Success. healthylinkx-bot available.");
 
 		//create a version of the bot
-		/*
 		data = await lexclient.send(new CreateBotVersionCommand({
 			botId: botid,
 			botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
 		}));
 		botversion = data.botVersion;
+		console.log(JSON.stringify({
+			botId: botid,
+			botVersion: botversion
+		}))
+		await sleep(10);
 
 		while(true) {
 			data = await lexclient.send(new DescribeBotVersionCommand({
@@ -166,17 +171,7 @@ async function UXCreate() {
 			if (data.botStatus  ===  'Available') break;
 			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
 			await sleep(10);
-		}*/
-		while(true) {
-			data = await lexclient.send(new CreateBotVersionCommand({
-				botId: botid,
-				botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
-			}));
-			if (data.botStatus  ===  'Available') break;
-			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
-			await sleep(10);
 		}
-		console.log("Success. Created a version of the healthylinkx-bot.");
 		
 /* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
