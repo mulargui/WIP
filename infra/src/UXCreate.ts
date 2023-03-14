@@ -89,7 +89,11 @@ async function UXCreate() {
 			botId: botid,
 			botVersion: 'DRAFT',
 			localeId: 'en_US',
-			intentName: 'SearchDoctors'
+			intentName: 'SearchDoctors',
+			fulfillmentCodeHook: {
+				active: true,
+				enabled: true
+			}
 		}));
 		const intentid = data.intentId;
 		console.log("Success. SearchDoctors intent added to healthylinkx-bot.");
@@ -156,7 +160,7 @@ async function UXCreate() {
 		botversion = data.botVersion;
 		console.log("Success. Created a version of the healthylinkx-bot.");
 		
-// THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
+/* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
 		//create an alias of the bot
 		data = await lexclient.send(new CreateBotAliasCommand({
@@ -186,7 +190,7 @@ async function UXCreate() {
 			await sleep(10);
 		}
 		console.log("Success. Created an alias to the healthylinkx-bot.");
-//
+*/
 	} catch (err) {
 		console.log("Error. ", err);
 	}
