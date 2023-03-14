@@ -195,11 +195,11 @@ async function UXCreate() {
 		while(true) {
 			await sleep(10);
 			data = await lexclient.send(new DescribeBotAliasCommand({botId: botid, botAliasId: botalias}));
-			if (data.botStatus  === 'Available') break;
-			console.log("Waiting. healthylinkx-bot alias " + data.botStatus);
+			if (data.botAliasStatus  === 'Available') break;
+			console.log("Waiting. healthylinkx-bot alias " + data.botAliasStatus);
 			console.log(JSON.stringify(data));
 		}
-		console.log("Success. Created an alias to the healthylinkx-bot.");
+		console.log("Success. healthylinkx-bot alias available.");
 
 	} catch (err) {
 		console.log("Error. ", err);
