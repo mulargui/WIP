@@ -158,6 +158,7 @@ async function UXCreate() {
 		}));
 		botversion = data.botVersion;
 		console.log("Success. Created a version of the healthylinkx-bot.");
+		console.log(JSON.stringify(data));
 		
 /* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
