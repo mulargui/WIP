@@ -126,10 +126,10 @@ async function UXCreate() {
 				{utterance: "Looking for a doctor"},
 				{utterance: "I need a doctor"}],
 			fulfillmentCodeHook: {
-					active: true,
-					enabled: true
-				}
-			}));
+				active: true,
+				enabled: true
+			}
+		}));
 		console.log("Success. Updated SearchDoctors intent.");
 
 		//build the chatbot
@@ -157,8 +157,17 @@ async function UXCreate() {
 			botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
 		}));
 		botversion = data.botVersion;
+
+		while(true) {
+			data = await lexclient.send(new DescribeBotVersionCommand({
+				botId: botid,
+				botVersion: botversion
+			}));
+			if (data.botStatus  ===  'Available') break;
+			console.log("Waiting. healthylinkx-bot alias " + data.botStatus);
+			await sleep(10);
+		}
 		console.log("Success. Created a version of the healthylinkx-bot.");
-		console.log(JSON.stringify(data));
 		
 /* THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
 
