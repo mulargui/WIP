@@ -89,11 +89,7 @@ async function UXCreate() {
 			botId: botid,
 			botVersion: 'DRAFT',
 			localeId: 'en_US',
-			intentName: 'SearchDoctors',
-			fulfillmentCodeHook: {
-				active: true,
-				enabled: true
-			}
+			intentName: 'SearchDoctors'
 		}));
 		const intentid = data.intentId;
 		console.log("Success. SearchDoctors intent added to healthylinkx-bot.");
@@ -129,8 +125,11 @@ async function UXCreate() {
 			sampleUtterances:[{utterance: "Searching for a doctor"},
 				{utterance: "Looking for a doctor"},
 				{utterance: "I need a doctor"}],
-			fulfillmentCodeHook: {enabled: true}
-		}));
+			fulfillmentCodeHook: {
+					active: true,
+					enabled: true
+				}
+			}));
 		console.log("Success. Updated SearchDoctors intent.");
 
 		//build the chatbot
