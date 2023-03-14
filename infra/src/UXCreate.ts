@@ -55,7 +55,6 @@ async function UXCreate() {
 		}));
 		const botid = data.botId;
 
-		//wait till the chatbot is created
 		while(true) {
 			data = await lexclient.send(new DescribeBotCommand({botId: botid}));
 			if (data.botStatus  === 'Available') break;
@@ -152,6 +151,7 @@ async function UXCreate() {
 		console.log("Success. healthylinkx-bot available.");
 
 		//create a version of the bot
+		/*
 		data = await lexclient.send(new CreateBotVersionCommand({
 			botId: botid,
 			botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
@@ -164,7 +164,16 @@ async function UXCreate() {
 				botVersion: botversion
 			}));
 			if (data.botStatus  ===  'Available') break;
-			console.log("Waiting. healthylinkx-bot alias " + data.botStatus);
+			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
+			await sleep(10);
+		}*/
+		while(true) {
+			data = await lexclient.send(new CreateBotVersionCommand({
+				botId: botid,
+				botVersionLocaleSpecification: {en_US: {sourceBotVersion: 'DRAFT'}}
+			}));
+			if (data.botStatus  ===  'Available') break;
+			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
 			await sleep(10);
 		}
 		console.log("Success. Created a version of the healthylinkx-bot.");
