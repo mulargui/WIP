@@ -92,7 +92,7 @@ async function UXCreate() {
 			intentName: 'SearchDoctors'
 		}));
 		const intentid = data.intentId;
-		console.log("Success. SearchDoctors intent added to healthylinkx-bot.");
+		console.log("Success. healthylinkx-bot SearchDoctors intent added.");
 
 		//add slots to the intent (lastname)
 		data = await lexclient.send(new CreateSlotCommand({
@@ -111,7 +111,7 @@ async function UXCreate() {
 			}
 		}));
 		slotid = data.slotId;
-		console.log("Success. LastName slot added to healthylinkx-bot.");		
+		console.log("Success. healthylinkx-bot LastName slot added.");		
 
 		//add priorities and other properties to the intent
 		await lexclient.send(new UpdateIntentCommand({
@@ -130,7 +130,7 @@ async function UXCreate() {
 				enabled: true
 			}
 		}));
-		console.log("Success. Updated SearchDoctors intent.");
+		console.log("Success. healthylinkx-bot updated SearchDoctors intent.");
 
 		//build the chatbot
 		await lexclient.send(new BuildBotLocaleCommand({
@@ -149,7 +149,7 @@ async function UXCreate() {
 			console.log("Waiting. healthylinkx-bot " + data.botLocaleStatus);
 			await sleep(10);
 		}
-		console.log("Success. healthylinkx-bot available.");
+		console.log("Success. healthylinkx-bot built.");
 
 		//create a version of the bot
 		data = await lexclient.send(new CreateBotVersionCommand({
@@ -168,10 +168,8 @@ async function UXCreate() {
 			console.log("Waiting. healthylinkx-bot version " + data.botStatus);
 		}
 		console.log("Success. healthylinkx-bot version available.");
-		
-// THIS PART DOESN'T WORK, MOVING TO DO IT MANUALLY AND REVISIT AT A LATER TIME 
-
-		//create an alias of the bot
+	
+		//create an alias of the bot and associate the lambda
 		data = await lexclient.send(new CreateBotAliasCommand({
 			botId: botid,
 			botVersion: botversion,
