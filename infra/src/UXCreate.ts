@@ -112,8 +112,10 @@ async function UXCreate() {
 		}));
 		nameslotid = data.slotId;
 		console.log("Success. healthylinkx-bot LastName slot added.");		
-
-	//add slot to the intent (zipcode)
+		console.log(JSON.stringify(data));
+		await sleep(10);
+		
+		//add slot to the intent (zipcode)
 		data = await lexclient.send(new CreateSlotCommand({
 			botId: botid,
 			botVersion: 'DRAFT',
