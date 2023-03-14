@@ -94,7 +94,7 @@ async function UXCreate() {
 		const intentid = data.intentId;
 		console.log("Success. healthylinkx-bot SearchDoctors intent added.");
 
-		//add slots to the intent (lastname)
+		//add slot to the intent (lastname)
 		data = await lexclient.send(new CreateSlotCommand({
 			botId: botid,
 			botVersion: 'DRAFT',
@@ -110,8 +110,27 @@ async function UXCreate() {
 				}
 			}
 		}));
-		slotid = data.slotId;
+		nameslotid = data.slotId;
 		console.log("Success. healthylinkx-bot LastName slot added.");		
+
+	//add slot to the intent (zipcode)
+		data = await lexclient.send(new CreateSlotCommand({
+			botId: botid,
+			botVersion: 'DRAFT',
+			intentId: intentid,
+			localeId: 'en_US',
+			slotName: 'ZipCode',
+			slotTypeId: 'AMAZON.NUMBER',
+			valueElicitationSetting: {
+				slotConstraint: 'Required',
+				promptSpecification: {
+					maxRetries: 2, 
+					messageGroups: [{message: {plainTextMessage:{value:'Which zipcode do you reside in?'}}}]
+				}
+			}
+		}));
+		zipcodeslotid = data.slotId;
+		console.log("Success. healthylinkx-bot ZipCode slot added.");		
 
 		//add priorities and other properties to the intent
 		await lexclient.send(new UpdateIntentCommand({
@@ -120,8 +139,8 @@ async function UXCreate() {
 			intentId: intentid,
 			intentName: 'SearchDoctors',
 			localeId: 'en_US',
-			slotPriorities: [{priority: 0, slotId: slotid}],
-			slotName: 'DoctorName',
+			slotPriorities: [{priority: 0, slotId: nameslotid}, 
+				{priority: 1, slotId: zipcodeslotid}],
 			sampleUtterances:[{utterance: "Searching for a doctor"},
 				{utterance: "Looking for a doctor"},
 				{utterance: "I need a doctor"}],

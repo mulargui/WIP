@@ -1,6 +1,5 @@
 const UXCreate = require('./UXCreate.ts');
 const UXDelete = require('./UXDelete.ts');
-const UXUpdate = require('./UXUpdate.ts');
 const DSCreate = require('./DSCreate.ts');
 const DSDelete = require('./DSDelete.ts');
 const APICreate = require('./APICreate.ts');
@@ -65,7 +64,8 @@ async function main () {
 			break;
 		case 'update':
 		case 'u':
-			UXUpdate();
+			UXDelete();
+			UXCreate();
 			break;
 		default:
 			usage();
