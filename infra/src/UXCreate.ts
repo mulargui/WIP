@@ -101,7 +101,7 @@ async function UXCreate() {
 			intentId: intentid,
 			localeId: 'en_US',
 			slotName: 'ZipCode',
-			slotTypeId: 'AMAZON.NUMBER',
+			slotTypeId: 'AMAZON.LastName',
 			valueElicitationSetting: {
 				slotConstraint: 'Required',
 				promptSpecification: {
