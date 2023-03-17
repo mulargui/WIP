@@ -207,16 +207,15 @@ async function UXCreate() {
 			}
 		}));
 		botalias = data.botAliasId;
-		console.log(JSON.stringify(data));
 
 		while(true) {
 			await sleep(10);
 			data = await lexclient.send(new DescribeBotAliasCommand({botId: botid, botAliasId: botalias}));
 			if (data.botAliasStatus  === 'Available') break;
 			console.log("Waiting. healthylinkx-bot alias " + data.botAliasStatus);
-			console.log(JSON.stringify(data));
 		}
 		console.log("Success. healthylinkx-bot alias available.");
+		console.log("All done!");
 
 	} catch (err) {
 		console.log("Error. ", err);
