@@ -132,6 +132,25 @@ async function UXCreate() {
 		zipcodeslotid = data.slotId;
 		console.log("Success. healthylinkx-bot ZipCode slot added.");		
 
+		//add a slot to the intent (gender)
+		data = await lexclient.send(new CreateSlotCommand({
+			botId: botid,
+			botVersion: 'DRAFT',
+			intentId: intentid,
+			localeId: 'en_US',
+			slotName: 'Gender',
+			slotTypeId: 'AMAZON.AlphaNumeric',
+			valueElicitationSetting: {
+				slotConstraint: 'Required',
+				promptSpecification: {
+					maxRetries: 2, 
+					messageGroups: [{message: {plainTextMessage:{value:'Any gender preference (male/female)?'}}}]
+				}
+			}
+		}));
+		genderslotid = data.slotId;
+		console.log("Success. healthylinkx-bot gender slot added.");		
+
 		//add priorities and other properties to the intent
 		await lexclient.send(new UpdateIntentCommand({
 			botId: botid,
@@ -140,7 +159,8 @@ async function UXCreate() {
 			intentName: 'SearchDoctors',
 			localeId: 'en_US',
 			slotPriorities: [{priority: 0, slotId: nameslotid}, 
-				{priority: 1, slotId: zipcodeslotid}],
+				{priority: 1, slotId: zipcodeslotid},
+				{priority: 2, slotId: genderslotid}],
 			sampleUtterances:[{utterance: "Searching for a doctor"},
 				{utterance: "Looking for a doctor"},
 				{utterance: "I need a doctor"}],

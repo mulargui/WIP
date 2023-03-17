@@ -25,7 +25,9 @@ function ServerReply (code, event){
                 + ' value: ' +  Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue 
                 + ' slot: ' +  Object.keys(event.interpretations[0].intent.slots)[1]
                 + ' value: ' +  Object.values(event.interpretations[0].intent.slots)[1].value.interpretedValue 
-                + ' status: ' +  event.interpretations[0].intent.state
+                + ' slot: ' +  Object.keys(event.interpretations[0].intent.slots)[2]
+                + ' value: ' +  Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue 
+                 + ' status: ' +  event.interpretations[0].intent.state
                 + ' #end'
         }],
         sessionId: event.sessionId,
