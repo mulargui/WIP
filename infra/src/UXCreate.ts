@@ -112,6 +112,7 @@ async function UXCreate() {
 		}));
 		zipcodeslotid = data.slotId;
 		console.log("Success. healthylinkx-bot ZipCode slot added.");		
+		console.log(JSON.stringify(data));
 		await sleep(10);
 
 		//add a slot to the intent (lastname)
