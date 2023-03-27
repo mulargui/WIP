@@ -28,14 +28,20 @@ function ServerReply (code, event, result){
 }
 
 function SearchDoctors (event){
-    return ServerReply (200, event, {"slots":[
+    /*return ServerReply (200, event, {"slots":[
         {"attr": Object.keys(event.interpretations[0].intent.slots)[0],
             "value": Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue},
         {"attr": Object.keys(event.interpretations[0].intent.slots)[1],
             "value": Object.values(event.interpretations[0].intent.slots)[1].value.interpretedValue},
         {"attr": Object.keys(event.interpretations[0].intent.slots)[2],
             "value": Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue}
-    ]});
+    ]});*/
+    //numberofslots = Object.keys(event.interpretations[0].intent.slots).length;
+    result = '';
+    for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
+        result += `${key}: ${value.interpretedValue}`;
+    }
+    return ServerReply (200, event, {"slots": result});
 }
 
 exports.handler = async (event) => {
