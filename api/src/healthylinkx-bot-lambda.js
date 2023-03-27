@@ -26,6 +26,7 @@ function ServerReply (code, event, result){
 }
 
 function SearchDoctorsIntent (event){
+    var DoctorName, ZipCode, Gender;
     for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
         switch(key){
             case 'DoctorName':
@@ -41,7 +42,7 @@ function SearchDoctorsIntent (event){
                 return ServerReply(204, event);
         }
     }
-    ret = SearchDoctors(DoctorName, ZipCode, Gender);
+    var ret = SearchDoctors(DoctorName, ZipCode, Gender);
     return ServerReply(200, event, ret);
 }
 
