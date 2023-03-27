@@ -49,7 +49,7 @@ async function CreateLambda(name)
 			Runtime: 'nodejs12.x',
 			Description: name + ' lambda'
 		};
-		const lambda = new LambdaClient({}});				
+		const lambda = new LambdaClient({});				
 		var data = await lambda.send(new CreateFunctionCommand(params));
 		FunctionArn = data.FunctionArn;
 		console.log('Success. ' + name + ' lambda created.');
