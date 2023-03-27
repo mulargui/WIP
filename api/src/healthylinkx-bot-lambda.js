@@ -27,7 +27,7 @@ function ServerReply (code, event, result){
     };
 }
 
-function SearchDoctors (event){
+function SearchDoctorsIntent (event){
     /*return ServerReply (200, event, {"slots":[
         {"attr": Object.keys(event.interpretations[0].intent.slots)[0],
             "value": Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue},
@@ -36,12 +36,27 @@ function SearchDoctors (event){
         {"attr": Object.keys(event.interpretations[0].intent.slots)[2],
             "value": Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue}
     ]});*/
-    //numberofslots = Object.keys(event.interpretations[0].intent.slots).length;
-    result = '';
+
     for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
-        result += `${key}: ${value.value.interpretedValue}`;
+        switch(key){
+            case 'DoctorName':
+                DoctorName = value.value.interpretedValue;
+                break;
+            case 'ZipCode':
+                ZipCode = value.value.interpretedValue;
+                break;
+            case 'Gender':
+                Gender = value.value.interpretedValue;
+                break;
+            default:
+                return ServerReply (204, event);
+        }
     }
-    return ServerReply (200, event, {"slots": result});
+    return ServerReply (200, event, {"slots": {
+        "DoctorName": DoctorName,
+        "ZipCode": ZipCode,
+        "Gender": Gender
+    }});
 }
 
 exports.handler = async (event) => {
@@ -58,5 +73,5 @@ exports.handler = async (event) => {
     if (event.interpretations[0].intent.name !== 'SearchDoctors')
         return ServerReply (204, event);
 
-	return SearchDoctors (event);
+	return SearchDoctorsIntent (event);
 }; 
