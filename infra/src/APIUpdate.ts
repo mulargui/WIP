@@ -12,13 +12,6 @@ const exec = require('await-exec');
 const AdmZip = require('adm-zip');
 const replace = require('replace-in-file');
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -44,7 +37,7 @@ async function UpdateLambda(name)
 			ZipFile: filecontent,
 			FunctionName: name
 		};
-		const lambda = new LambdaClient(config);				
+		const lambda = new LambdaClient({});				
 		var data = await lambda.send(new UpdateFunctionCodeCommand(params));
 		console.log('Success. ' + name + ' lambda updated.');
 		

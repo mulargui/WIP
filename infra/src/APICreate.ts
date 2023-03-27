@@ -45,7 +45,7 @@ async function CreateLambda(name)
 			},
 			FunctionName: name,
 			Handler: name + '.handler',
-			Role: 'arn:aws:iam::' + constants.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
+			Role: 'arn:aws:iam::' + process.env.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
 			Runtime: 'nodejs12.x',
 			Description: name + ' lambda'
 		};
@@ -62,8 +62,8 @@ async function CreateLambda(name)
 			Action: 'lambda:InvokeFunction',
 			FunctionName: name,
 			Principal: 'lex.amazonaws.com',
-			//SourceArn: 'arn:aws:lex:' + constants.AWS_REGION + ':'+ constants.AWS_ACCOUNT_ID + ':intent:SearchDoctors:*',
-			SourceArn: 'arn:aws:lex:' + constants.AWS_REGION + ':'+ constants.AWS_ACCOUNT_ID + ':bot-alias/*',
+			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':intent:SearchDoctors:*',
+			SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':bot-alias/*',
 			StatementId: 'AllowLexAccess'
 		}));
 		console.log('Success. Allowed lex to access the lambda');
