@@ -19,38 +19,38 @@ function ServerReply (code, event, result){
         },
         messages: [{
             contentType: 'PlainText',
-            //content: 'original event: ' + JSON.stringify(event) + ' #end'
-            content: 'results: ' + JSON.stringify(result) + ' #end'
+            content: 'original event: ' + JSON.stringify(event) + ' #end' +
+                'results: ' + JSON.stringify(result) + ' #end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
     };
 }
 
-function SearchDoctors (event, slots){
-    return ServerReply (200, event, slots);
+function SearchDoctors (event){
+    return ServerReply (200, event, {"slots":[
+        {"attr": Object.keys(event.interpretations[0].intent.slots)[0],
+            "value": Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue},
+        {"attr": Object.keys(event.interpretations[0].intent.slots)[1],
+            "value": Object.values(event.interpretations[0].intent.slots)[1].value.interpretedValue},
+        {"attr": Object.keys(event.interpretations[0].intent.slots)[2],
+            "value": Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue}
+    ]});
 }
 
 exports.handler = async (event) => {
 	
 	if (!event)
-		return ServerReply (204, event);
+		return ServerReply (204);
 
 	if (event.invocationSource !== 'FulfillmentCodeHook')
-		return ServerReply (204, event);
+        return ServerReply (204, event);
 
     if (event.interpretations[0].intent.state !== 'ReadyForFulfillment')
-		return ServerReply (204, event);
+        return ServerReply (204, event);
 
     if (event.interpretations[0].intent.name !== 'SearchDoctors')
-		return ServerReply (204, event);
+        return ServerReply (204, event);
 
-	return SearchDoctors (event, {"slots":[
-            {"attr": Object.keys(event.interpretations[0].intent.slots)[0],
-                "value": Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue},
-            {"attr": Object.keys(event.interpretations[0].intent.slots)[1],
-                "value": Object.values(event.interpretations[0].intent.slots)[1].value.interpretedValue},
-            {"attr": Object.keys(event.interpretations[0].intent.slots)[2],
-                "value": Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue}
-        ]});
+	return SearchDoctors (event);
 }; 

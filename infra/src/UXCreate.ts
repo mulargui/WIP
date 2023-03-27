@@ -47,7 +47,8 @@ async function UXCreate() {
 		console.log("Success. healthylinkx-bot IAM role created.");
 		
 		//create the chatbot
-		const lexclient = new LexModelsV2Client(config);
+		//const lexclient = new LexModelsV2Client(config);
+		const lexclient = new LexModelsV2Client({});
 		data = await lexclient.send(new CreateBotCommand({
 			botName: 'healthylinkx-bot',
 			idleSessionTTLInSeconds:600,
