@@ -1,4 +1,4 @@
-const constants = require('./envparams.ts');
+
 const {
 	LexModelsV2Client,
 	CreateBotCommand,
