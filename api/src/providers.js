@@ -29,7 +29,7 @@ export.SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
 	query += ") limit 10";
 
-	return {"code": 200, "text": query};
+	return {"code": 200, "text": "${query}"};
 
 	/*try {
 		const [rows,fields] = await db.query(query);
