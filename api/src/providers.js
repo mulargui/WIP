@@ -17,16 +17,16 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  	var query = "SELECT NPI,Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
  	if(DoctorName)
  		query += "(Provider_Last_Name_Legal_Name = '" + DoctorName + "')";
- 	if(gender)
+ 	if(Gender)
  		if(DoctorName)
  			query += " AND (Provider_Gender_Code = '" + Gender + "')";
  		else
  			query += "(Provider_Gender_Code = '" + Gender + "')";
  	if(ZipCode)
  		if(DoctorName || Gender)
- 			query += " AND (Provider_Short_Postal_Code = '"+ zipcode + "')";
+ 			query += " AND (Provider_Short_Postal_Code = '"+ ZipCode + "')";
  		else
- 			query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
+ 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
 	return {"code": 200, "text": "${query}"};
