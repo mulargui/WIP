@@ -1,6 +1,4 @@
-const constants = require("./constants.js");
-const mysql = require('mysql2/promise');
-const axios = require('axios');
+const constants = require("./providers.js");
 
 function ServerReply (code, event, result){
 	
@@ -19,8 +17,8 @@ function ServerReply (code, event, result){
         },
         messages: [{
             contentType: 'PlainText',
-            content: 'original event: ' + JSON.stringify(event) + ' #end' +
-                'results: ' + JSON.stringify(result) + ' #end'
+            //content: 'original event: ' + JSON.stringify(event) + ' #end' +
+            content:    'results: ' + result + ' #end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
@@ -28,15 +26,6 @@ function ServerReply (code, event, result){
 }
 
 function SearchDoctorsIntent (event){
-    /*return ServerReply (200, event, {"slots":[
-        {"attr": Object.keys(event.interpretations[0].intent.slots)[0],
-            "value": Object.values(event.interpretations[0].intent.slots)[0].value.interpretedValue},
-        {"attr": Object.keys(event.interpretations[0].intent.slots)[1],
-            "value": Object.values(event.interpretations[0].intent.slots)[1].value.interpretedValue},
-        {"attr": Object.keys(event.interpretations[0].intent.slots)[2],
-            "value": Object.values(event.interpretations[0].intent.slots)[2].value.interpretedValue}
-    ]});*/
-
     for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
         switch(key){
             case 'DoctorName':
@@ -49,29 +38,26 @@ function SearchDoctorsIntent (event){
                 Gender = value.value.interpretedValue;
                 break;
             default:
-                return ServerReply (204, event);
+                return ServerReply(204, event);
         }
     }
-    return ServerReply (200, event, {"slots": {
-        "DoctorName": DoctorName,
-        "ZipCode": ZipCode,
-        "Gender": Gender
-    }});
+    ret = SearchDoctors(DoctorName, ZipCode, Gender);
+    return ServerReply(ret.code, event, ret.text);
 }
 
 exports.handler = async (event) => {
 	
 	if (!event)
-		return ServerReply (204);
+		return ServerReply(204);
 
 	if (event.invocationSource !== 'FulfillmentCodeHook')
-        return ServerReply (204, event);
+        return ServerReply(204, event);
 
     if (event.interpretations[0].intent.state !== 'ReadyForFulfillment')
-        return ServerReply (204, event);
+        return ServerReply(204, event);
 
     if (event.interpretations[0].intent.name !== 'SearchDoctors')
-        return ServerReply (204, event);
+        return ServerReply(204, event);
 
-	return SearchDoctorsIntent (event);
+	return SearchDoctorsIntent(event);
 }; 
