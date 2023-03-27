@@ -81,7 +81,7 @@ async function APICreate() {
 
 	try {
 		//create a IAM role under which the lambdas will run
-		const iamclient = new IAMClient({}});
+		const iamclient = new IAMClient({});
 		const roleparams = {
 			AssumeRolePolicyDocument: '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}',
 			RoleName: 'healthylinkx-lambda'
