@@ -23,7 +23,7 @@ async function DSCreate() {
 
 	try {
 		//In order to have public access to the DB
-		//we need to create a security group (aka firewall)with an inbound rule 
+		//we need to create a security group (aka firewall) with an inbound rule 
 		//protocol:TCP, Port:3306, Source: Anywhere (0.0.0.0/0)
 		const ec2client = new EC2Client({});
 		
