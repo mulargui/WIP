@@ -39,7 +39,7 @@ function SearchDoctors (event){
     //numberofslots = Object.keys(event.interpretations[0].intent.slots).length;
     result = '';
     for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
-        result += `${key}: ${value}`;
+        result += `${key}: ${JSON.stringify(value)}`;
     }
     return ServerReply (200, event, {"slots": result});
 }
