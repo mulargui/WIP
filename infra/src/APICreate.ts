@@ -37,6 +37,7 @@ async function CreateLambda(name)
 		//create the package
 		const file = new AdmZip();	
 		file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
+		file.addLocalFile(constants.ROOT+'/api/src/providers.js');
 		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
@@ -108,8 +109,8 @@ async function APICreate() {
 		fs.copyFileSync(constants.ROOT+'/api/src/constants.template.js', constants.ROOT+'/api/src/constants.js');
 		const options = {
 			files: constants.ROOT+'/api/src/constants.js',
-			from: ['ENDPOINT', 'DBUSER', 'DBPWD', 'ZIPCODEAPI', 'ZIPCODETOKEN'],
-			to: [endpoint, constants.DBUSER, constants.DBPWD, constants.ZIPCODEAPI, constants.ZIPCODETOKEN]
+			from: ['ENDPOINT', 'DBUSER', 'DBPWD'],
+			to: [endpoint, constants.DBUSER, constants.DBPWD]
 		};
 		await replace(options);
 		console.log("Success. Constants updated.");

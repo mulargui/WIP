@@ -1,12 +1,12 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
-
+/*
 var db = mysql.createPool({
 	host:constants.host,
 	user:constants.user,
 	password:constants.password,
 	database:constants.database
-});
+});*/
 
 export.SearchDoctors(DoctorName, ZipCode, Gender)
 {	
@@ -31,10 +31,10 @@ export.SearchDoctors(DoctorName, ZipCode, Gender)
 
 	return {"code": 200, "text": query};
 
-	try {
+	/*try {
 		const [rows,fields] = await db.query(query);
 		return {"code": 200, "text": rows};
 	} catch(err) {
 		return {"code": 500, "text": "error: ${query}  ${err}"};
-	}
+	}*/
 }; 
