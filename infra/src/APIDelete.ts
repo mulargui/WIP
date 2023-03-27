@@ -1,4 +1,3 @@
-const constants = require('./envparams.ts');
 const { 
 	IAMClient, 
 	DeleteRoleCommand 
@@ -7,13 +6,6 @@ const {
     LambdaClient,
     DeleteFunctionCommand
 } = require("@aws-sdk/client-lambda");
-
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
 
 //lamdba node dependencies
 const nodedependencies = 'mysql2 axios';
@@ -28,12 +20,12 @@ async function APIDelete() {
 
 	try {
 		//delete the lambdas
-		const lambda = new LambdaClient(config);		
+		const lambda = new LambdaClient({});		
 		await lambda.send(new DeleteFunctionCommand({FunctionName: 'healthylinkx-bot-lambda'}));
 		console.log("Success. healthylinkx-bot-lambda lambda deleted.");
 
 		//delete the IAM role
-		const iamclient = new IAMClient(config);
+		const iamclient = new IAMClient({});
 		await iamclient.send(new DeleteRoleCommand({RoleName: 'healthylinkx-lambda'}));
 		console.log("Success. Lambda role deleted.");
 	

@@ -18,13 +18,6 @@ const exec = require('await-exec');
 const AdmZip = require('adm-zip');
 const replace = require('replace-in-file');
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -56,7 +49,7 @@ async function CreateLambda(name)
 			Runtime: 'nodejs12.x',
 			Description: name + ' lambda'
 		};
-		const lambda = new LambdaClient(config);				
+		const lambda = new LambdaClient({}});				
 		var data = await lambda.send(new CreateFunctionCommand(params));
 		FunctionArn = data.FunctionArn;
 		console.log('Success. ' + name + ' lambda created.');
@@ -88,7 +81,7 @@ async function APICreate() {
 
 	try {
 		//create a IAM role under which the lambdas will run
-		const iamclient = new IAMClient(config);
+		const iamclient = new IAMClient({}});
 		const roleparams = {
 			AssumeRolePolicyDocument: '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}',
 			RoleName: 'healthylinkx-lambda'

@@ -1,4 +1,4 @@
-const constants = require('./envparams.ts');
+
 const {
 	LexModelsV2Client,
 	DeleteBotCommand,
@@ -9,18 +9,11 @@ const {
 	DeleteServiceLinkedRoleCommand 
 } = require("@aws-sdk/client-iam");
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ====== delete the chatbot and resources =====
 async function UXDelete() {
   
 	try {
-		const lexclient = new LexModelsV2Client(config);
+		const lexclient = new LexModelsV2Client({});
 		
 		//find the chatbot by name
 		var data = await lexclient.send(new ListBotsCommand({filters: [{name: 'BotName', operator: 'EQ', values: ['healthylinkx-bot']}]}));
@@ -31,7 +24,7 @@ async function UXDelete() {
 		console.log("Success. healthylinkx-bot deleted.");
 
 		//delete the role
-		const iamclient = new IAMClient(config);
+		const iamclient = new IAMClient({});
 		data = await iamclient.send(new DeleteServiceLinkedRoleCommand({RoleName: 'AWSServiceRoleForLexBots'}));
 		console.log("Success. healthylinkx-bot IAM role deleted.");
 

@@ -1,4 +1,3 @@
-const constants = require('./envparams.ts');
 const {
 	RDSClient,
 	DeleteDBInstanceCommand,
@@ -10,13 +9,6 @@ const {
 	DeleteSecurityGroupCommand
 } = require("@aws-sdk/client-ec2");
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -27,7 +19,7 @@ async function DSDelete() {
 
 	try {
 		// Delete the RDS instance
-		const rdsclient = new RDSClient(config);
+		const rdsclient = new RDSClient({});
 		var rdsparams = {
 			DBInstanceIdentifier: 'healthylinkx-db',
 			SkipFinalSnapshot: true,
@@ -49,7 +41,7 @@ async function DSDelete() {
 		console.log("Success. healthylinkx-db deleted.");
 	
 		//delete the security group
-		const ec2client = new EC2Client(config);
+		const ec2client = new EC2Client({});
 		const data = await ec2client.send(new DescribeSecurityGroupsCommand({GroupNames: ['DBSecGroup']}));
 		await ec2client.send(new DeleteSecurityGroupCommand({GroupId: data.SecurityGroups[0].GroupId }));
 		console.log("Success. " + data.SecurityGroups[0].GroupId + " deleted.");		

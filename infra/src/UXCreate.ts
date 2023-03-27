@@ -22,13 +22,6 @@ const {
 	CreateServiceLinkedRoleCommand 
 } = require("@aws-sdk/client-iam");
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -40,14 +33,12 @@ async function UXCreate() {
 	try {
 			
 		//create a role to call the lambda
-		//const iamclient = new IAMClient(config);
 		const iamclient = new IAMClient({});
 		var data = await iamclient.send(new CreateServiceLinkedRoleCommand({AWSServiceName: 'lex.amazonaws.com'}));
 		const iamrolearn = data.Role.Arn;
 		console.log("Success. healthylinkx-bot IAM role created.");
 		
 		//create the chatbot
-		//const lexclient = new LexModelsV2Client(config);
 		const lexclient = new LexModelsV2Client({});
 		data = await lexclient.send(new CreateBotCommand({
 			botName: 'healthylinkx-bot',
