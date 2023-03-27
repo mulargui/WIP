@@ -1,4 +1,4 @@
-const providers = require("./providers.js");
+const SearchDoctors = require("./providers.js");
 
 function ServerReply (code, event, result){
 	
@@ -41,7 +41,7 @@ function SearchDoctorsIntent (event){
                 return ServerReply(204, event);
         }
     }
-    ret = providers.SearchDoctors(DoctorName, ZipCode, Gender);
+    ret = SearchDoctors(DoctorName, ZipCode, Gender);
     return ServerReply(200, event, ret);
 }
 

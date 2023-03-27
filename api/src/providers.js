@@ -8,7 +8,7 @@ var db = mysql.createPool({
 	database:constants.database
 });*/
 
-export.SearchDoctors(DoctorName, ZipCode, Gender)
+function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
  	//check params
  	if(!ZipCode && !DoctorName && !Gender)
@@ -38,3 +38,5 @@ export.SearchDoctors(DoctorName, ZipCode, Gender)
 		return {"code": 500, "text": "error: ${query}  ${err}"};
 	}*/
 }; 
+
+module.exports = SearchDoctors;
