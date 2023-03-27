@@ -27,7 +27,7 @@ export.SearchDoctors(DoctorName, ZipCode, Gender)
  			query += " AND (Provider_Short_Postal_Code = '"+ zipcode + "')";
  		else
  			query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
-	query += ") limit 50";
+	query += ") limit 10";
 
 	return {"code": 200, "text": query};
 

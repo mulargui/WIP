@@ -18,7 +18,7 @@ function ServerReply (code, event, result){
         messages: [{
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event) + ' #end' +
-            content:    'results: ' + result + ' #end'
+            content:    'results: ' + JSON.stringify(result) + ' #end'
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
@@ -42,7 +42,7 @@ function SearchDoctorsIntent (event){
         }
     }
     ret = SearchDoctors(DoctorName, ZipCode, Gender);
-    return ServerReply(ret.code, event, ret.text);
+    return ServerReply(200, event, ret);
 }
 
 exports.handler = async (event) => {
