@@ -210,8 +210,8 @@ async function UXCreate() {
 					codeHookSpecification: {
 						lambdaCodeHook: {
 							codeHookInterfaceVersion: '1.0',
-							lambdaARN: 'arn:aws:lambda:' + constants.AWS_REGION + ':' + 
-								constants.AWS_ACCOUNT_ID + ':function:healthylinkx-bot-lambda'
+							lambdaARN: 'arn:aws:lambda:' + process.env.AWS_REGION + ':' + 
+								process.env.AWS_ACCOUNT_ID + ':function:healthylinkx-bot-lambda'
 						}
 					},
 					enabled:true
