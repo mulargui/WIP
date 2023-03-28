@@ -1,3 +1,5 @@
 FROM node
 
-RUN yum install mysql
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y mysql-client
