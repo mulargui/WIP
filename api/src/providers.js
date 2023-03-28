@@ -31,13 +31,13 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
 	query += ") limit 10";
 
 	return {"code": 200, "text": query};
-
+/*
 	try {
 		const [rows,fields] = await db.query(query);
 		return {"code": 200, "text": rows};
 	} catch(err) {
 		return {"code": 500, "text": "error: ${query}  ${err}"};
-	}
+	}*/
 }; 
 
 module.exports = SearchDoctors;
