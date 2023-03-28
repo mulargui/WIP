@@ -141,7 +141,7 @@ async function UXCreate() {
 			}
 		}));
 		genderslotid = data.slotId;
-		console.log("Success. healthylinkx-bot gender slot added.");		
+		console.log("Success. healthylinkx-bot Gender slot added.");		
 
 		//add priorities and other properties to the intent
 		await lexclient.send(new UpdateIntentCommand({
