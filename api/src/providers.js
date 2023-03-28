@@ -7,7 +7,6 @@ var db = mysql.createPool({
 	password:constants.password,
 	database:constants.database
 });
-var query = "global ";
 
 function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
@@ -15,7 +14,7 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  	if(!ZipCode && !DoctorName && !Gender)
 		return {"code": 204, "text": "error: not enought params"};
 	
- 	query += "SELECT NPI,Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
+ 	var query = "SELECT NPI,Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
  	if(DoctorName)
  		query += "(Provider_Last_Name_Legal_Name = '" + DoctorName + "')";
  	if(Gender)
@@ -30,6 +29,8 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
+	query += db;
+	
 	return {"code": 200, "text": query};
 /*
 	try {
