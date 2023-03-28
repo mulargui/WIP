@@ -1,13 +1,13 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
-/*
+
 var db = mysql.createPool({
 	host:constants.host,
 	user:constants.user,
 	password:constants.password,
 	database:constants.database
 });
-*/
+
 function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
  	//check params
