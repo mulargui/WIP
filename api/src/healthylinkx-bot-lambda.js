@@ -17,8 +17,8 @@ function ServerReply (code, event, result){
         },
         messages: [{
             contentType: 'PlainText',
-            //content: 'original event: ' + JSON.stringify(event) + ' #end' +
-            content:    'results: ' + JSON.stringify(result) + ' #end'
+            //content: 'original event: ' + JSON.stringify(event)
+            content:    'results: ' + JSON.stringify(result)
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes

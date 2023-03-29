@@ -8,7 +8,7 @@ var db = await mysql.createPool({
 	database:constants.database
 });
 
-function SearchDoctors(DoctorName, ZipCode, Gender)
+async function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
  	//check params
  	if(!ZipCode && !DoctorName && !Gender)
