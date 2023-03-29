@@ -5,8 +5,7 @@ function ServerReply (code, event, result){
 	if (code == 200)
 		event.sessionState.intent.state = 'Fulfilled';	
 	else
-		//event.sessionState.intent.state = 'Failed';	
-		event.sessionState.intent.state = 'Fulfilled';	
+		event.sessionState.intent.state = 'Failed';	
 
     return {
         sessionState: {

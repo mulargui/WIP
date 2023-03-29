@@ -1,14 +1,14 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var db = await mysql.createPool({
+var db = mysql.createPool({
 	host:constants.host,
 	user:constants.user,
 	password:constants.password,
 	database:constants.database
 });
 
-async function SearchDoctors(DoctorName, ZipCode, Gender)
+function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
  	//check params
  	if(!ZipCode && !DoctorName && !Gender)
