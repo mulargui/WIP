@@ -1,7 +1,7 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var db = mysql.createPool({
+var db = await mysql.createPool({
 	host:constants.host,
 	user:constants.user,
 	password:constants.password,
@@ -34,7 +34,7 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
-	//query = JSON.stringify(db);
+	query = JSON.stringify(db);
 
 	return {"code": 200, "text": query};
 /*

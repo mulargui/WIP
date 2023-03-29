@@ -43,7 +43,7 @@ function SearchDoctorsIntent (event){
         }
     }
     var ret = SearchDoctors(DoctorName, ZipCode, Gender);
-    return ServerReply(200, event, ret);
+    return ServerReply(ret.code, event, ret.text);
 }
 
 exports.handler = async (event) => {
