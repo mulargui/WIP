@@ -34,7 +34,7 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
-	query += JSON.stringify(db);
+	//query = JSON.stringify(db);
 
 	return {"code": 200, "text": query};
 /*
