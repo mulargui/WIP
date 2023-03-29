@@ -13,7 +13,12 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  	//check params
  	if(!ZipCode && !DoctorName && !Gender)
 		return {"code": 204, "text": "error: not enought params"};
-	
+
+	//normalize gender
+	if (Gender === 'male') Gender = 'M';
+	if (Gender === 'm') Gender = 'M';
+	if (Gender !== 'M') Gender = 'F';
+
  	var query = "SELECT NPI,Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
  	if(DoctorName)
  		query += "(Provider_Last_Name_Legal_Name = '" + DoctorName + "')";
@@ -29,8 +34,8 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
-	query += db;
-	
+	query += JSON.stringify(db);
+
 	return {"code": 200, "text": query};
 /*
 	try {
