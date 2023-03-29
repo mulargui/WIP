@@ -34,16 +34,16 @@ function SearchDoctors(DoctorName, ZipCode, Gender)
  			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
 	query += ") limit 10";
 
-	query = JSON.stringify(db);
-
-	return {"code": 200, "text": query};
-/*
 	try {
-		const [rows,fields] = await db.query(query);
-		return {"code": 200, "text": rows};
+		//const [rows,fields] = await db.query(query);
+		//return {"code": 200, "text": rows};
+
+		query = JSON.stringify(db);
+		return {"code": 200, "text": query};
+	
 	} catch(err) {
 		return {"code": 500, "text": "error: ${query}  ${err}"};
-	}*/
+	}
 }; 
 
 module.exports = SearchDoctors;
