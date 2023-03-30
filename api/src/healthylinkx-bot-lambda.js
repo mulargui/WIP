@@ -25,7 +25,7 @@ function ServerReply (code, event, result){
     };
 }
 
-function SearchDoctorsIntent (event){
+async function SearchDoctorsIntent (event){
     var DoctorName, ZipCode, Gender;
     for (const [key, value] of Object.entries(event.interpretations[0].intent.slots)) {
         switch(key){
@@ -42,7 +42,7 @@ function SearchDoctorsIntent (event){
                 return ServerReply(204, event);
         }
     }
-    var ret = SearchDoctors(DoctorName, ZipCode, Gender);
+    var ret = await SearchDoctors(DoctorName, ZipCode, Gender);
     return ServerReply(ret.code, event, ret.text);
 }
 
@@ -60,5 +60,5 @@ exports.handler = async (event) => {
     if (event.interpretations[0].intent.name !== 'SearchDoctors')
         return ServerReply(204, event);
 
-	return SearchDoctorsIntent(event);
+	return await SearchDoctorsIntent(event);
 }; 
