@@ -38,7 +38,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 
 	try {
 		const [rows,fields] = await db.query(query);
-		return {"code": 200, "text": rows};
+		return {"code": 200, "text": "success"};
+		//return {"code": 200, "text": rows};
 	} catch(err) {
 		return {"code": 500, "text": "error: ${query}  ${err}"};
 	}
