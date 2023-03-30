@@ -6,10 +6,9 @@ function FormatResult(rows){
     var output;
     for (var i = 0; i < rows.length; i++) {
         output += "<TR>";
-        myObj = rows[i];
-        for(var j in myObj) 
-            if (myObj.hasOwnProperty(j)) 
-                output += ("<TD>" + myObj[j] + "</TD>");
+        for(var j in rows[i]) 
+            if (rows[i].hasOwnProperty(j)) 
+                output += ("<TD>" + rows[i][j] + "</TD>");
         output += "</TR>";
     }
     return output
