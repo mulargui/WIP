@@ -34,7 +34,7 @@ function ServerReply (code, event, result){
         messages: [{
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event)
-            content:    'results: ' + JSON.stringify(result)
+            content: JSON.stringify(result)
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
