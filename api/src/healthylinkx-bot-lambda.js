@@ -3,7 +3,7 @@ const SearchDoctors = require("./providers.js");
 function FormatResult(rows){
     if (rows == null) return 'No matching providers were found.';
 	
-    var output;
+    var output = '';
     for (var i = 0; i < rows.length; i++) {
         output += "<TR>";
         for(var j in rows[i]) 
@@ -11,7 +11,7 @@ function FormatResult(rows){
                 output += ("<TD>" + rows[i][j] + "</TD>");
         output += "</TR>";
     }
-    return output
+    return output;
 }
 
 function ServerReply (code, event, result){
