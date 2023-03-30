@@ -1,18 +1,11 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var db = mysql.createPool({
-	host:constants.host,
-	user:constants.user,
-	password:constants.password,
-	database:constants.database
-});
-
 async function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
  	//check params
  	if(!ZipCode && !DoctorName && !Gender)
-		return {"code": 204, "text": "error: not enough params"};
+		return {"code": 204, "text": "error: not enought params"};
 
 	//normalize gender
 	if (Gender){
@@ -37,8 +30,19 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 	query += ") limit 10";
 
 	try {
+		const db = await mysql.createConnection({
+			host:constants.host,
+			user:constants.user,
+			password:constants.password,
+			database:constants.database
+		});	
+			
 		const [rows,fields] = await db.query(query);
 		return {"code": 200, "text": rows};
+
+		//query = JSON.stringify(db);
+		//return {"code": 200, "text": query};
+	
 	} catch(err) {
 		return {"code": 500, "text": "error: ${query}  ${err}"};
 	}
