@@ -1,10 +1,26 @@
 const SearchDoctors = require("./providers.js");
 
+function FormatResult(rows){
+    if (rows == null) return 'No matching providers were found.';
+	
+    var output;
+    for (var i = 0; i < rows.length; i++) {
+        output += "<TR>";
+        myObj = rows[i];
+        for(var j in myObj) 
+            if (myObj.hasOwnProperty(j)) 
+                output += ("<TD>" + myObj[j] + "</TD>");
+        output += "</TR>";
+    }
+    return output
+}
+
 function ServerReply (code, event, result){
 	
-	if (code == 200)
+	if (code == 200){
 		event.sessionState.intent.state = 'Fulfilled';	
-	else
+        result = FormatResult(result);
+    }else
 		event.sessionState.intent.state = 'Failed';	
 
     return {
