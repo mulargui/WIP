@@ -2,6 +2,7 @@ const SearchDoctors = require("./providers.js");
 
 function FormatResult(rows){
     if (rows == null) return 'No matching providers were found.';
+    if (!rows.length) return 'No matching providers were found.';
 	
     var output = '';
     for (var i = 0; i < rows.length; i++) {
