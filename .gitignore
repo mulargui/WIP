@@ -3,7 +3,7 @@
 .aws/credentials
 **/envparams.sh
 **/envparams.js
-#**/envparams.ts
+**/envparams.ts
 **/awsparams.sh
 **/loaddata.sh
 **/github.txt
