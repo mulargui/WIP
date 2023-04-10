@@ -7,4 +7,4 @@ if [ ! -e $HOME/.ask/cli_config ]; then
 fi
 
 #other commands
-. /bin/bash
+/bin/bash
