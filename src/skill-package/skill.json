@@ -1,0 +1,35 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+        },
+        "regions": {
+          "EU": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:eu-west-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+            }
+          },
+          "NA": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-east-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+            }
+          },
+          "FE": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-west-2:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+            }
+          }
+        }
+      }
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "healthylinkx"
+        }
+      }
+    }
+  }
+}
