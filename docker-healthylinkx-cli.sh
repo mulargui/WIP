@@ -9,6 +9,7 @@ if [ ! -d $HOME/.ask ]; then
 	mkdir $HOME/.ask
 fi
 
+
 #similar to healthylinkx-cli.sh but running inside a container to avoid to install node, npm...
 docker run -ti --rm -v $PWD:/healthylinkx-ask -v $HOME/.ask:/root/.ask \
 	-w /healthylinkx-ask/ \
