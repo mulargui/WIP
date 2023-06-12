@@ -16,16 +16,25 @@
           "samples": []
         },
         {
-          "name": "HelloWorldIntent",
-          "slots": [],
+          "name": "SearchDoctorIntent",
+          "slots": [
+            {
+              "name": "zipcode",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "name",
+              "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "gender",
+              "type": "Gender"
+            }
+          ],
           "samples": [
-            "hello",
-            "how are you",
-            "say hi world",
-            "say hi",
-            "hi",
-            "say hello world",
-            "say hello"
+            "I\u0027m looking for {name}",
+            "I\u0027m looking for a doctor in {zipcode}",
+            "I need a {gender} doctor"
           ]
         },
         {
@@ -33,8 +42,24 @@
           "samples": []
         }
       ],
-      "types": []
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "Female"
+              }
+            },
+            {
+              "name": {
+                "value": "Male"
+              }
+            }
+          ],
+          "name": "Gender"
+        }
+      ]
     }
   },
-  "version": "1"
+  "version": "5"
 }

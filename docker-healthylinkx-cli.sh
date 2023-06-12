@@ -10,6 +10,7 @@ if [ ! -d $HOME/.ask ]; then
 fi
 
 #similar to healthylinkx-cli.sh but running inside a container to avoid to install node, npm...
-docker run -ti --rm -v $PWD:/healthylinkx-ask -v $HOME/.ask:/root/.ask \
+docker run -ti --rm -v $PWD:/repo -v $HOME/repo:/healthylinkx-ask -v $HOME/.ask:/root/.ask \
 	-w /healthylinkx-ask/ \
-	node-ask-cli /bin/bash healthylinkx-cli.sh "$@"
+	node-ask-cli /bin/bash 
+#	node-ask-cli /bin/bash /repo/healthylinkx-cli.sh "$@"

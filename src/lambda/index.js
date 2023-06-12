@@ -10,7 +10,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
+        const speakOutput = 'Welcome, how can I help you?';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -19,17 +19,26 @@ const LaunchRequestHandler = {
     }
 };
 
-const HelloWorldIntentHandler = {
+const SearchDoctorIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SearchDoctorIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello World!';
+        const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
+        const gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
+        const zipcode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
+        const name = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
+        let speakOutput = `You just triggered ${intentName} with slots `;
+        //const speakOutput = `You just triggered ${intentName} with slots ${gender} ${zipcode} ${name}`;
+        
+        speakOutput += gender ? `${gender} ` : ``;
+        speakOutput += zipcode ? `${zipcode} ` : ``;
+        speakOutput += name ? `${name} ` : ``;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .reprompt(speakOutput)
             .getResponse();
     }
 };
@@ -40,7 +49,7 @@ const HelpIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'You can say hello to me! How can I help?';
+        const speakOutput = 'How can I help?';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -144,7 +153,7 @@ const ErrorHandler = {
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        SearchDoctorIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
@@ -152,5 +161,5 @@ exports.handler = Alexa.SkillBuilders.custom()
         IntentReflectorHandler)
     .addErrorHandlers(
         ErrorHandler)
-    .withCustomUserAgent('sample/hello-world/v1.2')
+    .withCustomUserAgent('healthylinkx/v0.1')
     .lambda();

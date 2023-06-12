@@ -1,5 +1,5 @@
 {
-  "name": "@amzn/hello-world",
+  "name": "healthylinkx",
   "version": "1.2.0",
   "description": "alexa utility for quickly building skills",
   "main": "index.js",

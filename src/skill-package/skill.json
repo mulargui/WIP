@@ -3,22 +3,24 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "uri": "arn:aws:lambda:us-east-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+          "uri": "arn:aws:lambda:us-east-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
         },
+        "interfaces": [],
+        "locales": {},
         "regions": {
-          "EU": {
-            "endpoint": {
-              "uri": "arn:aws:lambda:eu-west-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
-            }
-          },
           "NA": {
             "endpoint": {
-              "uri": "arn:aws:lambda:us-east-1:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+              "uri": "arn:aws:lambda:us-east-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
+            }
+          },
+          "EU": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:eu-west-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
             }
           },
           "FE": {
             "endpoint": {
-              "uri": "arn:aws:lambda:us-west-2:194922106042:function:f01c6710-59ae-465c-917e-5c1fd235922d:Release_0"
+              "uri": "arn:aws:lambda:us-west-2:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
             }
           }
         }
@@ -27,7 +29,7 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "name": "healthylinkx"
+          "name": "Healthylinkx"
         }
       }
     }
