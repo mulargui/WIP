@@ -1,6 +1,6 @@
 //repo location
 //const ROOT=process.cwd()
-const ROOT='/healthylinkx-lex'
+const ROOT='/repo'
 
 //datastore user
 const DBUSER='root'

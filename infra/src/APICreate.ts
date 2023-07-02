@@ -57,16 +57,17 @@ async function CreateLambda(name)
 		//remove the package created
 		await fs.unlinkSync(constants.ROOT + '/api/src/' + name + '.zip');
 
-		//give lex permission to execute the lambda
+		//give Alexa permission to execute the lambda
 		await lambda.send(new AddPermissionCommand({
 			Action: 'lambda:InvokeFunction',
 			FunctionName: name,
-			Principal: 'lex.amazonaws.com',
+			Principal: 'alexa-appkit.amazon.com',
 			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':intent:SearchDoctors:*',
-			SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':bot-alias/*',
-			StatementId: 'AllowLexAccess'
+			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':bot-alias/*',
+			StatementId: '1',
+			EventSourceToken: 'amzn1.ask.skill.xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 		}));
-		console.log('Success. Allowed lex to access the lambda');
+		console.log('Success. Allowed Alexa to access the lambda');
 		
 		return FunctionArn;
 		
@@ -93,9 +94,9 @@ async function APICreate() {
 
 		//URL of the database
 		const rdsclient = new RDSClient({});
-		data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
-		const endpoint = data.DBInstances[0].Endpoint.Address;
-		//const endpoint = '0.0.0.0';
+		//data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
+		//const endpoint = data.DBInstances[0].Endpoint.Address;
+		const endpoint = '0.0.0.0';
 		console.log("DB endpoint: " + endpoint);
 
 		// create contants.js with env values
