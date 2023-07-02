@@ -1,17 +1,17 @@
 #sensible data
 .aws/config
 .aws/credentials
-**/envparams.sh
-**/envparams.js
-**/envparams.ts
+#**/envparams.sh
+#**/envparams.js
+#**/envparams.ts
 **/awsparams.sh
 **/loaddata.sh
 **/github.txt
 **/.DS_Store
 
-#not include models in model-registry
-/model-registry/*
-!model-registry/.gitkeep
+# Dependency directories
+node_modules/
+jspm_packages/
 
 #not include python cache
 /__pycache__/*
