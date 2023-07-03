@@ -29,9 +29,10 @@ async function CreateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
-		file.addLocalFile(constants.ROOT+'/api/src/providers.js');
-		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/providers.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
 
@@ -65,7 +66,7 @@ async function CreateLambda(name)
 			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':intent:SearchDoctors:*',
 			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':bot-alias/*',
 			StatementId: '1',
-			EventSourceToken: 'amzn1.ask.skill.xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+			EventSourceToken: 'amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab'
 		}));
 		console.log('Success. Allowed Alexa to access the lambda');
 		
@@ -113,7 +114,7 @@ async function APICreate() {
 		await exec(`cd ${constants.ROOT}/api/src; npm install`);
 
 		//create the lambda
-		const taxonomyLambdaArn = await CreateLambda('healthylinkx-bot-lambda');
+		const taxonomyLambdaArn = await CreateLambda('healthylinkx-alexa-lambda');
 			
 		// cleanup of files created	
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');

@@ -21,8 +21,8 @@ async function APIDelete() {
 	try {
 		//delete the lambdas
 		const lambda = new LambdaClient({});		
-		await lambda.send(new DeleteFunctionCommand({FunctionName: 'healthylinkx-bot-lambda'}));
-		console.log("Success. healthylinkx-bot-lambda lambda deleted.");
+		await lambda.send(new DeleteFunctionCommand({FunctionName: 'healthylinkx-alexa-lambda'}));
+		console.log("Success. healthylinkx-alexa-lambda lambda deleted.");
 
 		//delete the IAM role
 		const iamclient = new IAMClient({});

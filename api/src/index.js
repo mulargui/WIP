@@ -151,6 +151,7 @@ const ErrorHandler = {
  * defined are included below. The order matters - they're processed top to bottom 
  * */
 exports.handler = Alexa.SkillBuilders.custom()
+    .withSkillId("amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab")
     .addRequestHandlers(
         LaunchRequestHandler,
         SearchDoctorIntentHandler,

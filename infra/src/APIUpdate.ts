@@ -57,9 +57,9 @@ async function APIUpdate() {
 
 		//URL of the database
 		const rdsclient = new RDSClient({});
-		data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
-		const endpoint = data.DBInstances[0].Endpoint.Address;
-		//const endpoint = '0.0.0.0';
+		//data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
+		//const endpoint = data.DBInstances[0].Endpoint.Address;
+		const endpoint = '0.0.0.0';
 		console.log("DB endpoint: " + endpoint);
 
 		// create contants.js with env values
@@ -76,7 +76,7 @@ async function APIUpdate() {
 		await exec(`cd ${constants.ROOT}/api/src; npm install`);
 
 		//update the lambda
-		await UpdateLambda('healthylinkx-bot-lambda');
+		await UpdateLambda('healthylinkx-alexa-lambda');
 			
 		// cleanup of files created	
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');
