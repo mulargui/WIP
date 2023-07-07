@@ -57,9 +57,9 @@ async function APIUpdate() {
 	try {
 		//URL of the database
 		const rdsclient = new RDSClient({});
-		//data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
-		//const endpoint = data.DBInstances[0].Endpoint.Address;
-		const endpoint = '0.0.0.0';
+		data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
+		const endpoint = data.DBInstances[0].Endpoint.Address;
+		//const endpoint = '0.0.0.0';
 		console.log("DB endpoint: " + endpoint);
 
 		// create contants.js with env values
