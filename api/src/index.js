@@ -4,6 +4,7 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
+const SearchDoctors = require("./providers.js");
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -26,16 +27,13 @@ const SearchDoctorIntentHandler = {
     },
     handle(handlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
-        const gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
-        const zipcode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
-        const name = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
-        let speakOutput = `You just triggered ${intentName} with slots `;
-        //const speakOutput = `You just triggered ${intentName} with slots ${gender} ${zipcode} ${name}`;
-        
-        speakOutput += gender ? `${gender} ` : ``;
-        speakOutput += zipcode ? `${zipcode} ` : ``;
-        speakOutput += name ? `${name} ` : ``;
+        const Gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
+        const ZipCode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
+        const DoctorName = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
 
+        //we invoke the method that finds the doctors that meet the criteria
+        var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
+ 
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
