@@ -61,7 +61,14 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
-   	try {
+	   var speakOutput = `You just triggered a search for doctors with the following values:`;
+	   speakOutput += Gender ? ` gender = ${Gender}` : ``;
+	   speakOutput += ZipCode ? ` zipcode = ${ZipCode}` : ``;
+	   speakOutput += DoctorName ? ` name = ${DoctorName}` : ``;
+   
+	   return speakOutput;
+
+	try {
 	   	const [rows,fields] = await db.query(query);
 	   	return FormatResult(rows);
    	} catch(err) {
