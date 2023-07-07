@@ -47,7 +47,7 @@ async function CreateLambda(name)
 			FunctionName: name,
 			Handler: name + '.handler',
 			Role: 'arn:aws:iam::' + process.env.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
-			Runtime: 'nodejs12.x',
+			Runtime: 'nodejs18.x',
 			Description: name + ' lambda'
 		};
 		const lambda = new LambdaClient({});				
