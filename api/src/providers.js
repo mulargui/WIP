@@ -24,7 +24,7 @@ function FormatResult(rows){
     return output;
 }
 
-function SearchDoctors(DoctorName, ZipCode, Gender)
+async function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
 	/*
 	var speakOutput = `You just triggered a search for doctors with the following values:`;
