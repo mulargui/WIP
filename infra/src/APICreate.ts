@@ -42,7 +42,7 @@ async function CreateLambda(name)
 			Code: {
 				ZipFile: filecontent
 			},
-			FunctionName: 'index',
+			FunctionName: name,
 			Handler: 'index' + '.handler',
 			Role: 'arn:aws:iam::' + process.env.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
 			Runtime: 'nodejs18.x',
