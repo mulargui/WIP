@@ -24,8 +24,9 @@ async function UpdateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFile(constants.ROOT+'/api/src/index.js');
+		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		file.addLocalFile(constants.ROOT+'/api/src/providers.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
 
