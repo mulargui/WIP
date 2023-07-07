@@ -33,7 +33,7 @@ const SearchDoctorIntentHandler = {
 
         //we invoke the method that finds the doctors that meet the criteria
         //var speakOutput = SearchDoctors(DoctorName, ZipCode, Gender);
-        let speakOutput = `You just triggered a search for doctors with the following slots `;
+        var speakOutput = `You just triggered a search for doctors with the following slots `;
         speakOutput += Gender ? `${Gender} ` : ``;
         speakOutput += ZipCode ? `${ZipCode} ` : ``;
         speakOutput += DoctorName ? `${DoctorName} ` : ``;
