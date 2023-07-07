@@ -70,8 +70,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 
 	try {
 		const [rows,fields] = await db.query(query);
-		//return query;
-		return FormatResult(rows);
+		return query;
+		//return FormatResult(rows);
    	} catch(err) {
 	   	return `Error: ${query}  ${err}`;
    	}
@@ -104,7 +104,10 @@ const SearchDoctorIntentHandler = {
         const DoctorName = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
 
         //we invoke the method that finds the doctors that meet the criteria
-        var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
+        var speakOutput;
+        SearchDoctors(DoctorName, ZipCode, Gender)
+            .then(() => speakOutput=`Order of customer fulfilled...`) 
+            .catch((error) => speakOutput=error) 
        
         return handlerInput.responseBuilder
             .speak(speakOutput)
