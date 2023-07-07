@@ -62,8 +62,11 @@ async function CreateLambda(name)
 			Action: 'lambda:InvokeFunction',
 			FunctionName: name,
 			Principal: 'alexa-appkit.amazon.com',
-			StatementId: '1',
-			EventSourceToken: 'amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab'
+			// this is safer as only this skill can invoke the lambda
+			//at this time I'm removing this protection as I didn't found an easy way to inject the skillID programmatically
+			//in general, Alexa relies too much on the developer console and manual work instead of APIs
+			//EventSourceToken: 'amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab',
+			StatementId: '1'
 		}));
 		console.log('Success. Allowed Alexa to access the lambda');
 		
