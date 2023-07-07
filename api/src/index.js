@@ -8,13 +8,6 @@ const Alexa = require('ask-sdk-core');
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var db = mysql.createPool({
-	host:constants.host,
-	user:constants.user,
-	password:constants.password,
-	database:constants.database
-});
-
 function FormatResult(rows){
     if (rows == null) return 'Sorry, no matching providers were found.';
     if (!rows.length) return 'Sorry, no matching providers were found.';
@@ -42,6 +35,13 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 	return speakOutput;
 	*/
 
+    var db = mysql.createPool({
+        host:constants.host,
+        user:constants.user,
+        password:constants.password,
+        database:constants.database
+    }); 
+    
     return JSON.stringify(db);
 	//check params
  	if(!ZipCode && !DoctorName && !Gender)
