@@ -62,14 +62,9 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
    	query += ") limit 3";
 
 	try {
-	   	const [rows,fields] = await db.query(query);
-		   var speakOutput = `You just triggered a search for doctors with the following values:`;
-		   speakOutput += Gender ? ` gender = ${Gender}` : ``;
-		   speakOutput += ZipCode ? ` zipcode = ${ZipCode}` : ``;
-		   speakOutput += DoctorName ? ` name = ${DoctorName}` : ``;
-	   
-		   return speakOutput;
-			//return FormatResult(rows);
+	   	return query;
+		const [rows,fields] = await db.query(query);
+		//return FormatResult(rows);
    	} catch(err) {
 	   	return `Error: ${query}  ${err}`;
    	}
