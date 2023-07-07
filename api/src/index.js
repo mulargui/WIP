@@ -42,6 +42,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 	return speakOutput;
 	*/
 
+    return JSON.stringify(db);
 	//check params
  	if(!ZipCode && !DoctorName && !Gender)
 		return "Sorry, I need more information to  search for doctors";
