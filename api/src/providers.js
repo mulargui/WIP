@@ -62,8 +62,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
    	query += ") limit 3";
 
 	try {
-	   	return query;
 		const [rows,fields] = await db.query(query);
+		return query;
 		//return FormatResult(rows);
    	} catch(err) {
 	   	return `Error: ${query}  ${err}`;
