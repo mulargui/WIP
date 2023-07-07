@@ -7,6 +7,7 @@ const {
     LambdaClient,
     UpdateFunctionCodeCommand
 } = require("@aws-sdk/client-lambda");
+
 const fs = require('graceful-fs');
 const exec = require('await-exec');
 const AdmZip = require('adm-zip');
@@ -23,9 +24,7 @@ async function UpdateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		//file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
-		//file.addLocalFile(constants.ROOT+'/api/src/providers.js');
-		//file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
@@ -55,7 +54,6 @@ async function UpdateLambda(name)
 async function APIUpdate() {
 
 	try {
-
 		//URL of the database
 		const rdsclient = new RDSClient({});
 		//data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));

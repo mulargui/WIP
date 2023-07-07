@@ -54,15 +54,13 @@ async function CreateLambda(name)
 		console.log('Success. ' + name + ' lambda created.');
 
 		//remove the package created
-		//await fs.unlinkSync(constants.ROOT + '/api/src/' + name + '.zip');
+		await fs.unlinkSync(constants.ROOT + '/api/src/' + name + '.zip');
 
 		//give Alexa permission to execute the lambda
 		await lambda.send(new AddPermissionCommand({
 			Action: 'lambda:InvokeFunction',
 			FunctionName: name,
 			Principal: 'alexa-appkit.amazon.com',
-			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':intent:SearchDoctors:*',
-			//SourceArn: 'arn:aws:lex:' + process.env.AWS_REGION + ':'+ process.env.AWS_ACCOUNT_ID + ':bot-alias/*',
 			StatementId: '1',
 			EventSourceToken: 'amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab'
 		}));
