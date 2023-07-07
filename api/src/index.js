@@ -6,7 +6,7 @@
 const Alexa = require('ask-sdk-core');
 
 const constants = require("./constants.js");
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 
 function FormatResult(rows){
     if (rows == null) return 'Sorry, no matching providers were found.';
@@ -24,7 +24,7 @@ function FormatResult(rows){
     return output;
 }
 
-async function SearchDoctors(DoctorName, ZipCode, Gender)
+ function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
 	/*
 	var speakOutput = `You just triggered a search for doctors with the following values:`;
@@ -35,14 +35,15 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 	return speakOutput;
 	*/
 
-    var db = mysql.createPool({
+    var db =  mysql.createPool({
         host:constants.host,
         user:constants.user,
         password:constants.password,
         database:constants.database
     }); 
-    
-    return JSON.stringify(db);
+
+    //return JSON.stringify(db);
+
 	//check params
  	if(!ZipCode && !DoctorName && !Gender)
 		return "Sorry, I need more information to  search for doctors";
@@ -70,9 +71,9 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
    	query += ") limit 3";
 
 	try {
-		const [rows,fields] = await db.query(query);
-		return query;
-		//return FormatResult(rows);
+		const [rows,fields] =  db.query(query);
+		//return query;
+		return FormatResult(rows);
    	} catch(err) {
 	   	return `Error: ${query}  ${err}`;
    	}
@@ -98,17 +99,16 @@ const SearchDoctorIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SearchDoctorIntent';
     },
-    async handle(handlerInput) {
+     handle(handlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const Gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
         const ZipCode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
         const DoctorName = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
 
         //we invoke the method that finds the doctors that meet the criteria
-        var speakOutput;
-        SearchDoctors(DoctorName, ZipCode, Gender)
-            .then(() => speakOutput=`Order of customer fulfilled...`) 
-            .catch((error) => speakOutput=error) 
+        var speakOutput = SearchDoctors(DoctorName, ZipCode, Gender);
+           // .then(() => speakOutput=`Order of customer fulfilled...`) 
+           // .catch((error) => speakOutput=error) 
        
         return handlerInput.responseBuilder
             .speak(speakOutput)
