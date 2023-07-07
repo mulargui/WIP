@@ -23,9 +23,10 @@ async function UpdateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
-		file.addLocalFile(constants.ROOT+'/api/src/providers.js');
-		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/providers.js');
+		//file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
 
@@ -82,6 +83,8 @@ async function APIUpdate() {
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');
 		await fs.unlinkSync(constants.ROOT + '/api/src/constants.js');
 		await fs.rmSync(constants.ROOT + '/api/src/node_modules', { recursive: true });
+
+		console.log('Success. Lambda updated');
 
 	} catch (err) {
 		console.log("Error. ", err);

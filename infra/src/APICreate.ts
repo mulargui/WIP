@@ -29,9 +29,7 @@ async function CreateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		//file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
-		//file.addLocalFile(constants.ROOT+'/api/src/providers.js');
-		//file.addLocalFile(constants.ROOT+'/api/src/constants.js');
+		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
@@ -44,8 +42,8 @@ async function CreateLambda(name)
 			Code: {
 				ZipFile: filecontent
 			},
-			FunctionName: name,
-			Handler: name + '.handler',
+			FunctionName: 'index',
+			Handler: 'index' + '.handler',
 			Role: 'arn:aws:iam::' + process.env.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
 			Runtime: 'nodejs18.x',
 			Description: name + ' lambda'
@@ -56,7 +54,7 @@ async function CreateLambda(name)
 		console.log('Success. ' + name + ' lambda created.');
 
 		//remove the package created
-		await fs.unlinkSync(constants.ROOT + '/api/src/' + name + '.zip');
+		//await fs.unlinkSync(constants.ROOT + '/api/src/' + name + '.zip');
 
 		//give Alexa permission to execute the lambda
 		await lambda.send(new AddPermissionCommand({
@@ -121,7 +119,7 @@ async function APICreate() {
 		await fs.unlinkSync(constants.ROOT + '/api/src/constants.js');
 		await fs.rmSync(constants.ROOT + '/api/src/node_modules', { recursive: true });
 
-		console.log('Success. Lambdas created');
+		console.log('Success. Lambda created');
 
 	} catch (err) {
 		console.log("Error. ", err);
