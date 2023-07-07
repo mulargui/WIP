@@ -1,5 +1,5 @@
-const constants = require("./constants.js");
-const mysql = require('mysql2/promise');
+//const constants = require("./constants.js");
+//const mysql = require('mysql2/promise');
 
 function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
