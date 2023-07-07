@@ -25,7 +25,7 @@ const SearchDoctorIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SearchDoctorIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const Gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
         const ZipCode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
