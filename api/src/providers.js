@@ -78,7 +78,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		await dbconpool.releaseConnection(connection);
 		return FormatResult(rows);*/
    	} catch(err) {
-		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
+		//return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
+		return `error: ${err}`;
    	} 
 } 
 
