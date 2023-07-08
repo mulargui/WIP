@@ -73,7 +73,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 	if (!db) return 'no db connectionpool';
 
 	try {
-		db.query(query);
+		await db.query(query);
 		return query;
 		//var ret = await sleepwrapper(1);
 		//return ret;
