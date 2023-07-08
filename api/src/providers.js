@@ -17,7 +17,7 @@ function FormatResult(rows){
         //if (rows[i].hasOwnProperty(0)) 
             output += "Name: ";
 		//if (rows[i].hasOwnProperty(1)) 
-            output += ("Address: " + rows[i][1]);
+            output += ("Address: " + rows[i][Provider_Full_Street]);
 		//if (rows[i].hasOwnProperty(2)) 
             output += ("City: " + rows[i][2]);
     }
