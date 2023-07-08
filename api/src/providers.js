@@ -9,16 +9,16 @@ var dbconpool = mysql.createPool({
 });
 
 function FormatResult(rows){
-    if (rows == null) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
+    if (!rows) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
     if (!rows.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
 	
     var output = `These are the doctors we found for you: `;
     for (var i = 0; i < rows.length; i++) {
-        if (rows[i].hasOwnProperty(0)) 
+        //if (rows[i].hasOwnProperty(0)) 
             output += "Name: ";
-		if (rows[i].hasOwnProperty(1)) 
+		//if (rows[i].hasOwnProperty(1)) 
             output += ("Address: " + rows[i][1]);
-		if (rows[i].hasOwnProperty(2)) 
+		//if (rows[i].hasOwnProperty(2)) 
             output += ("City: " + rows[i][2]);
     }
     return output;
@@ -62,7 +62,6 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
    	query += ") limit 3";
 
 	try {
-		/*
 		const connection = await mysql.createConnection({
 			host:constants.host,
 			user:constants.user,
@@ -73,11 +72,11 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		const [rows,fields] = await connection.query(query);
 		await connection.end();
 		return FormatResult(rows);
-		*/
+		/*
 		const connection = await dbconpool.getConnection();
 		const [rows,fields] = await connection.query(query);
 		await dbconpool.releaseConnection(connection);
-		return FormatResult(rows);
+		return FormatResult(rows);*/
    	} catch(err) {
 		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
    	} 
