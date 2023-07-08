@@ -1,13 +1,6 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var dbconpool = mysql.createPool({
-	host:constants.host,
-	user:constants.user,
-	password:constants.password,
-	database:constants.database
-});
-
 function FormatResult(result){
     if (!result) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
     if (!result.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
@@ -69,14 +62,9 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		const [rows,fields] = await connection.query(query);
 		await connection.end();
 		return FormatResult(rows);
-		/*
-		const connection = await dbconpool.getConnection();
-		const [rows,fields] = await connection.query(query);
-		await dbconpool.releaseConnection(connection);
-		return FormatResult(rows);*/
    	} catch(err) {
-		//return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
-		return `error: ${err}`;
+		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
+		//return `error: ${err}`;
    	} 
 } 
 
