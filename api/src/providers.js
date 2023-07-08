@@ -78,13 +78,12 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			database:constants.database
 		});
 		await connection.connect();
-		await connection.query(query);
+		const [rows,fields] = await connection.query(query);
 		await connection.end();
-		return query;
 		//var ret = await sleepwrapper(1);
 		//return ret;
 		//const [rows,fields] = await db.query(query);
-		//return FormatResult(rows);
+		return FormatResult(rows);
    	} catch(err) {
 		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
    	} 
