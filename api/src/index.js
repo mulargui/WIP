@@ -32,12 +32,7 @@ const SearchDoctorIntentHandler = {
         const DoctorName = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
 
         //we invoke the method that finds doctors that meet the criteria
-        var speakOutput;
-        try { 
-            speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
-        } catch(err) {
-            speakOutput = "Sorry, I didn't found any doctor that meets your needs. Try something different!";
-        }
+        var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
        
         return handlerInput.responseBuilder
             .speak(speakOutput)

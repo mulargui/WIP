@@ -70,23 +70,24 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
-	var ret;
 	try {
-		/*if (!db) return 'no db connectionpool';
-		db.on('error', function (err) {
-			  return 'pool error  ${err}`;
-			});*/
-		await db.query(query);
-		ret = query;
+		const connection = await mysql.createConnection({
+			host:constants.host,
+			user:constants.user,
+			password:constants.password,
+			database:constants.database
+		});
+		await connection.connect();
+		await connection.query(query);
+		await connection.end();
+		return query;
 		//var ret = await sleepwrapper(1);
 		//return ret;
 		//const [rows,fields] = await db.query(query);
 		//return FormatResult(rows);
    	} catch(err) {
-	   	ret = 'Error in query';
+		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
    	} 
-
-	return ret;
 } 
 
 module.exports = SearchDoctors;
