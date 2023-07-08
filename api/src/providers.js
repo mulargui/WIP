@@ -76,7 +76,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		db.on('error', function (err) {
 			  return 'pool error  ${err}`;
 			});*/
-		//await db.query(query);
+		await db.query(query);
 		ret = query;
 		//var ret = await sleepwrapper(1);
 		//return ret;
@@ -84,9 +84,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		//return FormatResult(rows);
    	} catch(err) {
 	   	ret = 'Error in query';
-   	} finally {
-		ret = 'finally block';
-	}
+   	} 
 
 	return ret;
 } 
