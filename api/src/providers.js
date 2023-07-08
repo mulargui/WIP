@@ -70,20 +70,25 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
+	var ret;
 	try {
 		/*if (!db) return 'no db connectionpool';
 		db.on('error', function (err) {
 			  return 'pool error  ${err}`;
 			});*/
 		await db.query(query);
-		return query;
+		ret = query;
 		//var ret = await sleepwrapper(1);
 		//return ret;
 		//const [rows,fields] = await db.query(query);
 		//return FormatResult(rows);
    	} catch(err) {
-	   	return 'Error in query';
-   	} 
+	   	ret = 'Error in query';
+   	} finally {
+		ret = 'finally block';
+	}
+
+	return ret;
 } 
 
 module.exports = SearchDoctors;
