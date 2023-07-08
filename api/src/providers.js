@@ -1,7 +1,7 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-var db = mysql.createPool({
+var dbconpool = mysql.createPool({
 	host:constants.host,
 	user:constants.user,
 	password:constants.password,
@@ -62,6 +62,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
    	query += ") limit 3";
 
 	try {
+		/*
 		const connection = await mysql.createConnection({
 			host:constants.host,
 			user:constants.user,
@@ -71,6 +72,11 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		await connection.connect();
 		const [rows,fields] = await connection.query(query);
 		await connection.end();
+		return FormatResult(rows);
+		*/
+		const connection = await dbconpool.getConnection();
+		const [rows,fields] = await connection.query(query);
+		await dbconpool.releaseConnection(connection);
 		return FormatResult(rows);
    	} catch(err) {
 		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
