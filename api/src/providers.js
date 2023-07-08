@@ -74,10 +74,9 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 
 	try {
 		db.query(query);
-		var ret = await sleepwrapper(1);
-		return ret;
-
-
+		return query;
+		//var ret = await sleepwrapper(1);
+		//return ret;
 		//const [rows,fields] = await db.query(query);
 		//return FormatResult(rows);
    	} catch(err) {
