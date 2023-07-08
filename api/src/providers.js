@@ -12,15 +12,12 @@ function FormatResult(result){
     if (!result) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
     if (!result.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
 	
-    var output = `These are the doctors we found for you: `;
+    var output = `These are the ${result.length} doctors we found for you:`;
     for (var i = 0; i < result.length; i++) {
-        //if (rows[i].hasOwnProperty(0)) 
-            //output += "Name: ";
-		//if (rows[i].hasOwnProperty(1)) 
-            output += ("Address: " + result[i].Provider_Full_Street);
-		//if (rows[i].hasOwnProperty(2)) 
-            //output += ("City: " + JSON.stringify(result[i]));
-    }
+    		output += (" Name: " + result[i].Provider_Full_Name);
+			output += (" Address: " + result[i].Provider_Full_Street);
+			output += (" City: " + result[i].Provider_Full_City);
+   }
     return output;
 }
 
