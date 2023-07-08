@@ -24,6 +24,15 @@ function FormatResult(rows){
     return output;
 }
 
+function sleep(secs) {
+	return new Promise(resolve => setTimeout(resolve, secs * 1000));
+}
+
+async function sleepwrapper(secs){
+	await sleep(secs);
+	return 'This is the end';
+}
+
 async function SearchDoctors(DoctorName, ZipCode, Gender)
 {	
 	/*
@@ -61,7 +70,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
-	return query;
+	var ret = await sleepwrapper(4);
+	return ret;
 
 	try {
 		const [rows,fields] = await db.query(query);
