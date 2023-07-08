@@ -34,7 +34,7 @@ const SearchDoctorIntentHandler = {
         //we invoke the method that finds doctors that meet the criteria
         var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
 
-        if(!speakOutput) speakOutput = 'this was empty';
+        if(!speakOutput) speakOutput = "Sorry, I didn't found any doctor that meets your needs. Try something different!"
        
         return handlerInput.responseBuilder
             .speak(speakOutput)

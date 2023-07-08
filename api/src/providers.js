@@ -70,12 +70,11 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
-	var ret = await sleepwrapper(1);
-	return ret;
-
 	try {
-		const [rows,fields] = await db.query(query);
-		return query;
+		var ret = await sleepwrapper(1);
+		return ret;
+		//const [rows,fields] = await db.query(query);
+		//return query;
 		//return FormatResult(rows);
    	} catch(err) {
 	   	return `Error: ${query}  ${err}`;
