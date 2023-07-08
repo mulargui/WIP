@@ -4,81 +4,7 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
-
-const constants = require("./constants.js");
-const mysql = require('mysql2');
-
-function FormatResult(rows){
-    if (rows == null) return 'Sorry, no matching providers were found.';
-    if (!rows.length) return 'Sorry, no matching providers were found.';
-	
-    var output = `These are the doctors we found for you: `;
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i].hasOwnProperty(0)) 
-            output += ("Name: " + rows[i][0]);
-		if (rows[i].hasOwnProperty(1)) 
-            output += ("Address: " + rows[i][1]);
-		if (rows[i].hasOwnProperty(2)) 
-            output += ("City: " + rows[i][2]);
-    }
-    return output;
-}
-
- function SearchDoctors(DoctorName, ZipCode, Gender)
-{	
-	/*
-	var speakOutput = `You just triggered a search for doctors with the following values:`;
-	speakOutput += Gender ? ` gender = ${Gender}` : ``;
-	speakOutput += ZipCode ? ` zipcode = ${ZipCode}` : ``;
-	speakOutput += DoctorName ? ` name = ${DoctorName}` : ``;
-
-	return speakOutput;
-	*/
-
-    var db =  mysql.createPool({
-        host:constants.host,
-        user:constants.user,
-        password:constants.password,
-        database:constants.database
-    }); 
-
-    //return JSON.stringify(db);
-
-	//check params
- 	if(!ZipCode && !DoctorName && !Gender)
-		return "Sorry, I need more information to  search for doctors";
-
-	//normalize gender
-	if (Gender){
-		if (Gender === 'male') Gender = 'M';
-		if (Gender === 'm') Gender = 'M';
-		if (Gender !== 'M') Gender = 'F';
-	}
-
-	var query = "SELECT Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
-	if(DoctorName)
-		query += "(Provider_Last_Name_Legal_Name = '" + DoctorName + "')";
-	if(Gender)
-		if(DoctorName)
-			query += " AND (Provider_Gender_Code = '" + Gender + "')";
-		else
-			query += "(Provider_Gender_Code = '" + Gender + "')";
-	if(ZipCode)
-		if(DoctorName || Gender)
-			query += " AND (Provider_Short_Postal_Code = '"+ ZipCode + "')";
-		else
-			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
-   	query += ") limit 3";
-
-	try {
-		const [rows,fields] =  db.query(query);
-		//return query;
-		return FormatResult(rows);
-   	} catch(err) {
-	   	return `Error: ${query}  ${err}`;
-   	}
-} 
-
+const SearchDoctors = require('./providers.js');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -99,16 +25,14 @@ const SearchDoctorIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SearchDoctorIntent';
     },
-     handle(handlerInput) {
+    async handle(handlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const Gender = Alexa.getSlotValue(handlerInput.requestEnvelope, 'gender');
         const ZipCode = Alexa.getSlotValue(handlerInput.requestEnvelope, 'zipcode');
         const DoctorName = Alexa.getSlotValue(handlerInput.requestEnvelope, 'name');
 
-        //we invoke the method that finds the doctors that meet the criteria
-        var speakOutput = SearchDoctors(DoctorName, ZipCode, Gender);
-           // .then(() => speakOutput=`Order of customer fulfilled...`) 
-           // .catch((error) => speakOutput=error) 
+        //we invoke the method that finds doctors that meet the criteria
+        var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
        
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -225,7 +149,10 @@ const ErrorHandler = {
  * defined are included below. The order matters - they're processed top to bottom 
  * */
 exports.handler = Alexa.SkillBuilders.custom()
-    .withSkillId("amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab")
+	// this is safer as only this skill can invoke the lambda
+	//at this time I'm removing this protection as I didn't found an easy way to inject the skillID programmatically
+	//in general, Alexa relies too much on the developer console and manual work instead of APIs
+    //.withSkillId("amzn1.ask.skill.34e99e55-f047-4ef0-9708-92d6bb4d66ab")
     .addRequestHandlers(
         LaunchRequestHandler,
         SearchDoctorIntentHandler,

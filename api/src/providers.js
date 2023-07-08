@@ -61,6 +61,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
+	return query;
+
 	try {
 		const [rows,fields] = await db.query(query);
 		return query;
