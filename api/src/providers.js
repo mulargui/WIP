@@ -9,28 +9,19 @@ var db = mysql.createPool({
 });
 
 function FormatResult(rows){
-    if (rows == null) return 'Sorry, no matching providers were found.';
-    if (!rows.length) return 'Sorry, no matching providers were found.';
+    if (rows == null) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
+    if (!rows.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
 	
     var output = `These are the doctors we found for you: `;
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].hasOwnProperty(0)) 
-            output += ("Name: " + rows[i][0]);
+            output += "Name: ";
 		if (rows[i].hasOwnProperty(1)) 
             output += ("Address: " + rows[i][1]);
 		if (rows[i].hasOwnProperty(2)) 
             output += ("City: " + rows[i][2]);
     }
     return output;
-}
-
-function sleep(secs) {
-	return new Promise(resolve => setTimeout(resolve, secs * 1000));
-}
-
-async function sleepwrapper(secs){
-	await sleep(secs);
-	return 'This is the end';
 }
 
 async function SearchDoctors(DoctorName, ZipCode, Gender)
@@ -80,9 +71,6 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 		await connection.connect();
 		const [rows,fields] = await connection.query(query);
 		await connection.end();
-		//var ret = await sleepwrapper(1);
-		//return ret;
-		//const [rows,fields] = await db.query(query);
 		return FormatResult(rows);
    	} catch(err) {
 		return "Sorry, I didn't found any doctor that meets your needs. Try something different!";
