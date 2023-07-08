@@ -8,18 +8,18 @@ var dbconpool = mysql.createPool({
 	database:constants.database
 });
 
-function FormatResult(rows){
-    if (!rows) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
-    if (!rows.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
+function FormatResult(result){
+    if (!result) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
+    if (!result.length) return "Sorry, I didn't found any doctor that meets your needs, try something different!";
 	
     var output = `These are the doctors we found for you: `;
-    for (var i = 0; i < rows.length; i++) {
+    for (var i = 0; i < result.length; i++) {
         //if (rows[i].hasOwnProperty(0)) 
-            output += "Name: ";
+            //output += "Name: ";
 		//if (rows[i].hasOwnProperty(1)) 
-            output += ("Address: " + rows[i].Provider_Full_Street);
+            //output += ("Address: " + result[i].Provider_Full_Street);
 		//if (rows[i].hasOwnProperty(2)) 
-            output += ("City: " + rows[i][2]);
+            output += ("City: " + result[i]);
     }
     return output;
 }
