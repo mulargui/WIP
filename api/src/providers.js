@@ -70,6 +70,8 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
+	if (!db) return 'no db connectionpool';
+
 	try {
 		var ret = await sleepwrapper(1);
 		return ret;
