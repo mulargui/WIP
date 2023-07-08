@@ -70,7 +70,7 @@ async function SearchDoctors(DoctorName, ZipCode, Gender)
 			query += "(Provider_Short_Postal_Code = '" + ZipCode + "')";
    	query += ") limit 3";
 
-	var ret = await sleepwrapper(4);
+	var ret = await sleepwrapper(1);
 	return ret;
 
 	try {

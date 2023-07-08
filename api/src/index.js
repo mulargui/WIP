@@ -33,6 +33,8 @@ const SearchDoctorIntentHandler = {
 
         //we invoke the method that finds doctors that meet the criteria
         var speakOutput = await SearchDoctors(DoctorName, ZipCode, Gender);
+
+        if(!speakOutput) speakOutput = 'this was empty';
        
         return handlerInput.responseBuilder
             .speak(speakOutput)
