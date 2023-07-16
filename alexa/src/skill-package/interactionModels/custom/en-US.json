@@ -1,7 +1,6 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "healthylinkx",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -16,7 +15,6 @@
           "samples": []
         },
         {
-          "name": "SearchDoctorIntent",
           "slots": [
             {
               "name": "zipcode",
@@ -31,14 +29,19 @@
               "type": "Gender"
             }
           ],
+          "name": "SearchDoctorIntent",
           "samples": [
-            "I\u0027m looking for {name}",
+            "I need a {gender} doctor",
             "I\u0027m looking for a doctor in {zipcode}",
-            "I need a {gender} doctor"
+            "I\u0027m looking for doctor {name}"
           ]
         },
         {
           "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
           "samples": []
         }
       ],
@@ -47,19 +50,19 @@
           "values": [
             {
               "name": {
-                "value": "Female"
+                "value": "Male"
               }
             },
             {
               "name": {
-                "value": "Male"
+                "value": "Female"
               }
             }
           ],
           "name": "Gender"
         }
-      ]
+      ],
+      "invocationName": "healthylinkx"
     }
-  },
-  "version": "5"
+  }
 }

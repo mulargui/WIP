@@ -3,35 +3,50 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "uri": "arn:aws:lambda:us-east-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
+          "uri": "arn:aws:lambda:us-east-1:867679111813:function:healthylinkx-alexa-lambda"
         },
         "interfaces": [],
         "locales": {},
         "regions": {
           "NA": {
             "endpoint": {
-              "uri": "arn:aws:lambda:us-east-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
-            }
-          },
-          "EU": {
-            "endpoint": {
-              "uri": "arn:aws:lambda:eu-west-1:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
-            }
-          },
-          "FE": {
-            "endpoint": {
-              "uri": "arn:aws:lambda:us-west-2:194922106042:function:83e7ed37-cfc3-4c5c-83c8-d3c6df4aa126:Release_0"
+              "uri": "arn:aws:lambda:us-east-1:867679111813:function:healthylinkx-alexa-lambda"
             }
           }
         }
       }
     },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      },
+      "shoppingKit": {
+        "isAmazonAssociatesOnAlexaEnabled": false,
+        "isShoppingActionsEnabled": false
+      }
+    },
     "publishingInformation": {
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "category": "HEALTH_INFORMATION_AND_HELP",
+      "distributionCountries": [],
+      "isAvailableWorldwide": true,
       "locales": {
         "en-US": {
-          "name": "Healthylinkx"
+          "description": "Find doctors with the help of your social network",
+          "examplePhrases": [
+            "Alexa open healthylinkx",
+            "",
+            ""
+          ],
+          "keywords": [],
+          "name": "Healthylinkx",
+          "summary": "Find doctors with the help of your social network"
         }
-      }
+      },
+      "testingInstructions": "{\"ask_dist_username\":\"\",\"ask_dist_password\":\"\",\"ask_dist_testing_instructions\":\"Sample Testing Instructions.\"}"
     }
   }
 }
