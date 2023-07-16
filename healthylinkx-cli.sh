@@ -10,8 +10,8 @@ if [ ! -e $HOME/.ask/cli_config ]; then
 	#ask configure --no-browser
 fi
 
-#create a new skill
-#ask new 
+#skill managemetn
+./alexa.sh 
 
 #other commands
 /bin/bash
