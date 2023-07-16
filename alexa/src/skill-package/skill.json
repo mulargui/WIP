@@ -3,14 +3,14 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "uri": "arn:aws:lambda:us-east-1:867679111813:function:healthylinkx-alexa-lambda"
+          "uri": "arn:aws:lambda:AWS_REGION:AWS_ACCOUNT_ID:function:healthylinkx-alexa-lambda"
         },
         "interfaces": [],
         "locales": {},
         "regions": {
           "NA": {
             "endpoint": {
-              "uri": "arn:aws:lambda:us-east-1:867679111813:function:healthylinkx-alexa-lambda"
+              "uri": "arn:aws:lambda:AWS_REGION:AWS_ACCOUNT_ID:function:healthylinkx-alexa-lambda"
             }
           }
         }
