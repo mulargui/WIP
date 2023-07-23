@@ -9,6 +9,7 @@ const {
 
 const fs = require('fs');
 const replace = require('replace-in-file');
+const AdmZip = require('adm-zip');
 
 // Set the bucket parameters
 const bucketName = "healthylinkx";
