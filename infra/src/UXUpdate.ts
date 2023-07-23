@@ -17,9 +17,10 @@ const directoryToUpload = constants.ROOT + '/alexa/src/skill-package';
 const filePath = constants.ROOT + '/alexa/src/';
 const fileName = 'healthylinkx.zip';
 
-// ====== create the S3 bucket and copy files =====
+// ====== copy files to Alexa =====
 async function UXUpdate() {
 
+	//create the S3 bucket and copy files
 	try {
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
@@ -40,6 +41,14 @@ async function UXUpdate() {
 		// Create an S3 client service object
 		const AWSs3Client = new S3Client({});
 		
+		// check the S3  bucket exists
+		const input = { // HeadBucketRequest
+			Bucket: bucketName
+		};
+		const response = await AWSs3Client.send(new HeadBucketCommand(input));
+		console.log("Result: " + response);
+		return;
+
 		//copy the zip file to S3
 		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), 
 				ACL:'public-read'};
