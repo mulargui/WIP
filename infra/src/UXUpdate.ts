@@ -51,7 +51,6 @@ async function UXUpdate() {
 			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName }));
 			console.log("Success. " + bucketName + " bucket created.");
 		}
-		return;
 
 		//copy the zip file to S3
 		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), 
