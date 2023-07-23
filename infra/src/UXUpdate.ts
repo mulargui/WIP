@@ -23,9 +23,6 @@ async function UXUpdate() {
 
 	//create the S3 bucket and copy files
 	try {
-		console.log("Region." + process.env.AWS_REGION);
-		console.log("Account." + process.env.AWS_ACCOUNT_ID);
-
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
@@ -61,6 +58,10 @@ async function UXUpdate() {
 
 		await AWSs3Client.send(new PutObjectCommand(params));
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
+
+		//remove the files created
+		await fs.unlinkSync(filePath + '/' + fileName);
+		await fs.unlinkSync(directoryToUpload + '/skill.json');
 	} catch (err) {
 		console.log("Error. ", err);
 	}
