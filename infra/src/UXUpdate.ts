@@ -48,13 +48,12 @@ async function UXUpdate() {
 			console.log("Success. " + bucketName + " exists.");
 		}catch(err){
 			// Create S3 bucket
-			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName }));
+			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName, ACL:'public-read'}));
 			console.log("Success. " + bucketName + " bucket created.");
 		}
 
 		//copy the zip file to S3
-		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), 
-				ACL:'public-read'};
+		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
 				//ContentType: 'text/html', ACL:'public-read'};
 
 		await AWSs3Client.send(new PutObjectCommand(params));
