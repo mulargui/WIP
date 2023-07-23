@@ -43,11 +43,14 @@ async function UXUpdate() {
 		const AWSs3Client = new S3Client({});
 		
 		// check the S3  bucket exists
-		const input = { // HeadBucketRequest
-			Bucket: bucketName
-		};
-		const response = await AWSs3Client.send(new HeadBucketCommand(input));
-		console.log("Result: " + response);
+		try {
+			await AWSs3Client.send(new HeadBucketCommand({ Bucket: bucketName }));
+			console.log("Success. " + bucketName + " exists.");
+		}catch(err){
+			// Create S3 bucket
+			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName }));
+			console.log("Success. " + bucketName + " bucket created.");
+		}
 		return;
 
 		//copy the zip file to S3
