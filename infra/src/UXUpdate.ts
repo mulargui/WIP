@@ -23,11 +23,14 @@ async function UXUpdate() {
 
 	//create the S3 bucket and copy files
 	try {
+		console.log("Region." + process.env.AWS_REGION);
+		console.log("Account." + process.env.AWS_ACCOUNT_ID);
+
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
 			files: directoryToUpload + '/skill.json',
-			from: ['AWS_REGION', 'AWS_ACCOUNT_ID'],
+			from: [/AWS_REGION/g, /AWS_ACCOUNT_ID/g],
 			to: [process.env.AWS_REGION, process.env.AWS_ACCOUNT_ID]
 		};
 		await replace(options);
@@ -48,7 +51,7 @@ async function UXUpdate() {
 			console.log("Success. " + bucketName + " exists.");
 		}catch(err){
 			// Create S3 bucket
-			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName, ACL:'public-read'}));
+			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName}));
 			console.log("Success. " + bucketName + " bucket created.");
 		}
 
