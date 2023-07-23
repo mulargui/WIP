@@ -12,6 +12,7 @@
 # Dependency directories
 node_modules/
 jspm_packages/
+package-lock.json
 
 #not include python cache
 /__pycache__/*
