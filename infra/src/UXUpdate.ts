@@ -2,6 +2,7 @@ const constants = require('./envparams.ts');
 
 const {
 	S3Client,
+	HeadBucketCommand,
 	PutObjectCommand,
 	CreateBucketCommand,
 	PutBucketWebsiteCommand
