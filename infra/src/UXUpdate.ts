@@ -56,7 +56,13 @@ async function UXUpdate() {
 
 			//allow public access to the bucket
 			await AWSs3Client.send(new DeletePublicAccessBlockCommand({Bucket: bucketName}));
-
+/*
+					"Condition": {
+            			"StringEquals": {
+            				"s3:x-amz-acl": "public-read"
+        				}
+        			}
+					*/
 			PublicBucketPolicy = {
 				"Version": "2012-10-17",
 				"Statement": [{
@@ -64,12 +70,7 @@ async function UXUpdate() {
         			"Effect": "Allow",
         			"Principal": "*",
     				"Action": "s3:GetObject",
-    				"Resource": 'arn:aws:s3:::' + bucketName + '/*',
-					"Condition": {
-            			"StringEquals": {
-            				"s3:x-amz-acl": "public-read"
-        				}
-        			}
+    				"Resource": 'arn:aws:s3:::' + bucketName + '/*'
     			}]
 			};
 			await AWSs3Client.send(new PutBucketPolicyCommand({
@@ -79,8 +80,8 @@ async function UXUpdate() {
 		}
 
 		//copy the zip file to S3
-		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
-		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
+		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
+		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
 				//ContentType: 'text/html', ACL:'public-read'};
 
 		await AWSs3Client.send(new PutObjectCommand(params));
