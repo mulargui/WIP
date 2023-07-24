@@ -6,7 +6,8 @@ const {
 	PutObjectCommand,
 	CreateBucketCommand,
 	PutBucketWebsiteCommand,
-	DeletePublicAccessBlockCommand
+	DeletePublicAccessBlockCommand,
+	PutBucketPolicyCommand
 } = require("@aws-sdk/client-s3");
 
 const fs = require('fs');
@@ -52,27 +53,29 @@ async function UXUpdate() {
 			// Create S3 bucket
 			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName}));
 			console.log("Success. " + bucketName + " bucket created.");
+
 			//allow public access to the bucket
 			await AWSs3Client.send(new DeletePublicAccessBlockCommand({Bucket: bucketName}));
-/*
-{
-"Version": "2012-10-17",
-"Statement": [
-    {
-        "Sid": "AllowPublicRead",
-        "Effect": "Allow",
-        "Principal": "*",
-        "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${bucketName}/*",
-        "Condition": {
-            "StringEquals": {
-                "s3:x-amz-acl": "public-read"
-            }
-        }
-    }
-]
-}
-*/
+
+			PublicBucketPolicy = {
+				"Version": "2012-10-17",
+				"Statement": [{
+        			"Sid": "AllowPublicRead",
+        			"Effect": "Allow",
+        			"Principal": "*",
+    				"Action": "s3:GetObject",
+    				"Resource": 'arn:aws:s3:::' + bucketName + '/*',
+					"Condition": {
+            			"StringEquals": {
+            				"s3:x-amz-acl": "public-read"
+        				}
+        			}
+    			}]
+			};
+			await AWSs3Client.send(new PutBucketPolicyCommand({
+				Policy: JSON.stringify(PublicBucketPolicy),
+				Bucket: bucketName
+			}));
 		}
 
 		//copy the zip file to S3
