@@ -5,7 +5,8 @@ const {
 	HeadBucketCommand,
 	PutObjectCommand,
 	CreateBucketCommand,
-	PutBucketWebsiteCommand
+	PutBucketWebsiteCommand,
+	DeletePublicAccessBlockCommand
 } = require("@aws-sdk/client-s3");
 
 const fs = require('fs');
