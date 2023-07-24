@@ -11,6 +11,7 @@ const {
 const fs = require('fs');
 const replace = require('replace-in-file');
 const AdmZip = require('adm-zip');
+const exec = require('await-exec');
 
 // Set the bucket parameters
 const bucketName = "healthylinkx";
@@ -50,18 +51,48 @@ async function UXUpdate() {
 			// Create S3 bucket
 			await AWSs3Client.send(new CreateBucketCommand({ Bucket: bucketName}));
 			console.log("Success. " + bucketName + " bucket created.");
+			//allow public access to the bucket
+			await AWSs3Client.send(new DeletePublicAccessBlockCommand({Bucket: bucketName}));
+/*
+{
+"Version": "2012-10-17",
+"Statement": [
+    {
+        "Sid": "AllowPublicRead",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "s3:PutObject",
+        "Resource": "arn:aws:s3:::${bucketName}/*",
+        "Condition": {
+            "StringEquals": {
+                "s3:x-amz-acl": "public-read"
+            }
+        }
+    }
+]
+}
+*/
 		}
 
 		//copy the zip file to S3
-		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
+		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
+		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
 				//ContentType: 'text/html', ACL:'public-read'};
 
 		await AWSs3Client.send(new PutObjectCommand(params));
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
 
-		//remove the files created
+		//update the Alexa interface
+		//await exec(`ask smapi import-skill-package --location https://github.com/mulargui/WIP/tree/master/alexa/src --skill-id ${constants.SKILLID}`); 
+		console.log("Success. Alexa updated.");
+
+		//remove resources created
 		await fs.unlinkSync(filePath + '/' + fileName);
 		await fs.unlinkSync(directoryToUpload + '/skill.json');
+		//await AWSs3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName})); 
+		//await AWSs3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
+		console.log("Success. All resources deleted.");
+		
 	} catch (err) {
 		console.log("Error. ", err);
 	}
