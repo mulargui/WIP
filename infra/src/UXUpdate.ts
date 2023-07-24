@@ -65,13 +65,13 @@ async function UXUpdate() {
         			"Sid": "AllowPublicRead",
         			"Effect": "Allow",
         			"Principal": "*",
-    				"Action": "s3:GetObject",
+    				"Action": ["s3:GetObject"],
 					//"Condition": {
             		//	"StringEquals": {
             		//		"s3:x-amz-acl": "public-read"
         			//	}
         			//},
-    				"Resource": 'arn:aws:s3:::' + bucketName + '/*'
+    				"Resource": ['arn:aws:s3:::' + bucketName + '/*']
     			}]
 			};
 			await AWSs3Client.send(new PutBucketPolicyCommand({
@@ -96,8 +96,8 @@ async function UXUpdate() {
 		//remove resources created
 		await fs.unlinkSync(filePath + '/' + fileName);
 		await fs.unlinkSync(directoryToUpload + '/skill.json');
-		await AWSs3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName})); 
-		await AWSs3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
+		//await AWSs3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName})); 
+		//await AWSs3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
 		console.log("Success. All resources deleted.");
 		
 	} catch (err) {
