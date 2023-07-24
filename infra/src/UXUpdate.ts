@@ -70,6 +70,11 @@ async function UXUpdate() {
         			"Effect": "Allow",
         			"Principal": "*",
     				"Action": "s3:GetObject",
+					//"Condition": {
+            		//	"StringEquals": {
+            		//		"s3:x-amz-acl": "public-read"
+        			//	}
+        			//},
     				"Resource": 'arn:aws:s3:::' + bucketName + '/*'
     			}]
 			};
@@ -77,18 +82,19 @@ async function UXUpdate() {
 				Policy: JSON.stringify(PublicBucketPolicy),
 				Bucket: bucketName
 			}));
+			console.log("Success. " + bucketName + " bucket made public.");
 		}
 
 		//copy the zip file to S3
-		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
-		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
+		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
+		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
 				//ContentType: 'text/html', ACL:'public-read'};
 
 		await AWSs3Client.send(new PutObjectCommand(params));
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
 
 		//update the Alexa interface
-		//await exec(`ask smapi import-skill-package --location https://github.com/mulargui/WIP/tree/master/alexa/src --skill-id ${constants.SKILLID}`); 
+		//await exec(`ask smapi import-skill-package --location https://healthylinkx.s3.amazonaws.com/healthylinkx.zip --skill-id ${constants.SKILLID}`); 
 		console.log("Success. Alexa updated.");
 
 		//remove resources created
