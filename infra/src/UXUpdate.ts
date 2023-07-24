@@ -65,13 +65,13 @@ async function UXUpdate() {
         			"Sid": "AllowPublicRead",
         			"Effect": "Allow",
         			"Principal": "*",
-    				"Action": ["s3:GetObject"],
+    				"Action": "s3:GetObject",
 					//"Condition": {
             		//	"StringEquals": {
             		//		"s3:x-amz-acl": "public-read"
         			//	}
         			//},
-    				"Resource": ['arn:aws:s3:::' + bucketName + '/*']
+    				"Resource": 'arn:aws:s3:::' + bucketName + '/*'
     			}]
 			};
 			await AWSs3Client.send(new PutBucketPolicyCommand({
@@ -90,7 +90,7 @@ async function UXUpdate() {
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
 
 		//update the Alexa interface
-		//await exec(`ask smapi import-skill-package --location https://healthylinkx.s3.amazonaws.com/healthylinkx.zip --skill-id ${constants.SKILLID}`); 
+		await exec(`ask smapi import-skill-package --location https://healthylinkx.s3.amazonaws.com/healthylinkx.zip --skill-id ${constants.SKILLID}`); 
 		console.log("Success. Alexa updated.");
 
 		//remove resources created
