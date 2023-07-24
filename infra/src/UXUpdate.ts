@@ -12,6 +12,7 @@ const {
 	DeleteBucketCommand
 } = require("@aws-sdk/client-s3");
 
+const Alexa = require('ask-smapi-sdk');
 const fs = require('fs');
 const replace = require('replace-in-file');
 const AdmZip = require('adm-zip');
@@ -23,7 +24,7 @@ const directoryToUpload = constants.ROOT + '/alexa/src/skill-package';
 const filePath = constants.ROOT + '/alexa/src/';
 const fileName = 'healthylinkx.zip';
 
-// ====== copy files to Alexa =====
+// ====== updates the Healthylinkx Alexa skill =====
 async function UXUpdate() {
 
 	//create the S3 bucket and copy files
