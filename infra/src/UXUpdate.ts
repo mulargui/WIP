@@ -8,7 +8,8 @@ const {
 	PutBucketWebsiteCommand,
 	DeletePublicAccessBlockCommand,
 	PutBucketPolicyCommand,
-	DeleteObjectCommand
+	DeleteObjectCommand,
+	DeleteBucketCommand
 } = require("@aws-sdk/client-s3");
 
 const fs = require('fs');
