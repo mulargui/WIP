@@ -66,11 +66,6 @@ async function UXUpdate() {
         			"Effect": "Allow",
         			"Principal": "*",
     				"Action": "s3:GetObject",
-					//"Condition": {
-            		//	"StringEquals": {
-            		//		"s3:x-amz-acl": "public-read"
-        			//	}
-        			//},
     				"Resource": 'arn:aws:s3:::' + bucketName + '/*'
     			}]
 			};
@@ -82,9 +77,7 @@ async function UXUpdate() {
 		}
 
 		//copy the zip file to S3
-		//let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName), ACL:'public-read'};
 		let params = {Bucket: bucketName, Key: fileName, Body: fs.readFileSync(filePath + '/' + fileName)};
-				//ContentType: 'text/html', ACL:'public-read'};
 
 		await AWSs3Client.send(new PutObjectCommand(params));
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
@@ -96,8 +89,8 @@ async function UXUpdate() {
 		//remove resources created
 		await fs.unlinkSync(filePath + '/' + fileName);
 		await fs.unlinkSync(directoryToUpload + '/skill.json');
-		//await AWSs3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName})); 
-		//await AWSs3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
+		await AWSs3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName})); 
+		await AWSs3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
 		console.log("Success. All resources deleted.");
 		
 	} catch (err) {
