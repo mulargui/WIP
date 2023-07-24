@@ -5,14 +5,13 @@ const {
 	HeadBucketCommand,
 	PutObjectCommand,
 	CreateBucketCommand,
-	PutBucketWebsiteCommand,
 	DeletePublicAccessBlockCommand,
 	PutBucketPolicyCommand,
 	DeleteObjectCommand,
 	DeleteBucketCommand
 } = require("@aws-sdk/client-s3");
 
-const Alexa = require('ask-smapi-sdk');
+//const Alexa = require('ask-smapi-sdk');
 const fs = require('fs');
 const replace = require('replace-in-file');
 const AdmZip = require('adm-zip');
