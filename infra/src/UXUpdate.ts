@@ -32,7 +32,7 @@ async function UXUpdate() {
 		data = await exec(`ask smapi list-skills-for-vendor`); 
 		data = JSON.parse(data.stdout); //parse the command results
 		data.skills.every(function(element) {
-			if (element.nameByLocale["en-US"] === "Healthylinkx"){
+			if (element.nameByLocale["en-US"] === "Healthlinkx"){
 				skillId = element.skillId;
 				return false;
 			}
