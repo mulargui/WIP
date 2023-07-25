@@ -29,7 +29,7 @@ async function UXUpdate() {
 	try {
 		// search for the healthylinkx skill id
 		data = await exec(`ask smapi list-skills-for-vendor`); 
-		console.log(JSON.stringify(data.stdout));
+		console.log(JSON.stringify(data.stdout.skills[0]));
 		//console.log('skill name: ' + data.stdout.skills[0].nameByLocale.en-US);
 		//console.log('skill id: ' + data.stdout.skills[0].skillId);
 		return;
