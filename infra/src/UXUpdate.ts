@@ -27,18 +27,23 @@ const fileName = 'healthylinkx.zip';
 async function UXUpdate() {
 
 	try {
+		var skillId;
 		// search for the healthylinkx skill id
 		data = await exec(`ask smapi list-skills-for-vendor`); 
 		data = JSON.parse(data.stdout); //parse the command results
 		data.skills.forEach(function(element) {
-			if (element.nameByLocale["en-US"] === "Healthylinkx")
-				console.log(element.skillId);
+			if (element.nameByLocale["en-US"] === "Healthylinkx"){
+				skillId = element.skillId;
+				break;
+			}
 		});
-		console.log('=============================================================================');
-		//console.log('skill name: ' + data.stdout.skills[0].nameByLocale.en-US);
-		//console.log('skill id: ' + data.stdout.skills[0].skillId);
-		return;
+		if(!skillId){
+			console.log("Error. Unable to find the skill Healthylinkx.");
+			return;
+		}
+		console.log("Success. Healthylinkx skillID: " + skillId);
 
+		return;
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
