@@ -31,7 +31,7 @@ async function UXUpdate() {
 		data = await exec(`ask smapi list-skills-for-vendor`); 
 		data = JSON.parse(data.stdout); //parse the command results
 		data.skills.forEach(function(element) {
-			console.log(JSON.stringify(element.nameByLocale));
+			console.log(JSON.stringify(element.nameByLocale.en-US));
 		});
 		console.log('=============================================================================');
 		//console.log('skill name: ' + data.stdout.skills[0].nameByLocale.en-US);
