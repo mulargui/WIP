@@ -3,7 +3,7 @@
 #check we have ASK credentials
 if [ ! -e $HOME/.ask/cli_config ]; then
 	echo "No ASK credentials, requesting them"
-	#ask configure --no-browser
+	ask configure --no-browser
 fi
 
 #install the app
@@ -11,4 +11,4 @@ fi
 node infra/src/index.ts "$@"
 
 #other commands
-#/bin/bash
+/bin/bash
