@@ -32,7 +32,7 @@ async function UXUpdate() {
 		data = await exec(`ask smapi list-skills-for-vendor`); 
 		data = JSON.parse(data.stdout); //parse the command results
 		data.skills.every(function(element) {
-			if (element.nameByLocale["en-US"] === "Healthlinkx"){
+			if (element.nameByLocale["en-US"] === constants.SKILLNAME){
 				skillId = element.skillId;
 				return false;
 			}
@@ -44,7 +44,6 @@ async function UXUpdate() {
 		}
 		console.log("Success. Healthylinkx skillID: " + skillId);
 
-		return;
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
@@ -100,7 +99,7 @@ async function UXUpdate() {
 		console.log("Success. " + fileName + " file copied to bucket " + bucketName);
 
 		//update the Alexa interface
-		await exec(`ask smapi import-skill-package --location https://healthylinkx.s3.amazonaws.com/healthylinkx.zip --skill-id ${constants.SKILLID}`); 
+		await exec(`ask smapi import-skill-package --location https://healthylinkx.s3.amazonaws.com/healthylinkx.zip --skill-id ${skillId}`); 
 		console.log("Success. Alexa updated.");
 
 		//remove resources created
