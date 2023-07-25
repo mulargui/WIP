@@ -26,8 +26,12 @@ const fileName = 'healthylinkx.zip';
 // ====== updates the Healthylinkx Alexa skill =====
 async function UXUpdate() {
 
-	//create the S3 bucket and copy files
 	try {
+		// search for the healthylinkx skill id
+		data = await exec(`ask smapi list-skills-for-vendor`); 
+		console.log(JSON.stringify(data));
+		return;
+
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
@@ -38,7 +42,7 @@ async function UXUpdate() {
 		await replace(options);
 		console.log("Success. lambda endpoints updated.");
 
-		//create a zip package with the alexa skill
+		// create a zip package with the alexa skill
 		const file = new AdmZip();	
 		file.addLocalFile(directoryToUpload + '/skill.json');
 		file.addLocalFolder(directoryToUpload + '/interactionModels', 'interactionModels');
