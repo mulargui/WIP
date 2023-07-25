@@ -31,11 +31,12 @@ async function UXUpdate() {
 		// search for the healthylinkx skill id
 		data = await exec(`ask smapi list-skills-for-vendor`); 
 		data = JSON.parse(data.stdout); //parse the command results
-		data.skills.forEach(function(element) {
+		data.skills.every(function(element) {
 			if (element.nameByLocale["en-US"] === "Healthylinkx"){
 				skillId = element.skillId;
-				break;
+				return false;
 			}
+			return true;
 		});
 		if(!skillId){
 			console.log("Error. Unable to find the skill Healthylinkx.");
