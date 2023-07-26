@@ -5,7 +5,7 @@ const ROOT='/repo'
 //datastore user
 const DBUSER='root'
 const DBPWD='awsdatastore'
-const SKILLNAME='Healthlinkx'
+const SKILLNAME='Healthylinkx'
 
 exports.ROOT=ROOT;
 
