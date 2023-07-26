@@ -1,6 +1,6 @@
 
 // ====== searches for an Alexa skill by name =====
-async function FindSkillID(skillname) {
+async function FindSkillIDFromName(skillname) {
 	var skillId;
 
 	data = await exec(`ask smapi list-skills-for-vendor`); 
@@ -15,4 +15,4 @@ async function FindSkillID(skillname) {
     return skillId;
 }
 
-module.exports = FindSkillID;
+module.exports = FindSkillIDFromName;
