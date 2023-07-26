@@ -1,3 +1,4 @@
+const exec = require('await-exec');
 
 // ====== searches for an Alexa skill by name =====
 async function FindSkillIDFromName(skillname) {
