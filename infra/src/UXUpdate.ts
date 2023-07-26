@@ -39,10 +39,10 @@ async function UXUpdate() {
 			}
 			return true;
 		});
-		if(!skillId){
+		/*if(!skillId){
 			console.log("Error. Unable to find the skill Healthylinkx.");
 			return;
-		}
+		}*/
 		console.log("Success. Healthylinkx skillID: " + skillId);
 
 		// search for the healthylinkx skill id
