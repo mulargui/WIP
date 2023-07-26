@@ -46,8 +46,7 @@ async function UXUpdate() {
 		console.log("Success. Healthylinkx skillID: " + skillId);
 
 		// search for the healthylinkx skill id
-		var skillId2;
-		skillId2 = FindSkillID(constants.SKILLNAME);
+		skillId2 = await FindSkillID(constants.SKILLNAME);
 		console.log("Healthylinkx skillID2: " + skillId2);
 
 		// create skill.json with lambda endpoints
