@@ -1,7 +1,7 @@
 const exec = require('await-exec');
 
 // ====== searches for an Alexa skill by name =====
-async function FindSkillIDFromName(skillname) {
+async function FindSkillIDByName(skillname) {
 	var skillId;
 
 	data = await exec(`ask smapi list-skills-for-vendor`); 
@@ -16,4 +16,4 @@ async function FindSkillIDFromName(skillname) {
     return skillId;
 }
 
-module.exports = FindSkillIDFromName;
+module.exports = FindSkillIDByName;

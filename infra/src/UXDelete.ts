@@ -1,6 +1,6 @@
 
 const constants = require('./envparams.ts');
-const FindSkillIDFromName = require('./alexautil.ts');
+const FindSkillIDByName = require('./alexautil.ts');
 
 const exec = require('await-exec');
 
@@ -8,7 +8,7 @@ const exec = require('await-exec');
 async function UXDelete() {
 	try {
 		// search for the healthylinkx skill id
-		skillId = await FindSkillIDFromName(constants.SKILLNAME);
+		skillId = await FindSkillIDByName(constants.SKILLNAME);
 		await exec('ask smapi delete-skill --skill-id ' + skillId); 
 		console.log("Success. healthylinkx skill " + skillId + " deleted.");
 	} catch (err) {
