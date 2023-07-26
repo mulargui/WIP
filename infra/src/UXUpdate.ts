@@ -39,16 +39,16 @@ async function UXUpdate() {
 			}
 			return true;
 		});
-		/*if(!skillId){
-			console.log("Error. Unable to find the skill Healthylinkx.");
-			return;
-		}*/
 		console.log("Success. Healthylinkx skillID: " + skillId);
 
 		// search for the healthylinkx skill id
 		skillId2 = await FindSkillIDByName(constants.SKILLNAME);
 		console.log("Healthylinkx skillID2: " + skillId2);
-
+		if(!skillId2){
+			console.log("Error. Unable to find the skill Healthylinkx.");
+			return;
+		}
+		
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
 		const options = {
