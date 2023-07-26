@@ -1,4 +1,5 @@
 const constants = require('./envparams.ts');
+const FindSkillID = require('./alexautil.ts');
 
 const {
 	S3Client,
@@ -43,6 +44,11 @@ async function UXUpdate() {
 			return;
 		}
 		console.log("Success. Healthylinkx skillID: " + skillId);
+
+		// search for the healthylinkx skill id
+		var skillId2;
+		skillId2 = FindSkillID(constants.SKILLNAME);
+		console.log("Healthylinkx skillID2: " + skillId2);
 
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(directoryToUpload + '/skill.template.json', directoryToUpload + '/skill.json');
