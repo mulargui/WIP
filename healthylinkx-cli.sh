@@ -11,4 +11,4 @@ fi
 node infra/src/index.ts "$@"
 
 #other commands
-#/bin/bash
+/bin/bash
