@@ -15,7 +15,7 @@ async function UXCreate() {
 	try {		
 		// create ask-resources.json with lambda region
 		fs.copyFileSync(skilldir + '/ask-resources.template.json', skilldir + '/ask-resources.json');
-		const options = {
+		options = {
 			files: skilldir + '/ask-resources.json',
 			from: [/AWS_REGION/g],
 			to: [process.env.AWS_REGION]
@@ -24,7 +24,7 @@ async function UXCreate() {
 
 		// create skill.json with lambda endpoints
 		fs.copyFileSync(skillpackagedir + '/skill.template.json', skillpackagedir + '/skill.json');
-		const options = {
+		options = {
 			files: skillpackagedir + '/skill.json',
 			from: [/AWS_REGION/g, /AWS_ACCOUNT_ID/g],
 			to: [process.env.AWS_REGION, process.env.AWS_ACCOUNT_ID]
