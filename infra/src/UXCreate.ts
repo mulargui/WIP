@@ -32,7 +32,9 @@ async function UXCreate() {
 		await replace(options);
 
 		//create the Alexa skill
-		await exec("ask deploy --target skill-metadata --ignore-hash", {cwd: skilldir}); 
+		data = await exec("ask deploy --target skill-metadata --ignore-hash", {cwd: skilldir}); 
+		//in case you want to see the output of the commmand
+		//consolue.log ("ask command stdout: " + JSON.parse(data.stdout)); 
 
 		//remove resources created
 		await fs.unlinkSync(skillpackagedir + '/skill.json');
