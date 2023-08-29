@@ -25,4 +25,4 @@ curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&lastname1=anderso
 
 date +"%T.%3N" ; echo "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=General%20Practice"
 curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=General%20Practice ; echo
-date +"%T.%3N"
+date +"%T.%3N" ; echo "end"
