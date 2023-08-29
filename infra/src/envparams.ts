@@ -5,8 +5,8 @@ const ROOT=process.cwd()
 //const ROOT='/repo'
 
 //datastore user
-const DBUSER='user'
-const DBPWD='123456'
+const DBUSER='root'
+const DBPWD='awsdatastore'
 
 exports.ROOT=ROOT;
 
