@@ -27,7 +27,7 @@ def serve_openapi_yaml():
     yaml_data = yaml.load(yaml_data, Loader=yaml.FullLoader)
     return jsonify(yaml_data)
 
-@app.route('/openapi.json')
+# @app.route('/openapi.json')
 def serve_openapi_json():
     return send_from_directory(os.path.dirname(__file__), 'openapi.json')
 
