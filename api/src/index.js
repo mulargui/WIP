@@ -1,22 +1,6 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
-/*
-https://v93c3ahq1d.execute-api.us-east-1.amazonaws.com/prod/providers?zipcode=98052&lastname1=anderson&gender=f
-
-[
-	{"Provider_Full_Name":"ANDERSON, TANA  MA, LMHC",
-		"Provider_Full_Street":"15600 REDMOND WAY SUITE 101",
-		"Provider_Full_City":"REDMOND, WA 980523862"},
-	{"Provider_Full_Name":"ANDERSON, CAROLYN M ",
-		"Provider_Full_Street":"15446 BEL RED RD ",
-		"Provider_Full_City":"REDMOND, WA 980525501"},
-	{"Provider_Full_Name":"ANDERSON, VIRGINIA  MHC",
-		"Provider_Full_Street":"16700 NE 79TH ST SUITE 103",
-		"Provider_Full_City":"REDMOND, WA 980524465"}
-]
-*/
-
 function ServerReply (code, message){
 	if (code != 200) message = [];
 	return {
