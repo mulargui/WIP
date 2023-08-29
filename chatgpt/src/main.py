@@ -16,7 +16,6 @@ CORS(app, origins=[f"http://localhost:{PORT}", "https://chat.openai.com"])
 
 api_url = 'https://example.com'
 
-
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():
     return send_from_directory(os.path.dirname(__file__), 'ai-plugin.json')
@@ -34,6 +33,9 @@ def serve_openapi_yaml():
 def serve_openapi_json():
     return send_from_directory(os.path.dirname(__file__), 'openapi.json')
 
+@app.route('/logo.png')
+def serve_logo():
+    return send_from_directory(os.path.dirname(__file__), 'logo.png')
 
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def wrapper(path):
