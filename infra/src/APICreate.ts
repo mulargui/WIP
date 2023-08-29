@@ -21,7 +21,7 @@ const {
 	PutIntegrationCommand,
 	CreateDeploymentCommand
 } = require("@aws-sdk/client-api-gateway");
-const fs = require('fs');
+const fs = require('graceful-fs');
 const exec = require('await-exec');
 const AdmZip = require('adm-zip');
 const replace = require('replace-in-file');

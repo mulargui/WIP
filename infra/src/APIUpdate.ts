@@ -7,7 +7,7 @@ const {
     LambdaClient,
     UpdateFunctionCodeCommand
 } = require("@aws-sdk/client-lambda");
-const fs = require('fs');
+const fs = require('graceful-fs');
 const exec = require('await-exec');
 const AdmZip = require('adm-zip');
 const replace = require('replace-in-file');
