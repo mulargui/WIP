@@ -2,9 +2,9 @@
 URL=https://v93c3ahq1d.execute-api.us-east-1.amazonaws.com/prod/providers
 
 date +"%T.%3N" ; echo "zipcode=98052"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052 ; echo
+curl -v -L -H 'Content-Type: application/json' $URL?zipcode=98052 ; echo
 date +"%T.%3N" ; echo "zipcode=98052&distance=10" 
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&distance=10 ; echo
+curl -i -L -H 'Content-Type: application/json' $URL?zipcode=98052&distance=10 ; echo
 date +"%T.%3N" ; echo "lastname1=anderson" 
 curl -L -H 'Content-Type: application/json' $URL?lastname1=anderson ; echo
 date +"%T.%3N" ; echo "lastname1=anderson&lastname2=brock" 
