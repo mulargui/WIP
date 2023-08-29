@@ -18,6 +18,7 @@ https://v93c3ahq1d.execute-api.us-east-1.amazonaws.com/prod/providers?zipcode=98
 */
 
 function ServerReply (code, message){
+	if (code != 200) message = [];
 	return {
 		"statusCode": code,
 		"headers": {
@@ -25,7 +26,7 @@ function ServerReply (code, message){
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Methods": "OPTIONS,GET"
 		},
-		"body": JSON.stringify(message)
+		"body": '{ "Providers": ' + JSON.stringify(message) + '}'
 	};
 }
 
@@ -52,7 +53,7 @@ exports.handler = async (event) => {
 		if (gender !== 'M') gender = 'F';
 	}
 
-	var query = "SELECT Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
+	var query = "SELECT Provider_Full_Name,Provider_Full_Street,Provider_Full_City,Specialization FROM npidata2 WHERE (";
  	if(lastname1)
  		query += "((Provider_Last_Name_Legal_Name = '" + lastname1 + "')";
  	if(lastname2)

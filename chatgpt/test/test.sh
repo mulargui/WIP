@@ -1,5 +1,5 @@
 
-URL=https://v93c3ahq1d.execute-api.us-east-1.amazonaws.com/prod/providers
+URL=https://127.0.0.1:3333
 
 date +"%T.%3N"
 curl -L -H 'Content-Type: application/json' $URL?zipcode=98052 ; echo
