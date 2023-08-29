@@ -1,6 +1,8 @@
 
 //repo location
-const ROOT='/home/cloudshell-user/healthylinkx-serverless-node'
+const ROOT=process.cwd()
+//const ROOT=__dirname
+//const ROOT='/Users/ulargm/WIP'
 
 //datastore user
 const DBUSER='user'

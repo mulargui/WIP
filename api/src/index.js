@@ -1,6 +1,5 @@
 const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
-const axios = require('axios');
 
 function ServerReply (code, message){
 	return {
@@ -13,13 +12,6 @@ function ServerReply (code, message){
 		"body": JSON.stringify(message)
 	};
 }
-
-var db = mysql.createPool({
-	host:constants.host,
-	user:constants.user,
-	password:constants.password,
-	database:constants.database
-});
 
 exports.handler = async (event) => {
 	if (!event.queryStringParameters)
@@ -37,7 +29,14 @@ exports.handler = async (event) => {
  	if(!zipcode && !lastname1 && !specialty)
 		return ServerReply (204, {"error": 'not enought params!'});
 	
- 	var query = "SELECT NPI,Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
+	//normalize gender
+	if (gender){
+		if (gender === 'male') gender = 'M';
+		if (gender === 'm') gender = 'M';
+		if (gender !== 'M') gender = 'F';
+	}
+
+	var query = "SELECT Provider_Full_Name,Provider_Full_Street,Provider_Full_City FROM npidata2 WHERE (";
  	if(lastname1)
  		query += "((Provider_Last_Name_Legal_Name = '" + lastname1 + "')";
  	if(lastname2)
@@ -57,56 +56,25 @@ exports.handler = async (event) => {
  		else
  			query += "(Classification = '" + specialty + "')";
 
- 	//case 1: no need to calculate zip codes at a distance
- 	if (!distance || !zipcode){
- 		if(zipcode)
- 			if(lastname1 || gender || specialty)
- 				query += " AND (Provider_Short_Postal_Code = '"+ zipcode + "')";
- 			else
- 				query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
-		query += ") limit 50";
- 		
-		try {
-			const [rows,fields] = await db.query(query);
-			return ServerReply (200, rows);
-		} catch(err) {
-			return ServerReply (500, {"error": query + '#' + err});
-		}
-	}
-	
- 	//case 2:we need to find zipcodes at a distance
-
- 	//lets get a few zipcodes
- 	var queryapi = "http://" + constants.zipcodeapi + "/rest/" + constants.zipcodetoken 
-		+ "/radius.json/" + zipcode + "/" + distance + "/mile";
-	var zipcodes="";
+	if(zipcode)
+		if(lastname1 || gender || specialty)
+			query += " AND (Provider_Short_Postal_Code = '"+ zipcode + "')";
+		else
+			query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
+	query += ") limit 3";
 
 	try {
-		const response = await axios.get(queryapi);
-		zipcodes=response.data;
-	} catch (err) {
-		return ServerReply (500, {"error": queryapi + ':' + err});
-	}
-
-	//no data
-  	if (!zipcodes) return ServerReply (204, {"error": "no zipcodes!"});
-
-	var length=zipcodes.zip_codes.length;
-
-	//complete the query
- 	if(lastname1 || gender || specialty)
- 		query += " AND ((Provider_Short_Postal_Code = '"+zipcodes.zip_codes[0].zip_code+"')";
- 	else
- 		query += "((Provider_Short_Postal_Code = '"+zipcodes.zip_codes[0].zip_code+"')";
-	for (var i=1; i<length;i++){
- 		query += " OR (Provider_Short_Postal_Code = '"+ zipcodes.zip_codes[i].zip_code +"')";
-	}
-  	query += ")) limit 50";
-
-	try {
-		const [rows,fields] = await db.query(query);
+		const connection = await mysql.createConnection({
+			host:constants.host,
+			user:constants.user,
+			password:constants.password,
+			database:constants.database
+		});
+		await connection.connect();
+		const [rows,fields] = await connection.query(query);
+		await connection.end();
 		return ServerReply (200, rows);
 	} catch(err) {
 		return ServerReply (500, {"error": query + '#' + err});
-	}
+	} 
 }; 

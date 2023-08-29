@@ -13,13 +13,6 @@ const unzip = require('unzip');
 const fs = require('fs');
 const exec = require('await-exec');
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -32,7 +25,7 @@ async function DSCreate() {
 		//In order to have public access to the DB
 		//we need to create a security group (aka firewall)with an inbound rule 
 		//protocol:TCP, Port:3306, Source: Anywhere (0.0.0.0/0)
-		const ec2client = new EC2Client(config);
+		const ec2client = new EC2Client({});
 		
 		var data = await ec2client.send(new CreateSecurityGroupCommand({ Description: 'MySQL Sec Group', GroupName: 'DBSecGroup'}));
 		const vpcSecurityGroupId = data.GroupId;
@@ -51,7 +44,7 @@ async function DSCreate() {
 		console.log("Success. " + vpcSecurityGroupId + " authorized.");
 
 		// Create an RDS client service object
-		const rdsclient = new RDSClient(config);
+		const rdsclient = new RDSClient({});
 	
 		// Create the RDS instance
 		var rdsparams = {

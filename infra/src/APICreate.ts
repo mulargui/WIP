@@ -26,13 +26,6 @@ const exec = require('await-exec');
 const AdmZip = require('adm-zip');
 const replace = require('replace-in-file');
 
-// Set the AWS region and secrets
-const config = {
-	accessKeyId: constants.AWS_ACCESS_KEY_ID, 
-	secretAccessKey: constants.AWS_SECRET_ACCESS_KEY, 
-	region: constants.AWS_REGION
-};
-
 // ======== helper function ============
 function sleep(secs) {
 	return new Promise(resolve => setTimeout(resolve, secs * 1000));
@@ -44,7 +37,7 @@ async function CreateLambda(name)
 	try {
 		//create the package
 		const file = new AdmZip();	
-		file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
+		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
@@ -58,12 +51,12 @@ async function CreateLambda(name)
 				ZipFile: filecontent
 			},
 			FunctionName: name,
-			Handler: name + '.handler',
-			Role: 'arn:aws:iam::' + constants.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
+			Handler: 'index' + '.handler',
+			Role: 'arn:aws:iam::' + process.env.AWS_ACCOUNT_ID + ':role/healthylinkx-lambda',
 			Runtime: 'nodejs12.x',
 			Description: name + ' api lambda'
 		};
-		const lambda = new LambdaClient(config);				
+		const lambda = new LambdaClient({});				
 		var data = await lambda.send(new CreateFunctionCommand(params));
 		console.log('Success. ' + name + ' lambda created.');
 		
@@ -82,7 +75,7 @@ async function CreateLambda(name)
 async function AddEndpoint(gwid, endpoint, lambdaArn) {
 	try {
 				
-		const apigwclient = new APIGatewayClient(config);
+		const apigwclient = new APIGatewayClient({});
 
 		// id of '/' path 
 		var data = await apigwclient.send(new GetResourcesCommand({restApiId:gwid}));
@@ -104,10 +97,10 @@ async function AddEndpoint(gwid, endpoint, lambdaArn) {
 		var data = await apigwclient.send(new PutIntegrationCommand({httpMethod: 'GET',
 			resourceId: endpointid, restApiId: gwid, type: "AWS_PROXY",
 			integrationHttpMethod: 'POST',
-			uri: 'arn:aws:apigateway:'+ constants.AWS_REGION +':lambda:path/2015-03-31/functions/' + lambdaArn + '/invocations'}));
+			uri: 'arn:aws:apigateway:'+ process.env.AWS_REGION +':lambda:path/2015-03-31/functions/' + lambdaArn + '/invocations'}));
 
 		//allow apigateway to call the lambda
-		const lambda = new LambdaClient(config);				
+		const lambda = new LambdaClient({});				
 		await lambda.send(new AddPermissionCommand({Action: 'lambda:InvokeFunction',
 			FunctionName: endpoint, Principal: 'apigateway.amazonaws.com',
 			StatementId: 'api-lambda'}));
@@ -124,7 +117,7 @@ async function APICreate() {
 
 	try {
 		//create a IAM role under which the lambdas will run
-		const iamclient = new IAMClient(config);
+		const iamclient = new IAMClient({});
 		const roleparams = {
 			AssumeRolePolicyDocument: '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}',
 			RoleName: 'healthylinkx-lambda'
@@ -135,7 +128,7 @@ async function APICreate() {
 		await sleep(10);
 
 		//URL of the database
-		const rdsclient = new RDSClient(config);
+		const rdsclient = new RDSClient({});
 		data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
 		const endpoint = data.DBInstances[0].Endpoint.Address;
 		console.log("DB endpoint: " + endpoint);
@@ -144,8 +137,8 @@ async function APICreate() {
 		fs.copyFileSync(constants.ROOT+'/api/src/constants.template.js', constants.ROOT+'/api/src/constants.js');
 		const options = {
 			files: constants.ROOT+'/api/src/constants.js',
-			from: ['ENDPOINT', 'DBUSER', 'DBPWD', 'ZIPCODEAPI', 'ZIPCODETOKEN'],
-			to: [endpoint, constants.DBUSER, constants.DBPWD, constants.ZIPCODEAPI, constants.ZIPCODETOKEN]
+			from: ['ENDPOINT', 'DBUSER', 'DBPWD'],
+			to: [endpoint, constants.DBUSER, constants.DBPWD]
 		};
 		await replace(options);
 		console.log("Success. Constants updated.");
@@ -154,10 +147,7 @@ async function APICreate() {
 		await exec(`cd ${constants.ROOT}/api/src; npm install`);
 
 		//create the lambdas
-		const taxonomyLambdaArn = await CreateLambda('taxonomy');
 		const providersLambdaArn = await CreateLambda('providers');
-		const shortlistLambdaArn = await CreateLambda('shortlist');
-		const transactionLambdaArn = await CreateLambda('transaction');
 			
 		// cleanup of files created	
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');
@@ -165,22 +155,19 @@ async function APICreate() {
 		await fs.rmdirSync(constants.ROOT + '/api/src/node_modules', { recursive: true });
 
 		//create the api gateway
-		const apigwclient = new APIGatewayClient(config);
+		const apigwclient = new APIGatewayClient({});
 		var data = await apigwclient.send(new CreateRestApiCommand({name: 'healthylinkx'}));
 		const gwid = data.id;
 		console.log("Success. API Gateway created.");
 
 		//create the endpoints
-		await AddEndpoint(gwid, 'taxonomy', taxonomyLambdaArn);
 		await AddEndpoint(gwid, 'providers', providersLambdaArn);
-		await AddEndpoint(gwid, 'shortlist', shortlistLambdaArn);
-		await AddEndpoint(gwid, 'transaction', transactionLambdaArn);
 		
 		//deploy all
 		await apigwclient.send(new CreateDeploymentCommand({restApiId: gwid, stageName: 'prod'}));
 		console.log("Success. API Gateway deployed.");
 
-		console.log('URL of the api: https://' + gwid + '.execute-api.' + constants.AWS_REGION + '.amazonaws.com/prod/');
+		console.log('URL of the api: https://' + gwid + '.execute-api.' + process.env.AWS_REGION + '.amazonaws.com/prod/');
 
 	} catch (err) {
 		console.log("Error. ", err);

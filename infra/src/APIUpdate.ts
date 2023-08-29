@@ -19,18 +19,13 @@ const config = {
 	region: constants.AWS_REGION
 };
 
-// ======== helper function ============
-function sleep(secs) {
-	return new Promise(resolve => setTimeout(resolve, secs * 1000));
-}
-
 // ======== function to create a lambda ============
 async function UpdateLambda(name)
 {
 	try {
 		//create the package
 		const file = new AdmZip();	
-		file.addLocalFile(constants.ROOT+'/api/src/' + name + '.js');
+		file.addLocalFile(constants.ROOT+'/api/src/index.js');
 		file.addLocalFile(constants.ROOT+'/api/src/constants.js');
 		file.addLocalFolder(constants.ROOT+'/api/src/node_modules', 'node_modules');
 		file.writeZip(constants.ROOT+'/api/src/' + name + '.zip');		
@@ -43,7 +38,7 @@ async function UpdateLambda(name)
 			ZipFile: filecontent,
 			FunctionName: name
 		};
-		const lambda = new LambdaClient(config);				
+		const lambda = new LambdaClient({});				
 		var data = await lambda.send(new UpdateFunctionCodeCommand(params));
 		console.log('Success. ' + name + ' lambda updated.');
 		
@@ -62,7 +57,7 @@ async function APIUpdate() {
 	try {
 
 		//URL of the database
-		const rdsclient = new RDSClient(config);
+		const rdsclient = new RDSClient({});
 		data = await rdsclient.send(new DescribeDBInstancesCommand({DBInstanceIdentifier: 'healthylinkx-db'}));
 		const endpoint = data.DBInstances[0].Endpoint.Address;
 		console.log("DB endpoint: " + endpoint);
@@ -71,8 +66,8 @@ async function APIUpdate() {
 		fs.copyFileSync(constants.ROOT+'/api/src/constants.template.js', constants.ROOT+'/api/src/constants.js');
 		const options = {
 			files: constants.ROOT+'/api/src/constants.js',
-			from: ['ENDPOINT', 'DBUSER', 'DBPWD', 'ZIPCODEAPI', 'ZIPCODETOKEN'],
-			to: [endpoint, constants.DBUSER, constants.DBPWD, constants.ZIPCODEAPI, constants.ZIPCODETOKEN]
+			from: ['ENDPOINT', 'DBUSER', 'DBPWD'],
+			to: [endpoint, constants.DBUSER, constants.DBPWD]
 		};
 		await replace(options);
 		console.log("Success. Constants updated.");
@@ -81,10 +76,7 @@ async function APIUpdate() {
 		await exec(`cd ${constants.ROOT}/api/src; npm install`);
 
 		//update the lambdas
-		await UpdateLambda('taxonomy');
 		await UpdateLambda('providers');
-		await UpdateLambda('shortlist');
-		await UpdateLambda('transaction');
 			
 		// cleanup of files created	
 		await fs.unlinkSync(constants.ROOT + '/api/src/package-lock.json');
