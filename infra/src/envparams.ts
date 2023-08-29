@@ -2,7 +2,7 @@
 //repo location
 const ROOT=process.cwd()
 //const ROOT=__dirname
-//const ROOT='/Users/ulargm/WIP'
+//const ROOT='/repo'
 
 //datastore user
 const DBUSER='user'
