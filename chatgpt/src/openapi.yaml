@@ -1,0 +1,53 @@
+openapi: 3.0.1
+
+info:
+    title: HealthyLinkx Plugin
+    description: Plugin for searchinbg for doctors, you can search by name, genre, speciality, zipcode and distance to a zipcode
+    version: "v1"
+
+servers:
+    - url: http://localhost:3333
+
+paths:
+    /prod/providers:
+        get:
+            operationId: getDoctors
+            summary: Get a list of doctors at a zipcode
+            parameters:
+                - in: query
+                  name: zipcode
+                  required: true
+                  description: The zipcode of the address of the doctor.
+                  schema:
+                      type : integer
+                      example: 98052  
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getDoctorsResponse"
+
+components:
+    schemas:
+        getDoctorsResponse:
+            type: object
+            properties:
+                Providers:
+                    type: array
+                    description: The list of doctors.
+                    items:
+                        type: object
+                        description: Name, address and city of a doctor.
+                        properties:
+                            Provider_Full_Name: 
+                                type: string
+                            Provider_Full_Street:
+                                type: string
+                            Provider_Full_City: 
+                                type: string
+                        example: 
+	                          Provider_Full_Name: ANDERSON, VIRGINIA  MHC
+	                          Provider_Full_Street: 16700 NE 79TH ST SUITE 103
+	                          Provider_Full_City: REDMOND, WA 980524465

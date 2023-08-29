@@ -20,14 +20,12 @@ api_url = 'https://example.com'
 def serve_manifest():
     return send_from_directory(os.path.dirname(__file__), 'ai-plugin.json')
 
-
 @app.route('/openapi.yaml')
 def serve_openapi_yaml():
     with open(os.path.join(os.path.dirname(__file__), 'openapi.yaml'), 'r') as f:
         yaml_data = f.read()
     yaml_data = yaml.load(yaml_data, Loader=yaml.FullLoader)
     return jsonify(yaml_data)
-
 
 @app.route('/openapi.json')
 def serve_openapi_json():
