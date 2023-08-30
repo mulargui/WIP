@@ -17,6 +17,6 @@ test "specialty=Dentist"
 
 test "zipcode=98052&lastname1=anderson" 
 test "zipcode=98052&lastname1=anderson&gender=f"
-test "zipcode=98052&lastname1=anderson&gender=f&specialty=Dentist"
+test "zipcode=98052&lastname1=anderson&gender=f&specialty=Counselor"
 
-test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=Dentist"
+test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=Counselor"
