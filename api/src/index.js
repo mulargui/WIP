@@ -2,7 +2,7 @@ const constants = require("./constants.js");
 const mysql = require('mysql2/promise');
 
 function ServerReply (code, message){
-	if (code != 200) message = [];
+	if (code != 200) message = "[]";
 	return {
 		"statusCode": code,
 		"headers": {

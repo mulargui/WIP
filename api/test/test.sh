@@ -23,3 +23,6 @@ test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tan
 
 #empty result
 test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=Dentist"
+
+#insuficient params
+test "gender=m"
