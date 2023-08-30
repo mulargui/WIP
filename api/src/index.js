@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 function ServerReply (code, message){
 	if (code != 200) message = [];
 	return {
-		"statusCode": 200,
+		"statusCode": code,
 		"headers": {
 			"Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
 			"Access-Control-Allow-Origin": "*",

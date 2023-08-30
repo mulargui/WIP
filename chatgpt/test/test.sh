@@ -1,27 +1,28 @@
+#!/bin/bash
 
-URL=https://127.0.0.1:3333
+test () { 
+    URL=https://127.0.0.1:3333
+    
+    date +"%T.%3N"
+    ECHO $1
+    curl -L -H 'Content-Type: application/json' "$URL?$1" ; echo
+}
 
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052 ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&distance=10 ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?lastname1=anderson ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?lastname1=anderson&lastname2=johnson ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?lastname1=anderson&lastname2=johnson&lastname3=smith  ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?gender=f ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?specialty=Nurse ; echo
-date +"%T.%3N"
+test "zipcode=98052"
+test "zipcode=98052&distance=10" 
+test "lastname1=anderson" 
+test "lastname1=anderson&lastname2=brock" 
+test "lastname1=anderson&lastname2=brock&lastname3=tang-xue" 
+test "specialty=Dentist"
 
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&lastname1=anderson ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&lastname1=anderson&gender=f ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&lastname1=anderson&gender=f&specialty=Nurse ; echo
-date +"%T.%3N"
-curl -L -H 'Content-Type: application/json' $URL?zipcode=98052&distance=10&lastname1=anderson&lastname2=johnson&lastname3=smith&gender=f&specialty=Nurse ; echo
-date +"%T.%3N"
+test "zipcode=98052&lastname1=anderson" 
+test "zipcode=98052&lastname1=anderson&gender=f"
+test "zipcode=98052&lastname1=anderson&gender=f&specialty=Counselor"
+
+test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=Counselor"
+
+#empty result
+test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tang-xue&gender=f&specialty=Dentist"
+
+#insuficient params
+test "gender=m"
