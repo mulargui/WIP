@@ -5,7 +5,7 @@ test () {
     
     date +"%T.%3N"
     ECHO $1
-    curl -L -H 'Content-Type: application/json' "$URL?$1" ; echo
+    curl -i -L -H 'Content-Type: application/json' "$URL?$1" ; echo
 }
 
 test "zipcode=98052"
