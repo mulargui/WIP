@@ -18,22 +18,19 @@ api_url = 'https://x73rkqly3c.execute-api.us-east-1.amazonaws.com/prod'
 
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():
-    return send_from_directory(os.path.dirname(__file__), 'ai-plugin.json')
+    return send_from_directory(os.path.dirname(__file__) + '/.well-known', 'ai-plugin.json', mimetype='Content-Type: application/json')
 
 @app.route('/openapi.yaml')
 def serve_openapi_yaml():
-    with open(os.path.join(os.path.dirname(__file__), 'openapi.yaml'), 'r') as f:
-        yaml_data = f.read()
-    yaml_data = yaml.load(yaml_data, Loader=yaml.FullLoader)
-    return jsonify(yaml_data)
+    return send_from_directory(os.path.dirname(__file__), 'openapi.yaml', mimetype='Content-Type: text/yaml')
 
-# @app.route('/openapi.json')
+@app.route('/openapi.json')
 def serve_openapi_json():
-    return send_from_directory(os.path.dirname(__file__), 'openapi.json')
+    return send_from_directory(os.path.dirname(__file__), 'openapi.json',  mimetype='Content-Type: application/json')
 
 @app.route('/logo.png')
 def serve_logo():
-    return send_from_directory(os.path.dirname(__file__), 'logo.png')
+    return send_from_directory(os.path.dirname(__file__), 'logo.png', mimetype='Content-Type: image/png')
 
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def wrapper(path):

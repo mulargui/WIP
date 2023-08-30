@@ -1,8 +1,8 @@
 #!/bin/bash
 
-test () { 
-    URL=https://x73rkqly3c.execute-api.us-east-1.amazonaws.com/prod/providers
-    
+URL=https://x73rkqly3c.execute-api.us-east-1.amazonaws.com/prod/providers
+
+test () {     
     date +"%T.%3N"
     ECHO $1
     curl -L -H 'Content-Type: application/json' "$URL?$1" ; echo
