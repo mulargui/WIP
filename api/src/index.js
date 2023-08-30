@@ -64,8 +64,6 @@ exports.handler = async (event) => {
 			query += "(Provider_Short_Postal_Code = '" + zipcode + "')";
 	query += ") limit 3";
 
-	return ServerReply (200, query);
-	
 	try {
 		const connection = await mysql.createConnection({
 			host:constants.host,
