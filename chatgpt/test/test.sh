@@ -26,3 +26,8 @@ test "zipcode=98052&distance=10&lastname1=anderson&lastname2=brock&lastname3=tan
 
 #insuficient params
 test "gender=m"
+
+# testing resources
+curl -i -L -H 'Content-Type: text/yaml' "$URL/openapi.yaml"
+curl -i -L -H 'Content-Type: text/json' "$URL/.well-known/ai-plugin.json"
+curl -i -L -H 'Content-Type: image/png' "$URL/logo.png"
