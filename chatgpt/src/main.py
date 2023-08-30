@@ -14,7 +14,7 @@ PORT = 3333
 # Note: Setting CORS to allow chat.openapi.com is required for ChatGPT to access your plugin
 CORS(app, origins=[f"http://localhost:{PORT}", "https://chat.openai.com"])
 
-api_url = 'https://example.com'
+api_url = 'https://x73rkqly3c.execute-api.us-east-1.amazonaws.com/prod'
 
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():

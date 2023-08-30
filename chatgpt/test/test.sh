@@ -1,7 +1,7 @@
 #!/bin/bash
 
 test () { 
-    URL=https://127.0.0.1:3333
+    URL=http://127.0.0.1:3333/providers
     
     date +"%T.%3N"
     ECHO $1
