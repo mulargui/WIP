@@ -2,7 +2,7 @@ openapi: 3.0.1
 
 info:
     title: HealthyLinkx Plugin
-    description: Plugin for searchinbg for doctors, you can search by name, genre, speciality, zipcode and distance to a zipcode
+    description: Plugin for searchinbg for doctors, you can search by name, genre, speciality and zipcode
     version: "v1"
 
 servers:
@@ -12,15 +12,36 @@ paths:
     /prod/providers:
         get:
             operationId: getDoctors
-            summary: Get a list of doctors at a zipcode
+            summary: Get a list of doctors that meets the criteria
             parameters:
                 - in: query
                   name: zipcode
-                  required: true
+                  required: false
                   description: The zipcode of the address of the doctor.
                   schema:
                       type : integer
                       example: 98052  
+                 - in: query
+                  name: lastname1
+                  required: false
+                  description: The name of the doctor.
+                  schema:
+                      type : string
+                      example: anderson  
+                 - in: query
+                  name: specialty
+                  required: false
+                  description: The specialty of the doctor.
+                  schema:
+                      type : string
+                      example: Nurse  
+                 - in: query
+                  name: gender
+                  required: false
+                  description: The gender of the doctor.
+                  schema:
+                      type : string
+                      example: male
             responses:
                 "200":
                     description: OK

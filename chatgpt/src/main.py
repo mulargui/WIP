@@ -3,8 +3,7 @@
 import requests
 import os
 
-import yaml
-from flask import Flask, jsonify, Response, request, send_from_directory
+from flask import Flask, Response, request, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -45,7 +44,6 @@ def wrapper(path):
     if request.method == 'GET':
         response = requests.get(url, headers=headers, params=request.args)
     elif request.method == 'POST':
-        print(request.headers)
         response = requests.post(url, headers=headers, params=request.args, json=request.json)
     else:
         raise NotImplementedError(f'Method {request.method} not implemented in wrapper for {path=}')

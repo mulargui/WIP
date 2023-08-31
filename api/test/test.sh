@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# testing api
 URL=https://x73rkqly3c.execute-api.us-east-1.amazonaws.com/prod/providers
 
 test () {     
@@ -8,6 +9,7 @@ test () {
     curl -L -H 'Content-Type: application/json' "$URL?$1" ; echo
 }
 
+# testing params
 test "zipcode=98052"
 test "zipcode=98052&distance=10" 
 test "lastname1=anderson" 

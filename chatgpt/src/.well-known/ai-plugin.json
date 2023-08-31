@@ -2,8 +2,8 @@
     "schema_version": "v1",
     "name_for_human": "Healthylinkx - Search for Doctors (No Auth)",
     "name_for_model": "HealthyLinkx",
-    "description_for_human": "Search for doctors. You can search by name (up to three names), genre, speciality, zipcode and distance to a zipcode.",
-    "description_for_model": "Plugin for searchinbg for doctors, you can search by name, genre, speciality, zipcode and distance to a zipcode.",
+    "description_for_human": "Search for doctors. You can search by name, genre, speciality and zipcode",
+    "description_for_model": "Plugin for searchinbg for doctors, you can search by name, genre, speciality and zipcode.",
     "auth": {
         "type": "none"
     },
