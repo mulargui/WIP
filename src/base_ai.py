@@ -4,7 +4,7 @@ import json
 session = boto3.session.Session()
 bedrock_runtime = boto3.client(
     service_name="bedrock-runtime",
-    region_name=session.region_name,
+    region_name=session.region_name
 )
 
 """
