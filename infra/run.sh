@@ -17,8 +17,6 @@ if [ "$(docker images | grep base_image)" == "" ]; then
 	docker build --rm=true -t base_image $REPOPATH/docker
 fi
 
-exit 
-
 # run the query
 docker run -ti --rm -v $REPOPATH:/repo \
 	-w /repo/ \
