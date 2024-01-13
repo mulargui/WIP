@@ -11,7 +11,8 @@ export DEBIAN_FRONTEND=noninteractive
 # Absolute path to this repo
 SCRIPT=$(readlink -f "$0")
 export REPOPATH=$(dirname "$SCRIPT" | sed 's/\/infra\///g')
-echo $REPOPATH
+echo $SCRIPT
+$echo $REPOPATH
 echo $PWD
 exit
 
