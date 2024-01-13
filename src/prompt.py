@@ -30,7 +30,7 @@ def run_inference(prompt:str,
 
     #return json.loads(output.get('body').read())).get('results')[0].get('outputText')
  
-    return   json.loads(output.get("body").read())
+    return json.loads(output.get("body").read()).get('results')[0].get('outputText')
 
 
 print(run_inference(prompt = "Hi, how are you?"))
