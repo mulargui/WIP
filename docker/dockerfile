@@ -1,0 +1,6 @@
+FROM python:3
+
+RUN	apt-get update && \
+	apt-get upgrade -y && \
+	pip install -q --upgrade pip \
+	pip install -q --upgrade boto3
