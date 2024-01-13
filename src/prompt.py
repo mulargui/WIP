@@ -24,8 +24,8 @@ def run_inference(prompt:str,
 
     output = bedrock_runtime.invoke_model(body = body, 
         modelID = model, 
-        'application/json',
-        'application/json')
+        accept = 'application/json',
+        contentType = 'application/json')
 
     return json.loads(output.get('body'.read())).get('results')[0].get('outputText')
 
