@@ -16,8 +16,6 @@ def run_inference(prompt:str,
     max_tokens:int=1000,
     topP:float=1.0) :
 
-    print ("starting run_inference")
-    
     body = json.dumps({"inputText":prompt,
         "textGenerationConfig": {
             "temperature": temperature,
@@ -29,10 +27,11 @@ def run_inference(prompt:str,
         modelId = model, 
         accept = 'application/json',
         contentType = 'application/json')
-
-    #return json.loads(output.get('body').read())).get('results')[0].get('outputText')
  
     return json.loads(output.get("body").read()).get('results')[0].get('outputText')
 
 
 print(run_inference(prompt = "Hi, how are you?"))
+print(run_inference(prompt = "Tell me a funny joke"))
+print(run_inference(prompt = "Which is the capital is Spain?"))
+print(run_inference(prompt = "The population fo the US is..."))
