@@ -16,6 +16,8 @@ def run_inference(prompt:str,
     max_tokens:int=1000,
     topP:float=1.0) :
 
+    print ("starting run_inference")
+    
     body = json.dumps({"inputText":prompt,
         "textGenerationConfig": {
             "temperature": temperature,
