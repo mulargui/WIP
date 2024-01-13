@@ -10,7 +10,7 @@ set +x
 export DEBIAN_FRONTEND=noninteractive
 # Absolute path to this repo
 SCRIPT=$(readlink -f "$0")
-export REPOPATH=$(dirname "$SCRIPT" | sed 's/infra\///g')
+export REPOPATH=$(dirname "$SCRIPT" | sed 's/infra//')
 #export REPOPATH=$(dirname "$SCRIPT")
 
 echo $SCRIPT
