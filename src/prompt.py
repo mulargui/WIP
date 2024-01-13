@@ -7,14 +7,15 @@ bedrock_runtime = boto3.client(
     region_name=session.region_name,
 )
 
+"""
+Function to run inference with models hosted in Bedrock
+"""
 def run_inference(prompt:str, 
     model:str="amazon.titan-text-express-v1", 
     temperature:float=0.0, 
     max_tokens:int=1000,
     topP:float=1.0) :
-    """
-    Function to run inference with models hosted in Bedrock
-    """
+
     body = json.dumps({"inputText":prompt,
         "textGenerationConfig": {
             "temperature": temperature,
@@ -23,7 +24,7 @@ def run_inference(prompt:str,
         }})
 
     output = bedrock_runtime.invoke_model(body = body, 
-        modelID = model, 
+        modelId = model, 
         accept = 'application/json',
         contentType = 'application/json')
 
