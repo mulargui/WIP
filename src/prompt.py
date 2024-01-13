@@ -28,7 +28,8 @@ def run_inference(prompt:str,
         accept = 'application/json',
         contentType = 'application/json')
 
-    return json.loads(output.get('body'.read())).get('results')[0].get('outputText')
+    #return json.loads(output.get('body'.read())).get('results')[0].get('outputText')
+    return output
 
 
 print(run_inference(prompt = "Hi, how are you?"))
