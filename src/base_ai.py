@@ -17,7 +17,7 @@ def list_models() :
         region_name=session.region_name
     )
     # endpoint_url = 'https://bedrock.us-west-2.amazonaws.com'
-    return bedrock.list_fundation_models()['modelSummaries']
+    return bedrock.list_foundation_models()['modelSummaries']
 
 """
 Function to run inference with models hosted in Bedrock
