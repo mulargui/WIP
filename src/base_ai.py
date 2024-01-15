@@ -16,6 +16,11 @@ def list_models() :
         service_name="bedrock",
         region_name=session.region_name
     )
+    print('============================')
+    print(session)
+    print('============================')
+    print(bedrock)
+    print('============================')
     # endpoint_url = 'https://bedrock.us-west-2.amazonaws.com'
     return bedrock.list_foundation_models()['modelSummaries']
 
