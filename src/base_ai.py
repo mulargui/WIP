@@ -8,6 +8,18 @@ bedrock_runtime = boto3.client(
 )
 
 """
+Function to know the models hosted in Bedrock
+"""
+def list_models() :
+
+    bedrock = boto3.client(
+        service_name="bedrock",
+        region_name=session.region_name
+    )
+    # endpoint_url = 'https://bedrock.us-west-2.amazonaws.com'
+    return bedrock.list_fundation_models()['modelSummaries']
+
+"""
 Function to run inference with models hosted in Bedrock
 """
 def run_inference(prompt:str, 
