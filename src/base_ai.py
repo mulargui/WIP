@@ -1,37 +1,29 @@
 import boto3
 import json
-import os
 
-AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_SESSION_TOKEN=os.environ.get('AWS_SESSION_TOKEN')
+session = boto3.session.Session()
 
-session = boto3.session.Session(
-    #aws_access_key_id=AWS_ACCESS_KEY_ID,
-    #aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    #aws_session_token=AWS_SESSION_TOKEN
+"""
+Function to know the models hosted in Bedrock
+"""
+
+bedrock = boto3.client(
+    service_name="bedrock",
+    region_name=session.region_name
 )
+
+def list_models() :
+    return bedrock.list_foundation_models()['modelSummaries']
+
+"""
+Function to run inference with models hosted in Bedrock
+"""
 
 bedrock_runtime = boto3.client(
     service_name="bedrock-runtime",
     region_name=session.region_name
 )
 
-"""
-Function to know the models hosted in Bedrock
-"""
-def list_models() :
-
-    bedrock = boto3.client(
-        service_name="bedrock",
-        region_name=session.region_name
-    )
-
-    return bedrock.list_foundation_models()['modelSummaries']
-
-"""
-Function to run inference with models hosted in Bedrock
-"""
 def run_inference(prompt:str, 
     model:str="amazon.titan-text-express-v1", 
     temperature:float=0.0, 
