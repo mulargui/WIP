@@ -1,7 +1,17 @@
 import boto3
 import json
+import os
 
-session = boto3.session.Session()
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_SESSION_TOKEN=os.environ.get('AWS_SESSION_TOKEN')
+
+session = boto3.session.Session(
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    aws_session_token=AWS_SESSION_TOKEN
+)
+
 bedrock_runtime = boto3.client(
     service_name="bedrock-runtime",
     region_name=session.region_name
@@ -17,11 +27,14 @@ def list_models() :
         region_name=session.region_name
     )
     print('============================')
-    print(session)
+    print(AWS_ACCESS_KEY_ID)
     print('============================')
-    print(bedrock)
+    print(AWS_SECRET_ACCESS_KEY)
     print('============================')
-    # endpoint_url = 'https://bedrock.us-west-2.amazonaws.com'
+    print(AWS_SESSION_TOKEN)
+    print('============================')
+
+     # endpoint_url = 'https://bedrock.us-west-2.amazonaws.com'
     return bedrock.list_foundation_models()['modelSummaries']
 
 """
