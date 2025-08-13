@@ -4,6 +4,11 @@
     "roleName": "bedrock-chat-lambda-role",
     "debug": true
   },
+    "mcp": {
+    "functionName": "mcp-lambda",
+    "roleName": "mcp-lambda-role",
+    "debug": true
+  },
   "s3": {
     "bucketName": "bedrock-chat-mulargui"
   },

@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@aws-sdk/client-ec2": "^3.716.0",
-    "@aws-sdk/client-rds": "^3.716.0",
+    "@aws-sdk/client-ec2": "^3.866.0",
+    "@aws-sdk/client-rds": "^3.864.0",
     "adm-zip": "^0.5.16",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.14.3"
   },
   "scripts": {
     "test": "jest"

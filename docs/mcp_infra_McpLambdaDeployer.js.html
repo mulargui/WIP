@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: LambdaDeployer.js</title>
+    <title>JSDoc: Source: mcp/infra/McpLambdaDeployer.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: LambdaDeployer.js</h1>
+    <h1 class="page-title">Source: mcp/infra/McpLambdaDeployer.js</h1>
 
     
 
@@ -27,9 +27,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Lambda deployment module for the Bedrock demo app.
- * This module provides a class for deploying and updating Lambda functions.
- * @module LambdaDeployer
+ * @fileoverview MCP Lambda deployment module for the Bedrock demo app.
+ * This module provides a class for deploying and updating MCP Lambda functions.
+ * @module McpLambdaDeployer
  */
 
 const { 
@@ -48,31 +48,16 @@ const path = require('path');
 const util = require('util');
 const writeFileAsync = util.promisify(fs.writeFile);
 
-/**
- * Class representing a Lambda function deployer.
- */
-class LambdaDeployer {
-  /**
-   * Create a LambdaDeployer.
-   */
+class McpLambdaDeployer {
   constructor() {
-    // Read the config file
     const configPath = path.join(__dirname, '..', 'config.json');
     const rawConfig = fs.readFileSync(configPath);
     this.config = JSON.parse(rawConfig);
-
-    // Extract the function name and role name from the config
-    this.FUNCTION_NAME = this.config.lambda.functionName;
-    this.ROLE_NAME = this.config.lambda.roleName;
-
+    this.FUNCTION_NAME = this.config.mcp.functionName;
+    this.ROLE_NAME = this.config.mcp.roleName;
     this.REGION = process.env.AWS_REGION || "us-east-1";
   }
 
-  /**
-   * Creates an IAM role for the Lambda function.
-   * @returns {Promise&lt;string>} The ARN of the created or existing role.
-   * @throws {Error} If role creation fails.
-   */
   async createLambdaRole() {
     const rolePolicy = {
       Version: "2012-10-17",
@@ -86,7 +71,6 @@ class LambdaDeployer {
         }
       ]
     };
-
     const iam = new IAMClient({ region: this.REGION });
     try {
       const getRoleCommand = new GetRoleCommand({ RoleName: this.ROLE_NAME });
@@ -99,40 +83,29 @@ class LambdaDeployer {
           AssumeRolePolicyDocument: JSON.stringify(rolePolicy)
         });
         const { Role } = await iam.send(createRoleCommand);
-
         await this.attachPolicies(this.ROLE_NAME);
-
-        // Wait for the role to be available
         await new Promise(resolve => setTimeout(resolve, 10000));
-
         return Role.Arn;
+      } else {
+        throw error;
       }
-      throw error;
     }
   }
 
-  /**
-   * Attaches necessary policies to the IAM role.
-   * @param {string} roleName - The name of the IAM role.
-   * @returns {Promise&lt;void>}
-   */
   async attachPolicies(roleName) {
     const iam = new IAMClient({ region: this.REGION });
-    await iam.send(new AttachRolePolicyCommand({
-      RoleName: roleName,
-      PolicyArn: "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-    }));
-
-    await iam.send(new AttachRolePolicyCommand({
-      RoleName: roleName,
-      PolicyArn: "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
-    }));
-
-    await iam.send(new AttachRolePolicyCommand({
-      RoleName: roleName,
-      PolicyArn: "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
-    }));
+    const policies = [
+      "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+      "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+    ];
+    for (const policyArn of policies) {
+      await iam.send(new AttachRolePolicyCommand({
+        RoleName: roleName,
+        PolicyArn: policyArn
+      }));
+    }
   }
+
 
   /**
    * Creates or updates the function URL for the Lambda.
@@ -161,7 +134,7 @@ class LambdaDeployer {
         }
       });
       const response = await lambda.send(updateFunctionUrlCommand);
-      console.log("Function URL updated:", response.FunctionUrl);
+      console.log("MCP Function URL updated:", response.FunctionUrl);
     } catch (error) {
       if (error.name === "ResourceNotFoundException") {
         // If it doesn't exist, create it
@@ -178,7 +151,7 @@ class LambdaDeployer {
           }
         });
         const response = await lambda.send(createFunctionUrlCommand);
-        console.log("Function URL created:", response.FunctionUrl);
+        console.log("MCP Function URL created:", response.FunctionUrl);
       } else {
         throw error;
       }
@@ -206,10 +179,10 @@ class LambdaDeployer {
       });
 
       await lambda.send(addPermissionCommand);
-      console.log("Function URL public access permission added successfully");
+      console.log("MCP Function URL public access permission added successfully");
     } catch (error) {
       if (error.name === "ResourceConflictException") {
-        console.log("Function URL permission already exists");
+        console.log("MCP Function URL permission already exists");
       } else {
         throw error;
       }
@@ -232,50 +205,42 @@ class LambdaDeployer {
       // Save the function URL to lambdaurl.json
       const lambdaurl = { LAMBDA_FUNCTION_URL: response.FunctionUrl };
 
-      await writeFileAsync('lambdaurl.json', JSON.stringify(lambdaurl, null, 2));
-      console.log(`Lambda url file updated at lambdaurl.json`);
+      await writeFileAsync('mcplambdaurl.json', JSON.stringify(lambdaurl, null, 2));
+      console.log(`MCP Lambda url file updated at mcplambdaurl.json`);
 
     } catch (error) {
-      console.error('Error creating and saving lambda url:', error);
+      console.error('Error creating and saving MCP Lambda url:', error);
       throw error;
     }
   }
 
-  /**
-   * Deploys the Lambda function.
-   * @returns {Promise&lt;void>}
-   * @throws {Error} If deployment fails.
-   */
   async deployLambda() {
     const zip = new AdmZip();
-    zip.addLocalFolder("./src");
+    zip.addLocalFile(path.join(__dirname, '../src/mcp_lambda.py'));
     const zipBuffer = zip.toBuffer();
-
     const roleArn = await this.createLambdaRole();
-
     const lambda = new LambdaClient({ region: this.REGION });
     try {
       const createFunctionCommand = new CreateFunctionCommand({
         FunctionName: this.FUNCTION_NAME,
-        Runtime: "nodejs18.x",
+        Runtime: "python3.12",
         Role: roleArn,
-        Handler: "index.handler",
+        Handler: "mcp_lambda.lambda_handler",
         Code: { ZipFile: zipBuffer },
         Timeout: 30,
         MemorySize: 128
       });
-
       await lambda.send(createFunctionCommand);
-      console.log("Lambda function created successfully");
+      console.log("MCP Lambda function created successfully");
     } catch (error) {
       if (error.name === "ResourceConflictException") {
-        console.log("Lambda function already exists. Updating code...");
+        console.log("MCP Lambda function already exists. Updating code...");
         const updateFunctionCodeCommand = new UpdateFunctionCodeCommand({
           FunctionName: this.FUNCTION_NAME,
           ZipFile: zipBuffer
         });
         await lambda.send(updateFunctionCodeCommand);
-        console.log("Lambda function code updated successfully");
+        console.log("MCP Lambda function code updated successfully");
       } else {
         throw error;
       }
@@ -284,10 +249,12 @@ class LambdaDeployer {
     // Create or update function URL
     await this.createFunctionUrl(this.FUNCTION_NAME);
     await this.SaveUrlInConfigFile(this.FUNCTION_NAME);
+
   }
 }
 
-module.exports = LambdaDeployer;</code></pre>
+module.exports = McpLambdaDeployer;
+</code></pre>
         </article>
     </section>
 
@@ -297,13 +264,13 @@ module.exports = LambdaDeployer;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-LambdaDeployer.html">LambdaDeployer</a></li></ul><h3>Classes</h3><ul><li><a href="module-LambdaDeployer-LambdaDeployer.html">LambdaDeployer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-LambdaDeployer.html">LambdaDeployer</a></li><li><a href="module-McpLambdaDeployer.html">McpLambdaDeployer</a></li></ul><h3>Classes</h3><ul><li><a href="module-LambdaDeployer-LambdaDeployer.html">LambdaDeployer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Aug 13 2025 01:15:53 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Aug 13 2025 01:43:47 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
