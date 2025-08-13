@@ -1,0 +1,7 @@
+{
+  "mcp": {
+    "functionName": "mcp-lambda",
+    "roleName": "mcp-lambda-role",
+    "debug": true
+  }
+}
