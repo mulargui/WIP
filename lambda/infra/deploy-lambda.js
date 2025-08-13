@@ -6,7 +6,7 @@ async function main() {
   try {
     await deployer.deployLambda();
   } catch (error) {
-    console.error('Deployment failed:', error);
+    console.error('Lambda Deployment failed:', error);
   }
 }
 
