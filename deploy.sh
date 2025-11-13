@@ -1,11 +1,5 @@
 set -x
 
-#build documentation
-docker run --rm -w /repo/jsdocs -v $(pwd):/repo node:22 npm install
-docker run --rm -w /repo/jsdocs -v $(pwd):/repo node:22 npm run jsdoc
-
-exit
-
 #build and deploy the datastore in AWS
 docker run --rm -w /repo/datastore/infra -v $(pwd):/repo node:22 npm install
 docker run --rm -w /repo/datastore/infra -v $(pwd):/repo \
@@ -58,3 +52,7 @@ docker run --rm -w /repo/ux/infra -v $(pwd):/repo \
 #unit test the front end app
 docker run --rm -w /repo/ux/webapp -v $(pwd):/repo node:22 npm install
 docker run --rm -w /repo/ux/webapp -v $(pwd):/repo node:22 npm test
+
+#build documentation (partial)
+docker run --rm -w /repo/jsdocs -v $(pwd):/repo node:22 npm install
+docker run --rm -w /repo/jsdocs -v $(pwd):/repo node:22 npm run jsdoc
