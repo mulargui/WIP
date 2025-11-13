@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 //healthylinkx extension
 import { systemPrompt, tool_definition, SearchDoctors } from './healthylinkx.js';
+import { MCPGetTools } from './mcpclient.js';
 
 // Read the config file
 const __filename = fileURLToPath(import.meta.url);
@@ -145,6 +146,7 @@ export const handler = async (event) => {
     const temperature = body.temperature || config.bedrock.temperature || 1.0;
     const modelId = config.bedrock.model;
     const debug = config.api.debug || false;
+    const mcptools = MCPGetTools();
 
     // we need to call Bedrock several times if we use tools
     let answer; //defined here as we need it for the loop condition and used later
