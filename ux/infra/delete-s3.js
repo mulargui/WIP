@@ -1,4 +1,4 @@
-const { 
+import { 
     S3Client, 
     DeleteObjectsCommand,
     DeleteBucketPolicyCommand,
@@ -6,14 +6,18 @@ const {
     DeleteBucketCommand,
     ListObjectsV2Command,
     PutPublicAccessBlockCommand
-  } = require("@aws-sdk/client-s3");
-  const fs = require('fs');
-  const path = require('path');
+  } from "@aws-sdk/client-s3";
+  import * as fs from 'fs'; 
+  import * as path from 'path';
+  import { fileURLToPath } from 'url';
   
   // Read the config file
-  const configPath = path.join(__dirname, '..', 'config.json');
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const configPath = path.join(__dirname, '../..', 'config.json')
   const rawConfig = fs.readFileSync(configPath);
   const config = JSON.parse(rawConfig);
+
   // Extract S3 configurations
   const BUCKET_NAME = config.s3.bucketName;
 
