@@ -98,6 +98,8 @@ async function deleteLambda() {
 
     // Finally, delete the IAM role
     await deleteRole(ROLE_NAME);
+    console.log(`Lambda IAM Role ${ROLE_NAME} deleted successfully`);
+
   } catch (error) {
     console.error("Error deleting Lambda function:", error);
   }
