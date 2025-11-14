@@ -52,4 +52,4 @@ async function DSDelete() {
 	}
 }
 
-DSDelete();
+await DSDelete();

@@ -1,13 +1,5 @@
 import LambdaDeployer from './LambdaDeployer.js';
 
-async function main() {
-  const deployer = new LambdaDeployer();
+const deployer = new LambdaDeployer();
+await deployer.deployLambda();
 
-  try {
-    await deployer.deployLambda();
-  } catch (error) {
-    console.error('API Deployment failed:', error);
-  }
-}
-
-main();

@@ -1,62 +1,66 @@
 import { LambdaClient, GetFunctionUrlConfigCommand } from "@aws-sdk/client-lambda";
-import { McpClient } from '@modelcontextprotocol/sdk/client/mcp.js';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { z } from 'zod/v3';
 import * as fs from 'fs'; 
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-// Read the config file
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const configPath = path.join(__dirname, 'config.json');
-const rawConfig = fs.readFileSync(configPath);
-const config = JSON.parse(rawConfig);
+export default class MCPClient {
 
-const mcpFunctionName = config.mcp.functionName;
-const REGION = process.env.AWS_REGION || "us-east-1";
+  constructor() {}
+  async createInstance() {    
+    try {
+      // Read the config file
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      const configPath = path.join(__dirname, 'config.json');
+      const rawConfig = fs.readFileSync(configPath);
+      const config = JSON.parse(rawConfig);
 
-// helper function to get the URL of the MCP Server
-async function getLambdaFunctionUrl(functionName) {
-  const client = new LambdaClient({ region: REGION });
+      this.REGION = process.env.AWS_REGION || "us-east-1";
 
-  try {
+      //get the url of the MCP server
+      const mcpFunctionName = config.mcp.functionName;
+      const mcpServerUrl = await this.getLambdaFunctionUrl(mcpFunctionName);
+      console.log(`URL of the MCP Server: ${mcpServerUrl}`);
+
+      // connect to the MCP Server
+      this.client = new Client({
+        name: 'healthylinkx-mcp-client',
+        version: '1.0.0',
+        title: 'Healthylinkx Chat Client Application'
+      });
+      const httpTransport = new StreamableHTTPClientTransport(mcpServerUrl);
+      await this.client.connect(httpTransport);
+    }catch(error){
+      console.error("MCP Server constructor error: ", error);
+      throw error;
+    }
+  }
+
+  // helper function to get the URL of the MCP Server
+  async getLambdaFunctionUrl(functionName) {
+    const client = new LambdaClient({ region: this.REGION });
     const command = new GetFunctionUrlConfigCommand({
       FunctionName: functionName,
     });
     const response = await client.send(command);
     return response.FunctionUrl;
-  } catch (error) {
-    console.error("Error getting MCP Lambda function URL:", error);
-    throw error;
   }
-}
 
-export async function MCPGetTools() {
+  //Get the list of tools available at the MCP Server
+  async GetTools() {
 
     try {
-        //get the url of the MCP Server
-        const mcpServerUrl = getLambdaFunctionUrl(mcpFunctionName);
-        console.log(`URL of the MCP function: ${mcpServerUrl}`);
-
-        const httpTransport = new StreamableHTTPClientTransport(mcpServerUrl);
-        const client = new Client({
-            name: 'healthylinkx-mcp-client',
-            version: '1.0.0',
-            title: 'Healthylinkx Chat Client Application'
-        });
-
-        await client.connect(httpTransport);
-
-        // get a list of the tools available at the MCP server
-        const tools = await client.listTools();
-        console.log('Available tools:', tools);
-        return tools;
-        
-    } catch (err) {
-        console.error("Failed to retrieve MCP tools: ", err);
+      const tools = await this.client.listTools();
+      console.log('MCP Server available tools:', tools);
+      return tools;
+    } catch (error) {
+      console.error("Failed to retrieve MCP tools: ", error);
+      throw error;
     }
-
+  }
     // Example: Calling a tool (assuming a tool named 'add' exists)
     //const result = await client.callTool('add', { a: 5, b: 3 });
     //console.log('Addition result:', result);

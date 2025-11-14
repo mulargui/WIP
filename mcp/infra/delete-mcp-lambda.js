@@ -99,10 +99,12 @@ async function deleteLambda() {
     // Finally, delete the IAM role
     await deleteRole(ROLE_NAME);
     console.log(`MCP IAM Role ${ROLE_NAME} deleted successfully`);
+
+    process.exit(0);
     
   } catch (error) {
     console.error("Error deleting Lambda function:", error);
   }
 }
 
-deleteLambda().catch(console.error);
+await deleteLambda();

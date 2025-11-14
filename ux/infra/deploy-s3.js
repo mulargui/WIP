@@ -173,4 +173,4 @@ async function main() {
   console.log(`Website URL: http://${BUCKET_NAME}.s3-website-${REGION}.amazonaws.com`);
 }
 
-main().catch(err => console.error("An error occurred:", err));
+await main();

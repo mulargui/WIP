@@ -153,9 +153,6 @@ async function DSCreate() {
 	}
 }
 
-async function main () {
-	await DSCreate();
-	await LoadData();
-}
+await DSCreate();
+await LoadData();
 
-main();

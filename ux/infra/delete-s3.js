@@ -117,5 +117,5 @@ import {
     }
   }
   
-  cleanup();
+  await cleanup();
   

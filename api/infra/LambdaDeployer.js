@@ -95,7 +95,8 @@ export default class LambdaDeployer {
     const iam = new IAMClient({ region: this.REGION });
     await iam.send(new AttachRolePolicyCommand({
       RoleName: roleName,
-      PolicyArn: "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      //PolicyArn: "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      PolicyArn: "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
     }));
 
     await iam.send(new AttachRolePolicyCommand({
