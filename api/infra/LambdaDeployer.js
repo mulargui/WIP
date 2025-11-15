@@ -13,7 +13,13 @@ import {
   GetFunctionUrlConfigCommand,
   AddPermissionCommand
 } from "@aws-sdk/client-lambda";
-import { IAMClient, GetRoleCommand, CreateRoleCommand, AttachRolePolicyCommand } from "@aws-sdk/client-iam";
+import { 
+  IAMClient, 
+  GetRoleCommand, 
+  CreateRoleCommand, 
+  AttachRolePolicyCommand, 
+  PutRolePolicyCommand 
+} from "@aws-sdk/client-iam";
 import * as fs from 'fs'; 
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -93,12 +99,27 @@ export default class LambdaDeployer {
    */
   async attachPolicies(roleName) {
     const iam = new IAMClient({ region: this.REGION });
+
     await iam.send(new AttachRolePolicyCommand({
       RoleName: roleName,
-      //PolicyArn: "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-      PolicyArn: "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
+      PolicyArn: "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
     }));
 
+    // added a broader policy to allow to call GetFunctionUrlConfigCommand
+    const policyDocument = {
+      "Version": "2012-10-17",
+      "Statement": [{
+        "Effect": "Allow",
+        "Action": "lambda:GetFunctionUrlConfig",
+        "Resource": "*"
+        }]
+    };
+    await iam.send(new PutRolePolicyCommand({
+      RoleName: roleName,
+      PolicyName: "GetFunctionUrlConfigPolicy",
+      PolicyDocument: JSON.stringify(policyDocument)
+    }));
+    
     await iam.send(new AttachRolePolicyCommand({
       RoleName: roleName,
       PolicyArn: "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"

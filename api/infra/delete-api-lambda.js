@@ -9,6 +9,7 @@ import {
   IAMClient, 
   DeleteRoleCommand, 
   DetachRolePolicyCommand, 
+  DeleteRolePolicyCommand,
   ListAttachedRolePoliciesCommand 
 } from "@aws-sdk/client-iam";
 import * as fs from 'fs'; 
@@ -66,6 +67,7 @@ async function deleteFunctionUrl(functionName) {
 
 async function deleteRole(roleName) {
   try {
+    //delete attached policies
     const listPoliciesCommand = new ListAttachedRolePoliciesCommand({ RoleName: roleName });
     const { AttachedPolicies } = await iam.send(listPoliciesCommand);
 
@@ -78,6 +80,15 @@ async function deleteRole(roleName) {
       console.log(`Detached policy ${policy.PolicyArn} from role ${roleName}`);
     }
 
+    //delete the added policy to lambdas
+    const deletePolicyCommand = new DeleteRolePolicyCommand({
+      RoleName: roleName,
+      PolicyName: "GetFunctionUrlConfigPolicy"
+    });
+    await iam.send(deletePolicyCommand);
+    console.log(`Deleted policy GetFunctionUrlConfigPolicy from role ${roleName}`);
+
+    //finally delete the role
     const deleteRoleCommand = new DeleteRoleCommand({ RoleName: roleName });
     await iam.send(deleteRoleCommand);
     console.log(`Role ${roleName} deleted successfully`);

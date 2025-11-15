@@ -22,7 +22,8 @@ export default class MCPClient {
 
       //get the url of the MCP server
       const mcpFunctionName = config.mcp.functionName;
-      const mcpServerUrl = await this.getLambdaFunctionUrl(mcpFunctionName);
+      let mcpServerUrl = await this.getLambdaFunctionUrl(mcpFunctionName);
+      mcpServerUrl += "mcp";
       console.log(`URL of the MCP Server: ${mcpServerUrl}`);
 
       // connect to the MCP Server
