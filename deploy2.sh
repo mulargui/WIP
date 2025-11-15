@@ -16,7 +16,6 @@ docker run --rm -w /repo/api/test -v $(pwd):/repo \
 	-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_ACCOUNT_ID \
 	-e AWS_REGION -e AWS_DEFAULT_REGION -e AWS_SESSION_TOKEN \
     node:22 npm test
-exit 
 
 #build the front end app
 cp $(pwd)/api/infra/lambdaurl.json $(pwd)/ux/webapp/public #copy lambda's url file

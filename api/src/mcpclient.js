@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 
 export default class MCPClient {
 
-  constructor() {}
+  constructor() { this.tools; }
   async createInstance() {    
     try {
       // Read the config file
@@ -34,6 +34,7 @@ export default class MCPClient {
       });
       const httpTransport = new StreamableHTTPClientTransport(mcpServerUrl);
       await this.client.connect(httpTransport);
+
     }catch(error){
       console.error("MCP Server constructor error: ", error);
       throw error;
@@ -53,16 +54,36 @@ export default class MCPClient {
   //Get the list of tools available at the MCP Server
   async GetTools() {
 
+    if (typeof this.tools !== 'undefined') return this.tools;
+
     try {
-      const tools = await this.client.listTools();
-      console.log('MCP Server available tools:', tools);
-      return tools;
+      const mcptools = await this.client.listTools();
+      console.log('MCP Server available tools:', mcptools);
+
+      // Convert MCP tool format to the format required by the Amazon Bedrock API
+      this.tools = mcptools.tools.map(tool => ({
+        toolSpec: {
+          name: tool.name,
+          description: tool.description,
+          // inputSchema must be in a specific JSON schema format for Bedrock
+          inputSchema: {
+            json: tool.inputSchema || {} // Use an empty object if no schema is provided
+          }
+        }
+      }));
+      console.log('MCP Server available tools converted:', this.tools);
+      
+      return this.tools;
+
     } catch (error) {
       console.error("Failed to retrieve MCP tools: ", error);
       throw error;
     }
   }
+
+  async CallTool(){
     // Example: Calling a tool (assuming a tool named 'add' exists)
-    //const result = await client.callTool('add', { a: 5, b: 3 });
+    //const result = await this.client.callTool('add', { a: 5, b: 3 });
     //console.log('Addition result:', result);
+  }
 }

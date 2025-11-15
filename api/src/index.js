@@ -15,7 +15,9 @@ const rawConfig = fs.readFileSync(configPath);
 const config = JSON.parse(rawConfig);
 
 const REGION = process.env.AWS_REGION || "us-east-1";
+
 const bedrockClient = new BedrockRuntimeClient({ region: REGION });
+
 const mcpClient = new MCPClient();
 await mcpClient.createInstance();
 const mcptools = await mcpClient.GetTools();
@@ -55,7 +57,7 @@ function prepareModelRequest(modelId, messages, max_tokens, temperature) {
         temperature: temperature,
         messages: messages,
         system: systemPrompt,
-        tools: [tool_definition]
+        tools: mcptools
       })
     };
   } else if (modelId.startsWith('amazon.titan')) {
