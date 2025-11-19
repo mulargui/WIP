@@ -1,13 +1,8 @@
-import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+// config 
 import * as fs from 'fs'; 
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-//healthylinkx extension
-import { systemPrompt, tool_definition, SearchDoctors } from './healthylinkx.js';
-import MCPClient from './mcpclient.js';
-
-// Read the config file
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const configPath = path.join(__dirname, 'config.json');
@@ -16,17 +11,34 @@ const config = JSON.parse(rawConfig);
 
 const REGION = process.env.AWS_REGION || "us-east-1";
 
+// aws bedrock
+import { BedrockRuntimeClient, ConverseCommand } from "@aws-sdk/client-bedrock-runtime";
 const bedrockClient = new BedrockRuntimeClient({ region: REGION });
 
+//healthylinkx extension
+import MCPClient from './mcpclient.js';
 const mcpClient = new MCPClient();
 await mcpClient.createInstance();
-const mcptools = await mcpClient.GetTools();
+
+// system prompt to use healthylinkx extension
+const systemPrompt = `You are an AI assistant with extended skills in healthcare.
+    When the user asks for a doctor you have access to a tool to search for doctors, but only use it when neccesary. 
+    If the tool is not required respond as normal.
+    Before calling SearchDoctors, check if the user looks for a specific gender, lastname, speciality or zipcode.
+    At a minimum the user should provide the lastname or speciality. 
+    Genre and zipcode are optional for a more refined search.
+    Before calling a tool, do some analysis within <thinking> </thinking> tags. 
+    Go through each of the parameters and determine if the user has directly provided or given enough information to infer a value. 
+    If all the parameters are present, close the thinking tag and proceed with the tool call.
+    BUT if one of the parameters is missing, DO NOT invoke the function and ask the user to provide the missing parameter.
+    When providing the final answer, ALWAYS include the results of the call to the tool.
+`.trim();
 
 // helper function to support retries
 async function invokeBedrockWithRetry(params, maxRetries = 5) {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      const command = new InvokeModelCommand(params);
+      const command = new ConverseCommand(params);
       return await bedrockClient.send(command);
     } catch (error) {
       if (error.name === 'ThrottlingException' && attempt < maxRetries - 1) {
@@ -45,20 +57,20 @@ async function invokeBedrockWithRetry(params, maxRetries = 5) {
 // Tested with Anthropic Claude 3 Haiku and Amazon Titan Text Lite
 // For Claude we are adding function call parameters to the body
 //
-function prepareModelRequest(modelId, messages, max_tokens, temperature) {
+async function prepareModelRequest(modelId, messages, max_tokens, temperature) {
   if (modelId.startsWith('anthropic.claude')) {
+    const mcpTools = await mcpClient.GetTools(); //get the list of tools available
     return {
       modelId: modelId,
-      contentType: "application/json",
-      accept: "application/json",
-      body: JSON.stringify({
-        anthropic_version: config.bedrock.anthropic_version,
-        max_tokens: max_tokens,
-        temperature: temperature,
-        messages: messages,
-        system: systemPrompt,
-        tools: mcptools
-      })
+      messages: messages,
+      system: [{ text: systemPrompt}],
+      inferenceConfig:{
+        maxTokens: max_tokens,
+        temperature: temperature
+      },
+      toolConfig: {
+        tools: mcpTools
+      }
     };
   } else if (modelId.startsWith('amazon.titan')) {
     // For Titan, we'll use the last message as the input
@@ -69,64 +81,18 @@ function prepareModelRequest(modelId, messages, max_tokens, temperature) {
     
     return {
       modelId: modelId,
-      contentType: "application/json",
-      accept: "application/json",
-      body: JSON.stringify({
-        inputText: prompt,
-        textGenerationConfig: {
-          maxTokenCount: max_tokens,
-          temperature: temperature,
-          topP: 1,
-          stopSequences: []
-        }
-      })
+      messages: prompt,
+      system: [{ text: systemPrompt}],
+      inferenceConfig:{
+        maxTokens: max_tokens,
+        temperature: temperature,
+        topP: 1,
+        stopSequences: []
+      }
     };
   } else {
     throw new Error(`Unsupported model: ${modelId}`);
   }
-}
-
-//
-// for Claude we are including code to support function calls
-//
-function parseModelResponse(modelId, responseBody) {
-  if (modelId.startsWith('anthropic.claude')) {
-    if (responseBody.stop_reason === "tool_use")
-      return {case: "tool", content: responseBody.content[1]};
-    return {case: "end", content: responseBody.content[0].text};
-  } else if (modelId.startsWith('amazon.titan')) {
-    return {case: "end", content: responseBody.results[0].outputText};
-  } else {
-    throw new Error(`Unsupported model: ${modelId}`);
-  }
-}
-
-//
-// helper function to invoke the tool
-//
-async function invokeTool(tool){
-  console.log("Tool usage:", JSON.stringify(tool));
-
-  // at this time only support SearchDoctors
-  const toolName = tool.name;
-  if (toolName !== "SearchDoctors")
-    throw new Error(`Unsupported tool: ${toolName}`);
-
-  //parameters
-  console.log(`Tool parameters: gender: ${tool.input.gender}, 
-    lastname: ${tool.input.lastname}, 
-    speciality: ${tool.input.specialty}, 
-    zipcode: ${tool.input.zipcode}`);
-
-  const result = await SearchDoctors(tool.input.gender, 
-    tool.input.lastname, 
-    tool.input.specialty, 
-    tool.input.zipcode);
-
-  if (result.statusCode !== 200)
-    throw new Error(`Error calling the tool. Code: ${result.statusCode} Message: ${result.error} `);   
-  
-  return result.body;
 }
 
 //
@@ -138,7 +104,6 @@ export const handler = async (event) => {
 
   try {
     // Extract the message from the event
-    //const messages = [{ "role": 'user', "content": "which is the capital of Paris?"}];
     const body = JSON.parse(event.body);
     console.log("Raw response body:", JSON.stringify(body));
     const messages = body.messages || [];
@@ -147,75 +112,81 @@ export const handler = async (event) => {
         throw new Error("Invalid input: Messages should be a non-empty array");
     }
 
+    // parameters
     const max_tokens = body.max_tokens || config.bedrock.maxTokens || 300;
     const temperature = body.temperature || config.bedrock.temperature || 1.0;
     const modelId = config.bedrock.model;
     const debug = config.api.debug || false;
 
-    // we need to call Bedrock several times if we use tools
-    let answer; //defined here as we need it for the loop condition and used later
+    // with tools we can call the LLM several times
     do{
-      // Verify all messages are properly formatted (used for debugging)
-      if (debug)
-        messages.forEach((msg, index) => {
-          if (typeof msg.content !== 'string')
-            console.error(`Message at index ${index} has non-string content:`, msg);
-        });
-
       // Prepare the request for Bedrock
-      console.log("Initializing Bedrock client");
-      const params = prepareModelRequest(modelId, messages, max_tokens, temperature);
+      const params = await prepareModelRequest(modelId, messages, max_tokens, temperature);
       console.log("Preparing to invoke Bedrock model with params:", JSON.stringify(params));
 
       // Invoke Bedrock model
       const response = await invokeBedrockWithRetry(params);
       console.log("Received response from Bedrock:", JSON.stringify(response));
 
-      // Parse the response
-      const responseBody = JSON.parse(new TextDecoder().decode(response.body));
-      console.log("Parsed response body:", JSON.stringify(responseBody));
-      answer = parseModelResponse(modelId, responseBody);
-      console.log("Parsed answer:", JSON.stringify(answer));
+      //extract the message
+      const responseMessage = response.output.message;
+      console.log("response message:", JSON.stringify(responseMessage));
 
-      // Add the assistant's response to the conversation history
-      messages.push({ role: "assistant", content: JSON.stringify(answer.content)});
+      //we need to call an external tool if toolUse is in the payload
+      if (responseMessage.content.some(obj => "toolUse" in obj)) {
 
-      //we need to call an external tool
-      if (answer.case === "tool"){
-        const result = await invokeTool(answer.content);
-        console.log("Tool result:", JSON.stringify(result));
+        // Add the assistant's response to the conversation history
+        messages.push(responseMessage);  
+
+        //tool to use
+        const toolUse = responseMessage.content.find(obj => "toolUse" in obj).toolUse;
+        console.log("Tool use: ", JSON.stringify(toolUse));
+
+        //call the tool
+        const result = await mcpClient.CallTool(toolUse);
+        console.log("Tool result: ", JSON.stringify(result));
 
         //add the result to the conversation history
-        messages.push({ role: "user", content: JSON.stringify([{
-          type: "tool_result",
-          tool_use_id: answer.content.id,
-          content: result.Doctors
-         }])});
-
+        messages.push({ 
+          role: "user", 
+          content: [{
+            toolResult : {
+              toolUseId: toolUse.toolUseId,
+              content: [{
+                json: result
+              }]
+            }
+          }],
+          status: 'success'
+        });
         console.log("Added to conversation history:", JSON.stringify(messages.at(-1)));
-      }
-    } while (answer.case !== "end");
+      }else{
+        // no tool usage
+        // we remove the <thinking> </thinking> of the response as this is internal and should
+        // not be propagated
+        if (!debug){
+          const content = responseMessage.content[0].text.replace(/<thinking>(.*?)<\/thinking>/sg, '');
+          // sometimes the LLM just replies with thinking and the result is empty
+          // in this case we don't filter thinking
+          if (content)
+            responseMessage.content[0].text = content;
+        }
+        // Add the assistant's response to the conversation history
+        messages.push(responseMessage);   
 
-    // we remove the <thinking> </thinking> of the response as this is internal and should
-    // not be propagated
-    if (!debug){
-      const content = answer.content.replace(/<thinking>(.*?)<\/thinking>/sg, '');
-      // sometimes the LLM just replies with thinking and the result is empty
-      // in this case we don't filter thinking
-      if (content)
-        answer.content = content;
-    }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ 
-          answer: answer.content,
-          conversation: messages  // Return the updated conversation history
-      }),
-      headers: {
-          'Content-Type': 'application/json'
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ 
+            answer: responseMessage.content[0].text,
+            conversation: messages  // Return the updated conversation history
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
       }
-    };
+    } while (true);
+
   } catch (error) {
     console.error("Error occurred:", error);
     console.error("Error stack:", error.stack);

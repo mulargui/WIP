@@ -51,6 +51,11 @@ export default class MCPClient {
     return response.FunctionUrl;
   }
 
+  async destroy(){
+    await this.client.disconnect();
+    console.log('Disconnected from MCP server.');
+  }
+
   //Get the list of tools available at the MCP Server
   async GetTools() {
 
@@ -64,7 +69,7 @@ export default class MCPClient {
       this.tools = mcptools.tools.map(tool => ({
         toolSpec: {
           name: tool.name,
-          description: tool.description,
+          description: tool.description || "",
           // inputSchema must be in a specific JSON schema format for Bedrock
           inputSchema: {
             json: tool.inputSchema || {} // Use an empty object if no schema is provided
@@ -81,9 +86,15 @@ export default class MCPClient {
     }
   }
 
-  async CallTool(){
-    // Example: Calling a tool (assuming a tool named 'add' exists)
-    //const result = await this.client.callTool('add', { a: 5, b: 3 });
-    //console.log('Addition result:', result);
+  async CallTool(params){
+    try {
+      return await this.client.callTool({
+        name: params.name, // Tool name
+        arguments: params.input // Arguments
+      });
+    } catch (error) {
+      console.error("Failed call to a MCP tool: ", error);
+      throw error;
+    }
   }
 }

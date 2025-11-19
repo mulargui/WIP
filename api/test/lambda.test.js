@@ -46,7 +46,7 @@ describe('Bedrock Chat Lambda Unit Tests', () => {
   test('Should return a valid response for a simple question', async () => {
     const input = {
       messages: [
-        { role: 'user', content: 'What is the capital of France?'}
+        { role: 'user', content: [{ text: 'What is the capital of France?'}]}
       ]
     };
 
@@ -59,16 +59,16 @@ describe('Bedrock Chat Lambda Unit Tests', () => {
     expect(response).toHaveProperty('conversation');
     expect(response.conversation).toBeInstanceOf(Array);
     expect(response.conversation.length).toBeGreaterThan(1);
-    expect(response.conversation[0].content.toLowerCase()).toContain('capital');
-    expect(response.conversation[1].content.toLowerCase()).toContain('paris');
-  });
+    expect(response.conversation[0].content[0].text.toLowerCase()).toContain('capital');
+    expect(response.conversation[1].content[0].text.toLowerCase()).toContain('paris');
+  },10000);
 
   test('Should handle multi-turn conversation', async () => {
     const input = {
       messages: [
-        { role: 'user', content: 'Tell me a joke about programming.' },
-        { role: 'assistant', content: 'Why do programmers prefer dark mode? Because light attracts bugs!' },
-        { role: 'user', content: 'That was funny. Now tell me another one about AI.' }
+        { role: 'user', content: [{ text: 'Tell me a joke about programming.' }]},
+        { role: 'assistant', content: [{ text: 'Why do programmers prefer dark mode? Because light attracts bugs!' }]},
+        { role: 'user', content: [{ text: 'That was funny. Now tell me another one about AI.' }]}
       ]
     };
 
@@ -80,16 +80,14 @@ describe('Bedrock Chat Lambda Unit Tests', () => {
     expect(response).toHaveProperty('conversation');
     expect(response.conversation).toBeInstanceOf(Array);
     expect(response.conversation.length).toBeGreaterThan(3);
-    expect(response.conversation[0].content.toLowerCase()).toContain('joke');
-    expect(response.conversation[3].content.toLowerCase()).toContain('ai');
-  });
+    expect(response.conversation[0].content[0].text.toLowerCase()).toContain('joke');
+    expect(response.conversation[3].content[0].text.toLowerCase()).toContain('ai');
+  },10000);
 
   test('Should respect max token limit', async () => {
-    jest.setTimeout(30000);     // Increase timeout to 30 seconds
-
     const input = {
       messages: [
-        { role: 'user', content: 'Write a very long story about a space adventure.' }
+        { role: 'user', content: [{ text: 'Write a very long story about a space adventure.' }]}
       ],
       max_tokens: 200
     };
@@ -103,12 +101,12 @@ describe('Bedrock Chat Lambda Unit Tests', () => {
     expect(response.conversation.length).toBeGreaterThan(1);
     const wordCount = response.answer.split(/\s+/).length;
     expect(wordCount).toBeLessThanOrEqual(200*2);  // Allowing some buffer for potential token counting differences
-  });
+  },30000);
 
   test('Should handle special characters and Unicode', async () => {
     const input = {
       messages: [
-        { role: 'user', content: 'Translate "Hello, World!" to Japanese and explain the meaning of each character.' }
+        { role: 'user', content:  [{ text:'Translate "Hello, World!" to Japanese and explain the meaning of each character.' }]}
       ]
     };
 
@@ -121,10 +119,28 @@ describe('Bedrock Chat Lambda Unit Tests', () => {
     expect(response).toHaveProperty('conversation');
     expect(response.conversation).toBeInstanceOf(Array);
     expect(response.conversation.length).toBeGreaterThan(1);
-    expect(response.conversation[0].content.toLowerCase()).toContain('translate');
-    expect(response.conversation[1].content).toContain('こんにちは');
-    expect(response.conversation[1].content).toContain('世界');
+    expect(response.conversation[0].content[0].text.toLowerCase()).toContain('translate');
+    expect(response.conversation[1].content[0].text).toContain('こんにちは');
+    expect(response.conversation[1].content[0].text).toContain('世界');
   }, 10000);
+
+  test('Should call the MCP Server', async () => {
+    const input = {
+      messages: [
+        { role: 'user', content:  [{ text:'I need a doctor in 98052 named Anderson' }]}
+      ]
+    };
+
+    const response = await invokeLambda(input);
+
+    expect(response).toHaveProperty('answer');
+    expect(typeof response.answer).toBe('string');
+    expect(response.answer.toLowerCase()).toContain('anderson');
+    expect(response.answer).toContain('98052');   
+    expect(response).toHaveProperty('conversation');
+    expect(response.conversation).toBeInstanceOf(Array);
+    expect(response.conversation.length).toBeGreaterThan(1);
+  }, 30000);
 
 /*
   // These tests are not working

@@ -38,7 +38,11 @@ function Chat() {
   const sendMessage = async () => {
     if (input.trim() === '' || !lambdaUrl) return;
 
-    const userMessage = { content: input, role: 'user' };
+    const userMessage = { role: 'user',
+      content: [{
+        text: input
+      }]
+    };
     setInput('');
 
     //Add the new message to the list of messages in the session
@@ -48,7 +52,12 @@ function Chat() {
       const currentMessages = [...messages, userMessage];
       const response = await axios.post(lambdaUrl, { messages: currentMessages });
       console.log('Lambda function response:', response.data);
-      const botMessage = { content: response.data.answer, role: 'assistant' };
+      const botMessage = { 
+        role: 'assistant',
+        content: [{
+          text: response.data.answer
+        }]
+      };
       setMessages(messages => [...messages, botMessage]);
     } catch (error) {
       console.error('Error calling Lambda function:', error);
@@ -73,7 +82,7 @@ function Chat() {
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.role}`}
           data-testid={`message-${index}`}>
-            {message.content}
+            {message.content[0].text}
           </div>
         ))}
       </div>
